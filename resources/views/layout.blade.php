@@ -21,7 +21,7 @@
         @endif
     @endforeach
 </head>
-<body class="skin-blue sidebar-mini fixed">
+<body>
 <div id="app"></div>
 <script>
     window.admin = "{{ url('admin') }}";
