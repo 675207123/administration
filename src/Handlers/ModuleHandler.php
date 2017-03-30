@@ -35,7 +35,9 @@ class ModuleHandler extends DataHandler
         ModuleManager $manager
     ) {
         parent::__construct($container);
+        $this->errors->push($this->translator->trans('获取模块列表失败！'));
         $this->manager = $manager;
+        $this->messages->push($this->translator->trans('获取模块列表成功！'));
     }
 
     /**
@@ -60,18 +62,6 @@ class ModuleHandler extends DataHandler
             'enabled' => $this->info($enabled),
             'installed' => $this->info($installed),
             'notInstall' => $this->info($notInstalled),
-        ];
-    }
-
-    /**
-     * Errors for handler.
-     *
-     * @return array
-     */
-    public function errors()
-    {
-        return [
-            '获取模块列表失败！',
         ];
     }
 
