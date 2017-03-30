@@ -33,7 +33,7 @@
                     installed: [
                         {
                             key: 'name',
-                            title: '模块名称',
+                            title: '插件名称',
                             width: 200,
                         },
                         {
@@ -65,7 +65,7 @@
                     notInstalled: [
                         {
                             key: 'name',
-                            title: '模块名称',
+                            title: '插件名称',
                             width: 200,
                         },
                         {
@@ -101,7 +101,7 @@
                 const self = this;
                 const item = self.list.notInstalled[index];
                 item.loading = true;
-                injection.http.post(`${window.api}/module/install`, {
+                injection.http.post(`${window.api}/extension/install`, {
                     identification: item.identification,
                 }).then(response => {
                     injection.console.log(response);
@@ -116,7 +116,7 @@
                         title: '正在刷新数据……',
                     });
                     injection.loading.start();
-                    injection.http.post(`${window.api}/administration/module`).then(result => {
+                    injection.http.post(`${window.api}/administration/extension`).then(result => {
                         injection.loading.finish();
                         injection.sidebar.active('setting');
                         const all = result.data.data.all;
@@ -148,14 +148,14 @@
             statusChanged(index) {
                 const self = this;
                 injection.loading.start();
-                const module = self.list.installed[index];
-                injection.http.post(`${window.api}/module/enable`, {
-                    name: module.identification,
-                    value: module.enabled,
+                const extension = self.list.installed[index];
+                injection.http.post(`${window.api}/extension/enable`, {
+                    name: extension.identification,
+                    value: extension.enabled,
                 }).then(() => {
                     injection.loading.finish();
                     injection.notice.open({
-                        title: module.enabled ? `开启模块${module.name}成功！` : `关闭模块${module.name}成功！`,
+                        title: extension.enabled ? `开启插件${extension.name}成功！` : `关闭插件${extension.name}成功！`,
                     });
                     injection.notice.warning({
                         title: '将在3秒后重载网页！',
@@ -167,16 +167,16 @@
             },
             uninstall(index) {
                 const self = this;
-                const module = self.list.installed[index];
-                module.loading = true;
-                if (module.enabled) {
+                const extension = self.list.installed[index];
+                extension.loading = true;
+                if (extension.enabled) {
                     self.$notice.error({
-                        title: `必须先关闭模块${module.name}，才能卸载！`,
+                        title: `必须先关闭插件${extension.name}，才能卸载！`,
                     });
-                    module.loading = false;
+                    extension.loading = false;
                 } else {
-                    injection.http.post(`${window.api}/module/uninstall`, {
-                        identification: module.identification,
+                    injection.http.post(`${window.api}/extension/uninstall`, {
+                        identification: extension.identification,
                     }).then(response => {
                         injection.console.log(response);
                         injection.console.log(response.data.data);
@@ -190,7 +190,7 @@
                             title: '正在刷新数据……',
                         });
                         injection.loading.start();
-                        injection.http.post(`${window.api}/administration/module`).then(result => {
+                        injection.http.post(`${window.api}/administration/extension`).then(result => {
                             injection.loading.finish();
                             injection.sidebar.active('setting');
                             const all = result.data.data.all;
@@ -216,7 +216,7 @@
                             });
                         });
                     }).finally(() => {
-                        module.loading = false;
+                        extension.loading = false;
                     });
                 }
             },
@@ -227,7 +227,7 @@
     <div class="module-wrap">
         <card>
             <tabs value="installed">
-                <tab-pane label="开启模块" name="installed">
+                <tab-pane label="开启插件" name="installed">
                     <i-table :columns="columns.installed" :content="self" :data="list.installed"></i-table>
                 </tab-pane>
                 <tab-pane label="本地安装" name="no-installed">
