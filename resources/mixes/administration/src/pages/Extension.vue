@@ -4,7 +4,7 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/administration/module`).then(response => {
+            injection.http.post(`${window.api}/administration/extension`).then(response => {
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
