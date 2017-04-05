@@ -80,7 +80,7 @@
             submit() {
                 const self = this;
                 self.loading = true;
-                injection.http.post(`${window.api}/mail`, self.form).then(() => {
+                injection.http.post(`${window.api}/mail/set`, self.form).then(() => {
                     injection.notice.open({
                         title: '更新邮件配置完成！',
                     });
