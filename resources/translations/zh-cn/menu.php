@@ -14,7 +14,7 @@ return [
     'sidebar' => [
         'application' => [
             'expand'    => '拓展配置',
-            'extension' => '扩展配置',
+            'extension' => '插件配置',
             'group'     => '应用管理',
             'module'    => '模块配置',
             'template'  => '模板配置',
