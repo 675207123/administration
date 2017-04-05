@@ -15,10 +15,10 @@
                     vm.form.canUploadFileExtension = data.canUploadFileExtension;
                     vm.form.canUploadImageExtension = data.canUploadImageExtension;
                     vm.form.canUploadVideoExtension = data.canUploadVideoExtension;
-                    vm.form.fileMaxSize = data.fileMaxSize;
-                    vm.form.imageMaxSize = data.imageMaxSize;
+                    vm.form.fileMaxSize = data.fileMaxSize.toString();
+                    vm.form.imageMaxSize = data.imageMaxSize.toString();
                     vm.form.imageProcessingEngine = data.imageProcessingEngine;
-                    vm.form.videoMaxSize = data.videoMaxSize;
+                    vm.form.videoMaxSize = data.videoMaxSize.toString();
                 });
             });
         },
