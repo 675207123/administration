@@ -139,7 +139,7 @@ class AdminController extends Controller
             $message = $this->translator->get('auth.throttle', ['seconds' => $seconds]);
 
             return $response->withParams([
-                'status'  => 'error',
+                'code'  => 403,
                 'message' => $message,
             ])->generateHttpResponse();
         }
@@ -163,6 +163,7 @@ class AdminController extends Controller
                 if (isset($back['access_token']) && isset($back['refresh_token'])) {
                     return $response->withParams([
                         'status' => 'success',
+                        'message' => $this->translator->trans('administration::login.success'),
                     ])->withParams($back)->generateHttpResponse();
                 }
             } catch (Exception $exception) {
@@ -175,8 +176,8 @@ class AdminController extends Controller
         }
 
         return $response->withParams([
-            'status'  => 'error',
-            'message' => 'Login Error!',
+            'code'  => 403,
+            'message' => $this->translator->trans('administration::login.fail'),
         ])->generateHttpResponse();
     }
 
