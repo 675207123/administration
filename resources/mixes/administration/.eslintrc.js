@@ -29,7 +29,9 @@ module.exports = {
             "requireForBlockBody": false
         }],
         'guard-for-in': 0,
-        'indent': ['error', 4],
+        'indent': ['error', 4, {
+            'SwitchCase': 1
+        }],
         // don't require .vue extension when importing
         'import/extensions': ['error', 'always', {
             'js': 'never',
