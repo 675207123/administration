@@ -28,6 +28,7 @@ module.exports = {
         'arrow-parens': [2, "as-needed", {
             "requireForBlockBody": false
         }],
+        'guard-for-in': 0,
         'indent': ['error', 4],
         // don't require .vue extension when importing
         'import/extensions': ['error', 'always', {
@@ -45,8 +46,9 @@ module.exports = {
         'no-param-reassign': ['error', {
             'props': false
         }],
-        'no-plusplus': ["error", {
-            "allowForLoopAfterthoughts": true
-        }]
+        'no-plusplus': ['error', {
+           'allowForLoopAfterthoughts': true
+        }],
+        'no-restricted-syntax': ['error', 'WithStatement', "BinaryExpression[operator='in']"]
     }
 }
