@@ -18,9 +18,17 @@ export default function (injection, Vue) {
             injection.vue.$router.push('/login');
         }
         if (response.status > 401 && response.status <= 500) {
-            injection.notice.error({
-                title: data.message,
-            });
+            if (typeof data.message === 'object') {
+                for (const p in data.message) {
+                    injection.notice.error({
+                        title: data.message[p],
+                    });
+                }
+            } else {
+                injection.notice.error({
+                    title: data.message,
+                });
+            }
         }
         const dispatch = new Error('Error');
         dispatch.response = response;
