@@ -48,6 +48,9 @@ export default function (injection) {
                 },
             });
         },
+        useSidebarExtension(sidebar) {
+            injection.sidebar.lists.setting[3].children.push(sidebar);
+        },
     };
 
     Object.assign(injection, methods);

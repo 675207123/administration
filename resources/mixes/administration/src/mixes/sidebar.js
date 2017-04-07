@@ -50,16 +50,11 @@ export default function (injection) {
                         icon: 'plus',
                         title: injection.trans('administration.menu.sidebar.application.group'),
                     },
-                    // {
-                    //     children: [
-                    //         {
-                    //             path: '/sitemap',
-                    //             title: '网站地图',
-                    //         },
-                    //     ],
-                    //     icon: 'plus',
-                    //     title: injection.trans('administration.menu.sidebar.extension.group'),
-                    // },
+                    {
+                        children: [],
+                        icon: 'plus',
+                        title: injection.trans('administration.menu.sidebar.extension.group'),
+                    },
                     {
                         children: [
                             // {
