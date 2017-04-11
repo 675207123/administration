@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="{{ seo('description') }}">
     <meta name="keyword" content="{{ seo('keywords') }}">
-    <link href="{{ asset('assets/admin/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/app.min.css') }}" rel="stylesheet">
     @foreach($extensions as $extension)
         @if($extension->getStylesheet())
             @foreach($extension->getStylesheet() as $stylesheet)
@@ -43,8 +43,8 @@
     window.url = "{{ url('') }}";
     window.UEDITOR_HOME_URL = "{{ asset('assets/neditor') }}/";
 </script>
-<script src="{{ asset('assets/admin/js/manifest.js') }}"></script>
-<script src="{{ asset('assets/admin/js/vendor.js') }}"></script>
+<script src="{{ asset('assets/admin/js/manifest.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/vendor.min.js') }}"></script>
 @foreach($extensions as $extension)
     @if($extension->getScript())
         <script src="{{ $extension->getScript() }}"></script>
@@ -55,5 +55,5 @@
         <script src="{{ $module->getScript() }}"></script>
     @endif
 @endforeach
-<script src="{{ asset('assets/admin/js/app.js') }}"></script>
+<script src="{{ asset('assets/admin/js/app.min.js') }}"></script>
 </body>
