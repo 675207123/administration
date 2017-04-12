@@ -13,10 +13,6 @@ use Illuminate\Events\Dispatcher;
 use Notadd\Administration\Controllers\AdminController;
 use Notadd\Administration\Listeners\CsrfTokenRegister;
 use Notadd\Administration\Listeners\RouteRegister;
-use Notadd\Administration\Observers\ArticleObserver;
-use Notadd\Administration\Observers\PageObserver;
-use Notadd\Content\Models\Article;
-use Notadd\Content\Models\Page;
 use Notadd\Foundation\Administration\Administration;
 use Notadd\Foundation\Module\Abstracts\Module;
 
@@ -60,9 +56,6 @@ class ModuleServiceProvider extends Module
             realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/admin') => public_path('assets/admin'),
             realpath(__DIR__ . '/../resources/mixes/neditor')                          => public_path('assets/neditor'),
         ], 'public');
-
-        class_exists(Article::class) && Article::observe(ArticleObserver::class);
-        class_exists(Page::class) && Page::observe(PageObserver::class);
     }
 
     /**
