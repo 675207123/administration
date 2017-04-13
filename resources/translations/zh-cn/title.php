@@ -11,4 +11,5 @@ return [
     'dashboard' => '仪表盘',
     'debug' => '调试工具 - 系统组件',
     'expand' => '拓展配置 - 应用管理',
+    'extension' => '插件配置 - 应用管理',
 ];
