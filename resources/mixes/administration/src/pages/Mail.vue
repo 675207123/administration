@@ -1,5 +1,5 @@
 <script>
-    import injection from '../helpers/injection';
+    import injection, { trans } from '../helpers/injection';
 
     export default {
         beforeRouteEnter(to, from, next) {
@@ -88,6 +88,9 @@
                     self.loading = false;
                 });
             },
+        },
+        mounted() {
+            this.$store.commit('title', trans('administration.title.mail'));
         },
     };
 </script>

@@ -6,10 +6,10 @@
  * @copyright (c) 2017, iBenchu.org
  * @datetime 2017-04-13 15:55
  */
-
 return [
     'dashboard' => '仪表盘',
-    'debug' => '调试工具 - 系统组件',
-    'expand' => '拓展配置 - 应用管理',
+    'debug'     => '调试工具 - 系统组件',
+    'expand'    => '拓展配置 - 应用管理',
     'extension' => '插件配置 - 应用管理',
+    'mail'      => '邮件设置 - 系统组件',
 ];
