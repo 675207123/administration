@@ -231,10 +231,10 @@
         <card>
             <tabs value="installed">
                 <tab-pane label="开启插件" name="installed">
-                    <i-table :columns="columns.installed" :content="self" :data="list.installed"></i-table>
+                    <i-table :columns="columns.installed" :context="self" :data="list.installed"></i-table>
                 </tab-pane>
                 <tab-pane label="本地安装" name="no-installed">
-                    <i-table :columns="columns.notInstalled" :content="self" :data="list.notInstalled"></i-table>
+                    <i-table :columns="columns.notInstalled" :context="self" :data="list.notInstalled"></i-table>
                 </tab-pane>
             </tabs>
         </card>
