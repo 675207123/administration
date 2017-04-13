@@ -9,4 +9,5 @@
 
 return [
     'dashboard' => '仪表盘',
+    'debug' => '调试工具 - 系统组件',
 ];
