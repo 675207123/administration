@@ -1,6 +1,6 @@
 <script>
     import iEcharts from 'vue-echarts-v3';
-    import injection from '../helpers/injection';
+    import injection, { trans } from '../helpers/injection';
 
     export default {
         beforeRouteEnter(to, from, next) {
@@ -18,6 +18,9 @@
             return {
                 boards: [],
             };
+        },
+        mounted() {
+            this.$store.commit('title', trans('administration.title.dashboard'));
         },
     };
 </script>
