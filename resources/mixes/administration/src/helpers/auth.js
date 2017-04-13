@@ -10,16 +10,6 @@ export default {
             if (JSON.stringify(store.state.token) === '{}') {
                 store.commit('token', token);
             }
-            const setting = store.state.setting;
-            if (JSON.stringify(setting) === '{}') {
-                Vue.http.post(`${window.api}/setting/all`).then(response => {
-                    if (typeof response.data.data === 'undefined') {
-                        store.commit('setting', {});
-                    } else {
-                        store.commit('setting', response.data.data);
-                    }
-                });
-            }
             return true;
         }
         return false;
