@@ -18,6 +18,7 @@
                 sidebar: [],
                 spanLeft: 5,
                 spanRight: 19,
+                url: window.url,
             };
         },
         methods: {
@@ -79,13 +80,16 @@
                     </router-link>
                 </menu-item>
             </i-menu>
-            <i-menu mode="horizontal" theme="light" active-name="1">
-                <submenu name="3">
+            <i-menu mode="horizontal" theme="light">
+                <menu-item name="right-1">
+                    <a :href="url" target="_blank">前台</a>
+                </menu-item>
+                <submenu name="right-2">
                     <template slot="title">
                         <icon type="person"></icon>
                         后台管理员
                     </template>
-                    <menu-item name="3-1" @click.native="logout">退出</menu-item>
+                    <menu-item name="right-2-1" @click.native="logout">退出</menu-item>
                 </submenu>
             </i-menu>
         </div>
