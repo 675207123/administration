@@ -12,7 +12,6 @@ import Module from '../pages/Module';
 import Navigation from '../pages/Navigation';
 import Seo from '../pages/Seo';
 import Setting from '../pages/Setting';
-import Sitemap from '../pages/Sitemap';
 import Template from '../pages/Template';
 import Upload from '../pages/Upload';
 
@@ -60,11 +59,6 @@ const configuration = [
         beforeEnter: requireAuth,
         component: Setting,
         path: 'setting',
-    },
-    {
-        beforeEnter: requireAuth,
-        component: Sitemap,
-        path: 'sitemap',
     },
     {
         beforeEnter: requireAuth,
