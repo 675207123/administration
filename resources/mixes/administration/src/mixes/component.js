@@ -18,7 +18,6 @@ import DatePicker from 'iview/src/components/date-picker';
 import Dropdown from 'iview/src/components/dropdown';
 import Form from 'iview/src/components/form';
 import Icon from 'iview/src/components/icon';
-import Input from 'iview/src/components/input';
 import InputNumber from 'iview/src/components/input-number';
 import LoadingBar from 'iview/src/components/loading-bar';
 import Menu from 'iview/src/components/menu';
@@ -42,10 +41,12 @@ import TimePicker from 'iview/src/components/time-picker';
 import Tooltip from 'iview/src/components/tooltip';
 import Transfer from 'iview/src/components/transfer';
 import Tree from 'iview/src/components/tree';
-import Upload from 'iview/src/components/upload';
 import { Row, Col } from 'iview/src/components/grid';
 import { Select, Option, OptionGroup } from 'iview/src/components/select';
 import locale from 'iview/src/locale';
+
+import Input from '../components/input';
+import Upload from '../components/upload';
 
 const components = {
     Affix,
