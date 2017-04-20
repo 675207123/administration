@@ -1,19 +1,19 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Debug from '../pages/Debug';
-import Dashboard from '../pages/Dashboard';
-import Expand from '../pages/Expand';
-import Extension from '../pages/Extension';
-import Layout from '../layouts/Layout';
-import Login from '../pages/Login';
-import Mail from '../pages/Mail';
-import Module from '../pages/Module';
-import Navigation from '../pages/Navigation';
-import Seo from '../pages/Seo';
-import Setting from '../pages/Setting';
-import Template from '../pages/Template';
-import Upload from '../pages/Upload';
+import Debug from '../pages/Debug.vue';
+import Dashboard from '../pages/Dashboard.vue';
+import Expand from '../pages/Expand.vue';
+import Extension from '../pages/Extension.vue';
+import Layout from '../layouts/Layout.vue';
+import Login from '../pages/Login.vue';
+import Mail from '../pages/Mail.vue';
+import Module from '../pages/Module.vue';
+import Navigation from '../pages/Navigation.vue';
+import Seo from '../pages/Seo.vue';
+import Setting from '../pages/Setting.vue';
+import Template from '../pages/Template.vue';
+import Upload from '../pages/Upload.vue';
 
 import requireAuth from '../middlewares/auth';
 
