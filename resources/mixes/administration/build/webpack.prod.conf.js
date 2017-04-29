@@ -1,14 +1,14 @@
-var path = require('path')
-var utils = require('./utils')
-var webpack = require('webpack')
-var config = require('../config')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var path = require('path');
+var utils = require('./utils');
+var webpack = require('webpack');
+var config = require('../config');
+var merge = require('webpack-merge');
+var baseWebpackConfig = require('./webpack.base.conf');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
-var env = config.build.env
+var env = config.build.env;
 
 var webpackConfig = merge(baseWebpackConfig, {
     module: {
@@ -78,7 +78,7 @@ var webpackConfig = merge(baseWebpackConfig, {
             chunks: ['vendor']
         }),
     ]
-})
+});
 
 if (config.build.productionGzip) {
     var CompressionWebpackPlugin = require('compression-webpack-plugin')
@@ -103,4 +103,4 @@ if (config.build.bundleAnalyzerReport) {
     webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports = webpackConfig
+module.exports = webpackConfig;
