@@ -99,7 +99,7 @@
         <p slot="title">邮件设置</p>
         <i-form :model="form" :label-width="100">
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item label="发送方式" prop="driver">
                         <radio-group v-model="form.driver">
                             <radio label="mail"> Send Mail 函数</radio>
@@ -109,7 +109,7 @@
                 </i-col>
             </row>
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item label="加密方式" prop="encryption">
                         <radio-group v-model="form.encryption">
                             <radio label="none"> 不加密</radio>
@@ -119,7 +119,7 @@
                 </i-col>
             </row>
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item label="服务器地址" prop="host">
                         <i-input :disabled="form.driver !== 'smtp'" placeholder="请输入服务器地址"
                                  v-model="form.host"></i-input>
@@ -127,7 +127,7 @@
                 </i-col>
             </row>
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item label="服务器端口" prop="port">
                         <i-input :disabled="form.driver !== 'smtp'" placeholder="请输入服务器端口"
                                  v-model="form.port"></i-input>
@@ -135,7 +135,7 @@
                 </i-col>
             </row>
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item label="发信邮箱地址" prop="from">
                         <i-input :disabled="form.driver !== 'smtp'" placeholder="请输入发信邮箱地址"
                                  v-model="form.from"></i-input>
@@ -143,7 +143,7 @@
                 </i-col>
             </row>
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item label="SMTP账号" prop="username">
                         <i-input :disabled="form.driver !== 'smtp'" placeholder="请输入SMTP账号"
                                  v-model="form.username"></i-input>
@@ -151,7 +151,7 @@
                 </i-col>
             </row>
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item label="SMTP密码" prop="password">
                         <i-input :disabled="form.driver !== 'smtp'" placeholder="请输入SMTP密码"
                                  v-model="form.password"></i-input>
@@ -159,7 +159,7 @@
                 </i-col>
             </row>
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item>
                         <i-button :loading="loading" type="primary" @click.native="submit">
                             <span v-if="!loading">修改配置</span>

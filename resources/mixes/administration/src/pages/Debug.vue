@@ -44,7 +44,7 @@
         <p slot="title">调试工具</p>
         <i-form :label-width="200" :form="form">
             <row>
-                <i-col span="14">
+                <i-col span="12">
                     <form-item label="Debug 模式">
                         <i-switch v-model="form.enabled" size="large" @on-change="change">
                             <span slot="open">开启</span>
