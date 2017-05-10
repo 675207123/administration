@@ -16,6 +16,7 @@ import Circle from 'iview/src/components/circle';
 import Collapse from 'iview/src/components/collapse';
 import DatePicker from 'iview/src/components/date-picker';
 import Dropdown from 'iview/src/components/dropdown';
+import Echarts from 'vue-echarts-v3';
 import Form from 'iview/src/components/form';
 import Icon from 'iview/src/components/icon';
 import InputNumber from 'iview/src/components/input-number';
@@ -68,6 +69,7 @@ const components = {
     Dropdown,
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
+    iEcharts: Echarts,
     iForm: Form,
     FormItem: Form.Item,
     iCol: Col,

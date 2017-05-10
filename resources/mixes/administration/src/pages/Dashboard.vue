@@ -1,5 +1,4 @@
 <script>
-    import iEcharts from 'vue-echarts-v3';
     import injection, { trans } from '../helpers/injection';
 
     export default {
@@ -7,9 +6,6 @@
             next(() => {
                 injection.sidebar.active('setting');
             });
-        },
-        components: {
-            iEcharts,
         },
         created() {
             this.boards = injection.board.lists;
