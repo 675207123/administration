@@ -324,7 +324,7 @@ div.edui-box {
 .edui-iconfont {
     width: 1em;
     height: 1em;
-    vertical-align: -0.15em;
+    vertical-align: 1em;
     fill: currentColor;
     overflow: hidden;
 }
@@ -540,15 +540,9 @@ div.edui-box {
 .edui-notadd .edui-toolbar .edui-menubutton .edui-icon,
 .edui-notadd .edui-toolbar .edui-splitbutton .edui-icon {
     padding: 6px;
-    /*height: 20px !important;*/
-    /*width: 20px !important;*/
-    /*background-image: url(../images/icons.png);*/
-    /*background-image: url(../images/icons.gif) \9;*/
-    /*font-size: 18px;*/
-    /*line-height: 1;*/
     display: block;
-    height: 14px;
-    width: 14px;
+    height: 16px;
+    width: 16px;
 }
 
 .edui-notadd .edui-toolbar .edui-button .edui-icon::before,

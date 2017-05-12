@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="{{ seo('description') }}">
     <meta name="keyword" content="{{ seo('keywords') }}">
-    <link href="{{ asset('assets/admin/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/app.min.css') }}" rel="stylesheet">
     @foreach($extensions as $extension)
         @if($extension->getStylesheet())
             @foreach($extension->getStylesheet() as $stylesheet)
@@ -21,29 +21,30 @@
         @endif
     @endforeach
 </head>
-<body class="skin-blue sidebar-mini fixed">
+<body>
 <div id="app"></div>
 <script>
     window.admin = "{{ url('admin') }}";
     window.api = "{{ url('api') }}";
     window.asset = "{{ asset('assets') }}";
     window.csrf_token = "{{ csrf_token() }}";
-    window.upload = "{{ url('editor') }}";
-    window.url = "{{ url('') }}";
-    window.UEDITOR_HOME_URL = "{{ asset('assets/neditor') }}/";
     window.extensions = [
       @foreach($extensions as $extension)
-        "{{ $extension->getName() }}",
+        "{{ $extension->getIdentification() }}",
       @endforeach
     ];
     window.modules = [
       @foreach($modules as $module)
-        "{{ $module->getName() }}",
+        "{{ $module->getIdentification() }}",
       @endforeach
     ];
+    window.local = {!! $translations !!};
+    window.upload = "{{ url('editor') }}";
+    window.url = "{{ url('') }}";
+    window.UEDITOR_HOME_URL = "{{ asset('assets/neditor') }}/";
 </script>
-<script src="{{ asset('assets/admin/js/manifest.js') }}"></script>
-<script src="{{ asset('assets/admin/js/vendor.js') }}"></script>
+<script src="{{ asset('assets/admin/js/manifest.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/vendor.min.js') }}"></script>
 @foreach($extensions as $extension)
     @if($extension->getScript())
         <script src="{{ $extension->getScript() }}"></script>
@@ -54,5 +55,5 @@
         <script src="{{ $module->getScript() }}"></script>
     @endif
 @endforeach
-<script src="{{ asset('assets/admin/js/app.js') }}"></script>
+<script src="{{ asset('assets/admin/js/app.min.js') }}"></script>
 </body>

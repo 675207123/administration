@@ -8,16 +8,17 @@
  */
 namespace Notadd\Administration\Controllers;
 
+use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Translation\Translator;
 use Laravel\Passport\Client as PassportClient;
 use Notadd\Foundation\Auth\AuthenticatesUsers;
 use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\ModuleManager;
 use Notadd\Foundation\Passport\Responses\ApiResponse;
 use Notadd\Foundation\Routing\Abstracts\Controller;
+use Notadd\Foundation\Translation\Translator;
 
 /**
  * Class AdminController.
@@ -42,16 +43,14 @@ class AdminController extends Controller
     protected $url;
 
     /**
-     * @var \Illuminate\Translation\Translator
+     * @var \Notadd\Foundation\Translation\Translator
      */
     protected $translator;
 
     /**
      * AdminController constructor.
      *
-     * @param \Illuminate\Translation\Translator $translator
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @param \Notadd\Foundation\Translation\Translator $translator
      */
     public function __construct(Translator $translator)
     {
@@ -75,20 +74,28 @@ class AdminController extends Controller
     public function access(AuthManager $auth, ApiResponse $response)
     {
         if ($auth->guard('api')->user()) {
-            $http = new GuzzleClient();
-            $back = $http->post($this->container->make('url')->to('oauth/access'), [
-                'form_params' => [
-                    'grant_type'    => 'client_credentials',
-                    'client_id'     => $this->client_id,
-                    'client_secret' => $this->client_secret,
-                    'scope'         => '*',
-                ],
-            ]);
-            $back = json_decode((string)$back->getBody(), true);
-            if (isset($back['access_token'])) {
+            try {
+                $http = new GuzzleClient();
+                $back = $http->post($this->container->make('url')->to('oauth/access'), [
+                    'form_params' => [
+                        'grant_type'    => 'client_credentials',
+                        'client_id'     => $this->client_id,
+                        'client_secret' => $this->client_secret,
+                        'scope'         => '*',
+                    ],
+                ]);
+                $back = json_decode((string)$back->getBody(), true);
+                if (isset($back['access_token'])) {
+                    return $response->withParams([
+                        'status' => 'success',
+                    ])->withParams($back)->generateHttpResponse();
+                }
+            } catch (Exception $exception) {
                 return $response->withParams([
-                    'status' => 'success',
-                ])->withParams($back)->generateHttpResponse();
+                    'code' => $exception->getCode(),
+                    'message' => $exception->getMessage(),
+                    'trace' => $exception->getTraceAsString(),
+                ])->generateHttpResponse();
             }
         }
 
@@ -105,12 +112,12 @@ class AdminController extends Controller
      * @param \Notadd\Foundation\Module\ModuleManager       $module
      *
      * @return \Illuminate\Contracts\View\View
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function handle(ExtensionManager $extension, ModuleManager $module)
     {
         $this->share('extensions', $extension->getEnabledExtensions());
         $this->share('modules', $module->getEnabledModules());
+        $this->share('translations', json_encode($this->translator->fetch('zh-cn')));
         return $this->view('admin::layout');
     }
 
@@ -132,7 +139,7 @@ class AdminController extends Controller
             $message = $this->translator->get('auth.throttle', ['seconds' => $seconds]);
 
             return $response->withParams([
-                'status'  => 'error',
+                'code'  => 403,
                 'message' => $message,
             ])->generateHttpResponse();
         }
@@ -140,28 +147,37 @@ class AdminController extends Controller
         if ($this->guard()->attempt($credentials, $this->request->has('remember'))) {
             $this->request->session()->regenerate();
             $this->clearLoginAttempts($this->request);
-            $http = new GuzzleClient();
-            $back = $http->post($this->url->to('oauth/access'), [
-                'form_params' => [
-                    'grant_type'    => 'password',
-                    'client_id'     => $this->client_id,
-                    'client_secret' => $this->client_secret,
-                    'username'      => $this->request->offsetGet($this->username()),
-                    'password'      => $this->request->offsetGet('password'),
-                    'scope'         => '*',
-                ],
-            ]);
-            $back = json_decode((string)$back->getBody(), true);
-            if (isset($back['access_token']) && isset($back['refresh_token'])) {
+            try {
+                $http = new GuzzleClient();
+                $back = $http->post($this->url->to('oauth/access'), [
+                    'form_params' => [
+                        'grant_type'    => 'password',
+                        'client_id'     => $this->client_id,
+                        'client_secret' => $this->client_secret,
+                        'username'      => $this->request->offsetGet($this->username()),
+                        'password'      => $this->request->offsetGet('password'),
+                        'scope'         => '*',
+                    ],
+                ]);
+                $back = json_decode((string)$back->getBody(), true);
+                if (isset($back['access_token']) && isset($back['refresh_token'])) {
+                    return $response->withParams([
+                        'status' => 'success',
+                        'message' => $this->translator->trans('administration::login.success'),
+                    ])->withParams($back)->generateHttpResponse();
+                }
+            } catch (Exception $exception) {
                 return $response->withParams([
-                    'status' => 'success',
-                ])->withParams($back)->generateHttpResponse();
+                    'code' => $exception->getCode(),
+                    'message' => $exception->getMessage(),
+                    'trace' => $exception->getTraceAsString(),
+                ])->generateHttpResponse();
             }
         }
 
         return $response->withParams([
-            'status'  => 'error',
-            'message' => 'Login Error!',
+            'code'  => 403,
+            'message' => $this->translator->trans('administration::login.fail'),
         ])->generateHttpResponse();
     }
 

@@ -1,11 +1,16 @@
 # 编译
 
-Administration 插件前端部分基于 NPM 进行项目构建，源码位置目录 resources/assets 。
+Administration 插件前端部分基于 NPM 进行项目构建，源码位置目录 resources/mixes/administration 。
 
-## 编译前端项目
+## 编译前端项目( NPM 版本)
 
-* 于目录 **resources/assets** 下执行 **npm install** 命令
-* 于目录 **resources/assets** 下执行 **npm run build** 命令
+* 于目录 **resources/mixes/administration** 下执行 **npm install** 命令
+* 于目录 **resources/mixes/administration** 下执行 **npm run build** 命令
+
+## 编译前端项目( Yarn 版本)
+
+* 于目录 **resources/mixes/administration** 下执行 **Yarn install** 命令
+* 于目录 **resources/mixes/administration** 下执行 **Yarn build** 命令
 
 ## 发布前端资源
 

@@ -6,16 +6,12 @@
  * @datetime 2017-01-17 14:16
  */
 
-export const message = state => state.message
+export const setting = state => state.setting;
 
-export const progress = state => state.progress
+export const token = state => state.token;
 
-export const setting = state => state.setting
+export const accessToken = state => state.token.access_token;
 
-export const token = state => state.token
+export const tokenExpiresIn = state => state.token.expires_in;
 
-export const accessToken = state => state.token.access_token
-
-export const tokenExpiresIn = state => state.token.expires_in
-
-export const refreshToken = state => state.token.refresh_token
+export const refreshToken = state => state.token.refresh_token;

@@ -6,33 +6,22 @@
  * @datetime 2017-01-17 14:16
  */
 
-import Vue from 'vue'
+import Vue from 'vue';
 
-export const message = (state, message) => {
-  if ((typeof message.text) === 'string') {
-    message.text = [message.text]
-  }
-  state.message = message
-}
-
-export const progress = (state, progress) => {
-  state.progress = progress
-}
-
-export const setting = (state, setting) => {
-  state.setting = setting
-}
+export const setting = (state, payload) => {
+    state.setting = payload;
+};
 
 export const single = (state, payload) => {
-  Vue.set(state.setting, payload.key, payload.value)
-}
+    Vue.set(state.setting, payload.key, payload.value);
+};
 
-export const title = (state, title) => {
-  state.title = title
-  global.document.title = title
-}
+export const title = (state, payload) => {
+    state.title = payload;
+    global.document.title = payload;
+};
 
-export const token = (state, token) => {
-  window.localStorage.setItem('token', JSON.stringify(token))
-  state.token = token
-}
+export const token = (state, payload) => {
+    window.localStorage.setItem('token', JSON.stringify(payload));
+    state.token = payload;
+};
