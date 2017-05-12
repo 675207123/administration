@@ -1,3 +1,6 @@
+![Packagist](https://img.shields.io/packagist/v/notadd/administration.svg) 
+![Downloads](https://img.shields.io/packagist/dt/notadd/administration.svg)
+
 # Notadd Administration
 
 Notadd Framework 的后台管理模块，用于实现独立的后台管理框架，能对整站进行管理。
