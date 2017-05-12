@@ -11,16 +11,21 @@
             "email": "notadd@ibenchu.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Notadd\\Administration\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Notadd\\Administration\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "php": ">=7.0"
     },
     "require-dev": {
         "notadd/installers": "0.5.*",
         "phpunit/phpunit": "~5.7"
-    },
-    "autoload": {
-        "psr-4": {
-            "Notadd\\Administration\\": "src/"
-        }
     }
 }
