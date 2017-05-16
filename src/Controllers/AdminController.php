@@ -9,7 +9,6 @@
 namespace Notadd\Administration\Controllers;
 
 use Exception;
-use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
@@ -85,15 +84,12 @@ class AdminController extends Controller
     {
         if ($auth->guard('api')->user()) {
             try {
-                $http = new GuzzleClient();
-                $back = $http->post($this->container->make('url')->to('oauth/access'), [
-                    'form_params' => [
-                        'grant_type'    => 'client_credentials',
-                        'client_id'     => $this->client_id,
-                        'client_secret' => $this->client_secret,
-                        'scope'         => '*',
-                    ],
-                ]);
+                $this->request->offsetSet('grant_type', 'client_credentials');
+                $this->request->offsetSet('client_id', $this->client_id);
+                $this->request->offsetSet('client_secret', $this->client_secret);
+                $this->request->offsetSet('scope', '*');
+                $request = (new DiactorosFactory)->createRequest($this->request);
+                $back = $this->server->respondToAccessTokenRequest($request, new Psr7Response());
                 $back = json_decode((string)$back->getBody(), true);
                 if (isset($back['access_token'])) {
                     return $response->withParams([
