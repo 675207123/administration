@@ -18,3 +18,7 @@ Notadd Framework 的后台管理模块，用于实现独立的后台管理框架
 ## 安装
 
 本模块随 **[Notadd](https://github.com/notadd/notadd)** 一起安装，无需独立再手动安装。
+
+## 文档
+
+更多文档，请前往 **[Notadd 官方文档站点](https://docs.notadd.com)** 查阅！
