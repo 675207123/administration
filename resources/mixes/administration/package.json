@@ -12,9 +12,7 @@
     },
     "dependencies": {
         "axios": "^0.16.1",
-        "camelcase": "^4.0.0",
         "core-js": "^2.4.1",
-        "decamelize": "^1.2.0",
         "deepmerge": "latest",
         "echarts": "^3.5.4",
         "iview": "^2.0.0-rc.13",
