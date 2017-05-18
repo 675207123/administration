@@ -1,6 +1,5 @@
 import 'core-js/fn/array/find-index';
 
-import Affix from 'iview/src/components/affix';
 import Alert from 'iview/src/components/alert';
 import BackTop from 'iview/src/components/back-top';
 import Badge from 'iview/src/components/badge';
@@ -48,6 +47,7 @@ import {
     camelcase,
     decamelize,
 } from '../helpers/functions';
+import Affix from '../components/affix';
 import Input from '../components/input';
 import Upload from '../components/upload';
 
