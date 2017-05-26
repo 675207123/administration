@@ -12,9 +12,9 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Notadd\Foundation\Extension\Extension;
 use Notadd\Foundation\Extension\ExtensionManager;
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 
-class ExtensionHandler extends DataHandler
+class ExtensionHandler extends Handler
 {
     /**
      * @var \Notadd\Foundation\Extension\ExtensionManager
@@ -34,23 +34,22 @@ class ExtensionHandler extends DataHandler
     }
 
     /**
-     * Data for handler.
+     * Execute Handler.
      *
-     * @return array
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
         $all = $this->manager->getExtensions();
         $enabled = $this->manager->getEnabledExtensions();
         $installed = $this->manager->getInstalledExtensions();
         $notInstalled = $this->manager->getNotInstalledExtensions();
-
-        return [
+        $this->success()->withData([
             'all' => $this->info($all),
             'enabled' => $this->info($enabled),
             'installed' => $this->info($installed),
             'notInstall' => $this->info($notInstalled),
-        ];
+        ])->withMessage('获取插件列表成功！');
     }
 
     /**
