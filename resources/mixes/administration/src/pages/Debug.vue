@@ -40,7 +40,7 @@
     };
 </script>
 <template>
-    <card>
+    <card :bordered="false">
         <p slot="title">调试工具</p>
         <i-form :label-width="200" :form="form">
             <row>

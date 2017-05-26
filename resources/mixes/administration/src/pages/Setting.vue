@@ -111,7 +111,7 @@
     };
 </script>
 <template>
-    <card>
+    <card :bordered="false">
         <p slot="title">全局设置</p>
         <i-form :label-width="200" :model="form" ref="form" :rules="rules">
             <row>

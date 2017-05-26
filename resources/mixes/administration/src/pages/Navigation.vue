@@ -10,7 +10,7 @@
     };
 </script>
 <template>
-    <card>
+    <card :bordered="false">
         <p slot="title">导航管理</p>
         <i-form :label-width="100">
             <form-item>

@@ -141,7 +141,7 @@
     };
 </script>
 <template>
-    <card>
+    <card :bordered="false">
         <p slot="title">上传配置</p>
         <i-form :label-width="200" :model="form" ref="form" :rules="rules">
             <row>
