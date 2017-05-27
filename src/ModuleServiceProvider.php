@@ -15,6 +15,7 @@ use Notadd\Administration\Listeners\CsrfTokenRegister;
 use Notadd\Administration\Listeners\PermissionGroupRegister;
 use Notadd\Administration\Listeners\PermissionModuleRegister;
 use Notadd\Administration\Listeners\PermissionRegister;
+use Notadd\Administration\Listeners\PermissionTypeRegister;
 use Notadd\Administration\Listeners\RouteRegister;
 use Notadd\Foundation\Administration\Administration;
 use Notadd\Foundation\Module\Abstracts\Module;
@@ -56,6 +57,7 @@ class ModuleServiceProvider extends Module
         $this->app->make(Dispatcher::class)->subscribe(PermissionModuleRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(PermissionRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
+        $this->app->make(Dispatcher::class)->subscribe(PermissionTypeRegister::class);
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'administration');
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'admin');
         $this->publishes([
