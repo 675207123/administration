@@ -12,6 +12,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Events\Dispatcher;
 use Notadd\Administration\Controllers\AdminController;
 use Notadd\Administration\Listeners\CsrfTokenRegister;
+use Notadd\Administration\Listeners\PermissionModuleRegister;
 use Notadd\Administration\Listeners\RouteRegister;
 use Notadd\Foundation\Administration\Administration;
 use Notadd\Foundation\Module\Abstracts\Module;
@@ -49,6 +50,7 @@ class ModuleServiceProvider extends Module
         $administrator->registerHandler(AdminController::class . '@handle');
         $this->administration->setAdministrator($administrator);
         $this->app->make(Dispatcher::class)->subscribe(CsrfTokenRegister::class);
+        $this->app->make(Dispatcher::class)->subscribe(PermissionModuleRegister::class);
         $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'administration');
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'admin');
