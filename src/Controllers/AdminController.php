@@ -3,22 +3,24 @@
  * This file is part of Notadd.
  *
  * @author TwilRoad <269044570@qq.com>
- * @copyright (c) 2016, iBenchu.org
+ * @copyright (c) 2016, notadd.com
  * @datetime 2016-11-08 13:51
  */
 namespace Notadd\Administration\Controllers;
 
 use Exception;
-use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
+use League\OAuth2\Server\AuthorizationServer;
 use Notadd\Foundation\Auth\AuthenticatesUsers;
 use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\ModuleManager;
 use Notadd\Foundation\Passport\Responses\ApiResponse;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 use Notadd\Foundation\Translation\Translator;
+use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
+use Zend\Diactoros\Response as Psr7Response;
 
 /**
  * Class AdminController.
@@ -38,9 +40,9 @@ class AdminController extends Controller
     protected $client_secret;
 
     /**
-     * @var \Illuminate\Routing\UrlGenerator
+     * @var \League\OAuth2\Server\AuthorizationServer
      */
-    protected $url;
+    protected $server;
 
     /**
      * @var \Notadd\Foundation\Translation\Translator
@@ -48,11 +50,17 @@ class AdminController extends Controller
     protected $translator;
 
     /**
+     * @var \Illuminate\Routing\UrlGenerator
+     */
+    protected $url;
+
+    /**
      * AdminController constructor.
      *
+     * @param \League\OAuth2\Server\AuthorizationServer $server
      * @param \Notadd\Foundation\Translation\Translator $translator
      */
-    public function __construct(Translator $translator)
+    public function __construct(AuthorizationServer $server, Translator $translator)
     {
         parent::__construct();
         $this->client_id = 1;
@@ -60,6 +68,7 @@ class AdminController extends Controller
         $this->client_secret = $client->getAttribute('secret');
         $this->translator = $translator;
         $this->url = $this->container->make(UrlGenerator::class);
+        $this->server = $server;
     }
 
     /**
@@ -75,15 +84,12 @@ class AdminController extends Controller
     {
         if ($auth->guard('api')->user()) {
             try {
-                $http = new GuzzleClient();
-                $back = $http->post($this->container->make('url')->to('oauth/access'), [
-                    'form_params' => [
-                        'grant_type'    => 'client_credentials',
-                        'client_id'     => $this->client_id,
-                        'client_secret' => $this->client_secret,
-                        'scope'         => '*',
-                    ],
-                ]);
+                $this->request->offsetSet('grant_type', 'client_credentials');
+                $this->request->offsetSet('client_id', $this->client_id);
+                $this->request->offsetSet('client_secret', $this->client_secret);
+                $this->request->offsetSet('scope', '*');
+                $request = (new DiactorosFactory)->createRequest($this->request);
+                $back = $this->server->respondToAccessTokenRequest($request, new Psr7Response());
                 $back = json_decode((string)$back->getBody(), true);
                 if (isset($back['access_token'])) {
                     return $response->withParams([
@@ -148,17 +154,14 @@ class AdminController extends Controller
             $this->request->session()->regenerate();
             $this->clearLoginAttempts($this->request);
             try {
-                $http = new GuzzleClient();
-                $back = $http->post($this->url->to('oauth/access'), [
-                    'form_params' => [
-                        'grant_type'    => 'password',
-                        'client_id'     => $this->client_id,
-                        'client_secret' => $this->client_secret,
-                        'username'      => $this->request->offsetGet($this->username()),
-                        'password'      => $this->request->offsetGet('password'),
-                        'scope'         => '*',
-                    ],
-                ]);
+                $this->request->offsetSet('grant_type', 'password');
+                $this->request->offsetSet('client_id', $this->client_id);
+                $this->request->offsetSet('client_secret', $this->client_secret);
+                $this->request->offsetSet('username', $this->request->offsetGet($this->username()));
+                $this->request->offsetSet('password', $this->request->offsetGet('password'));
+                $this->request->offsetSet('scope', '*');
+                $request = (new DiactorosFactory)->createRequest($this->request);
+                $back = $this->server->respondToAccessTokenRequest($request, new Psr7Response());
                 $back = json_decode((string)$back->getBody(), true);
                 if (isset($back['access_token']) && isset($back['refresh_token'])) {
                     return $response->withParams([

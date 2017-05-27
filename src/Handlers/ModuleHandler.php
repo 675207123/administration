@@ -3,7 +3,7 @@
  * This file is part of Notadd.
  *
  * @author TwilRoad <269044570@qq.com>
- * @copyright (c) 2017, iBenchu.org
+ * @copyright (c) 2017, notadd.com
  * @datetime 2017-03-10 16:51
  */
 namespace Notadd\Administration\Handlers;
@@ -12,12 +12,12 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 use Notadd\Foundation\Module\Module;
 use Notadd\Foundation\Module\ModuleManager;
-use Notadd\Foundation\Passport\Abstracts\DataHandler;
+use Notadd\Foundation\Passport\Abstracts\Handler;
 
 /**
  * Class ModuleHandler.
  */
-class ModuleHandler extends DataHandler
+class ModuleHandler extends Handler
 {
     /**
      * @var \Notadd\Foundation\Module\ModuleManager
@@ -30,22 +30,17 @@ class ModuleHandler extends DataHandler
      * @param \Illuminate\Container\Container         $container
      * @param \Notadd\Foundation\Module\ModuleManager $manager
      */
-    public function __construct(
-        Container $container,
-        ModuleManager $manager
-    ) {
+    public function __construct(Container $container, ModuleManager $manager) {
         parent::__construct($container);
-        $this->errors->push($this->translator->trans('获取模块列表失败！'));
         $this->manager = $manager;
-        $this->messages->push($this->translator->trans('获取模块列表成功！'));
     }
 
     /**
-     * Data for handler.
+     * Execute Handler.
      *
-     * @return array
+     * @throws \Exception
      */
-    public function data()
+    protected function execute()
     {
         $all = $this->manager->getModules();
         $enabled = $this->manager->getEnabledModules();
@@ -55,14 +50,12 @@ class ModuleHandler extends DataHandler
         $enabled->offsetUnset('notadd/administration');
         $installed->offsetUnset('notadd/administration');
         $notInstalled->offsetUnset('notadd/administration');
-        $this->messages->push('获取模块列表成功！');
-
-        return [
+        $this->success()->withData([
             'all' => $this->info($all),
             'enabled' => $this->info($enabled),
             'installed' => $this->info($installed),
             'notInstall' => $this->info($notInstalled),
-        ];
+        ])->withMessage('获取模块列表成功！');
     }
 
     /**

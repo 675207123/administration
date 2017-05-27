@@ -95,7 +95,7 @@
     };
 </script>
 <template>
-    <card>
+    <card :bordered="false">
         <p slot="title">邮件设置</p>
         <i-form :model="form" :label-width="100">
             <row>

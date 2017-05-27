@@ -29,14 +29,16 @@
     window.asset = "{{ asset('assets') }}";
     window.csrf_token = "{{ csrf_token() }}";
     window.extensions = [
-      @foreach($extensions as $extension)
-        "{{ $extension->getIdentification() }}",
-      @endforeach
+        @foreach($extensions as $extension)
+            "{{ $extension->getIdentification() }}",
+        @endforeach
     ];
     window.modules = [
-      @foreach($modules as $module)
-        "{{ $module->getIdentification() }}",
-      @endforeach
+        @foreach($modules as $module)
+            @foreach($module->getAlias() as $alias)
+            "{{ $alias }}",
+            @endforeach
+        @endforeach
     ];
     window.local = {!! $translations !!};
     window.upload = "{{ url('editor') }}";
@@ -52,7 +54,9 @@
 @endforeach
 @foreach($modules as $module)
     @if($module->getScript())
-        <script src="{{ $module->getScript() }}"></script>
+        @foreach((array)$module->getScript() as $script)
+            <script src="{{ $script }}"></script>
+        @endforeach
     @endif
 @endforeach
 <script src="{{ asset('assets/admin/js/app.min.js') }}"></script>

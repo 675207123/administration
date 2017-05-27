@@ -228,7 +228,7 @@
 </script>
 <template>
     <div class="module-wrap">
-        <card>
+        <card :bordered="false">
             <tabs value="installed">
                 <tab-pane label="开启插件" name="installed">
                     <i-table :columns="columns.installed" :context="self" :data="list.installed"></i-table>
