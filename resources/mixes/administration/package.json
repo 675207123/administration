@@ -2,7 +2,7 @@
     "name": "view",
     "version": "1.0.0",
     "description": "Next administration.",
-    "author": "twilroad <269044570@qq.com>",
+    "author": "twilroad <heshudong@ibenchu.com>",
     "private": true,
     "scripts": {
         "dev": "node build/dev-server.js",
