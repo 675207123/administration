@@ -1,3 +1,6 @@
+![Packagist](https://img.shields.io/packagist/v/notadd/administration.svg) 
+![Downloads](https://img.shields.io/packagist/dt/notadd/administration.svg)
+
 # Notadd Administration
 
 [![Build Status](https://travis-ci.org/notadd/administration.svg?branch=master)](https://travis-ci.org/notadd/administration)
