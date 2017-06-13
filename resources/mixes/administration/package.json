@@ -14,7 +14,7 @@
         "axios": "^0.16.1",
         "core-js": "^2.4.1",
         "deepmerge": "latest",
-        "iview": "^2.0.0-rc.14",
+        "iview": "^2.0.0-rc.16",
         "promise.prototype.finally": "^2.0.1",
         "vue": "^2.3.3",
         "vue-echarts-v3": "^1.0.4",
