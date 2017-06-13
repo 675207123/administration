@@ -50,7 +50,7 @@ class ModuleHandler extends Handler
         $enabled->offsetUnset('notadd/administration');
         $installed->offsetUnset('notadd/administration');
         $notInstalled->offsetUnset('notadd/administration');
-        $this->success()->withData([
+        $this->withCode(200)->withData([
             'all' => $this->info($all),
             'enabled' => $this->info($enabled),
             'installed' => $this->info($installed),

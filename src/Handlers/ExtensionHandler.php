@@ -44,7 +44,7 @@ class ExtensionHandler extends Handler
         $enabled = $this->manager->getEnabledExtensions();
         $installed = $this->manager->getInstalledExtensions();
         $notInstalled = $this->manager->getNotInstalledExtensions();
-        $this->success()->withData([
+        $this->withCode(200)->withData([
             'all' => $this->info($all),
             'enabled' => $this->info($enabled),
             'installed' => $this->info($installed),
