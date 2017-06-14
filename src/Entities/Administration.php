@@ -87,7 +87,19 @@ class Administration extends Entity
      */
     public function guard(GuardEvent $event)
     {
-        // TODO: Implement guard() method.
+        switch ($event->getTransition()->getName()) {
+            case 'login':
+                $this->block($event, $this->permission(''));
+                break;
+            case 'need_to_logout':
+                $this->block($event, $this->permission(''));
+                break;
+            case 'logout':
+                $this->block($event, $this->permission(''));
+                break;
+            default:
+                $event->setBlocked(true);
+        }
     }
 
     /**
