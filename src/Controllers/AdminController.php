@@ -13,6 +13,7 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
 use League\OAuth2\Server\AuthorizationServer;
+use Notadd\Administration\Entities\Administration;
 use Notadd\Administration\Events\Logined;
 use Notadd\Foundation\Auth\AuthenticatesUsers;
 use Notadd\Foundation\Extension\ExtensionManager;
@@ -151,10 +152,19 @@ class AdminController extends Controller
                 'message' => $message,
             ])->generateHttpResponse();
         }
+        $entity = new Administration();
+        $flow = $this->flow()->get($entity);
         $credentials = $this->credentials($this->request);
         if ($this->guard()->attempt($credentials, $this->request->has('remember'))) {
             $this->request->session()->regenerate();
             $this->clearLoginAttempts($this->request);
+            $entity->setAuthenticatable($this->guard()->user());
+            if (!$flow->can($entity, 'login')) {
+                return $response->withParams([
+                    'code'    => 500,
+                    'message' => '没有登录权限！',
+                ])->generateHttpResponse();
+            }
             try {
                 $this->request->offsetSet('grant_type', 'password');
                 $this->request->offsetSet('client_id', $this->client_id);

@@ -18,6 +18,11 @@ use Symfony\Component\Workflow\Transition;
 class Administration extends Entity
 {
     /**
+     * @var \Illuminate\Contracts\Auth\Authenticatable
+     */
+    protected $authenticatable;
+
+    /**
      * Definition of name for flow.
      *
      * @return string
@@ -65,7 +70,12 @@ class Administration extends Entity
     {
         switch ($event->getTransition()->getName()) {
             case 'login':
-                $this->block($event, $this->permission(''));
+                if (is_null($event->getSubject()->getAuthenticatable())) {
+                    $this->block($event, false);
+                } else {
+                    $this->container->make('log')->info('login', [$this->authenticatable]);
+                    $this->block($event, $this->permission(''));
+                }
                 break;
             case 'need_to_logout':
                 $this->block($event, $this->permission(''));
@@ -76,5 +86,21 @@ class Administration extends Entity
             default:
                 $event->setBlocked(true);
         }
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable
+     */
+    public function getAuthenticatable()
+    {
+        return $this->authenticatable;
+    }
+
+    /**
+     * @param mixed $authenticatable
+     */
+    public function setAuthenticatable($authenticatable)
+    {
+        $this->authenticatable = $authenticatable;
     }
 }
