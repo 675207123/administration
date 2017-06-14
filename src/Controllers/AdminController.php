@@ -13,6 +13,7 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
 use League\OAuth2\Server\AuthorizationServer;
+use Notadd\Administration\Events\Logined;
 use Notadd\Foundation\Auth\AuthenticatesUsers;
 use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\ModuleManager;
@@ -98,9 +99,9 @@ class AdminController extends Controller
                 }
             } catch (Exception $exception) {
                 return $response->withParams([
-                    'code' => $exception->getCode(),
+                    'code'    => $exception->getCode(),
                     'message' => $exception->getMessage(),
-                    'trace' => $exception->getTraceAsString(),
+                    'trace'   => $exception->getTraceAsString(),
                 ])->generateHttpResponse();
             }
         }
@@ -124,6 +125,7 @@ class AdminController extends Controller
         $this->share('extensions', $extension->getEnabledExtensions());
         $this->share('modules', $module->getEnabledModules());
         $this->share('translations', json_encode($this->translator->fetch('zh-cn')));
+
         return $this->view('admin::layout');
     }
 
@@ -145,7 +147,7 @@ class AdminController extends Controller
             $message = $this->translator->get('auth.throttle', ['seconds' => $seconds]);
 
             return $response->withParams([
-                'code'  => 403,
+                'code'    => 403,
                 'message' => $message,
             ])->generateHttpResponse();
         }
@@ -164,22 +166,24 @@ class AdminController extends Controller
                 $back = $this->server->respondToAccessTokenRequest($request, new Psr7Response());
                 $back = json_decode((string)$back->getBody(), true);
                 if (isset($back['access_token']) && isset($back['refresh_token'])) {
+                    $this->events->fire(new Logined($this->container, $this->guard()->user()));
+
                     return $response->withParams([
-                        'status' => 'success',
+                        'status'  => 'success',
                         'message' => $this->translator->trans('administration::login.success'),
                     ])->withParams($back)->generateHttpResponse();
                 }
             } catch (Exception $exception) {
                 return $response->withParams([
-                    'code' => $exception->getCode(),
+                    'code'    => $exception->getCode(),
                     'message' => $exception->getMessage(),
-                    'trace' => $exception->getTraceAsString(),
+                    'trace'   => $exception->getTraceAsString(),
                 ])->generateHttpResponse();
             }
         }
 
         return $response->withParams([
-            'code'  => 403,
+            'code'    => 403,
             'message' => $this->translator->trans('administration::login.fail'),
         ])->generateHttpResponse();
     }
