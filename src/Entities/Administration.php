@@ -10,6 +10,7 @@ namespace Notadd\Administration\Entities;
 
 use Notadd\Foundation\Flow\Abstracts\Entity;
 use Symfony\Component\Workflow\Event\GuardEvent;
+use Symfony\Component\Workflow\Transition;
 
 /**
  * Class Administration.
@@ -23,7 +24,7 @@ class Administration extends Entity
      */
     public function name()
     {
-        // TODO: Implement name() method.
+        return 'administration';
     }
 
     /**
@@ -33,7 +34,12 @@ class Administration extends Entity
      */
     public function places()
     {
-        // TODO: Implement places() method.
+        return [
+            'login',
+            'logined',
+            'logout',
+            'loggedout',
+        ];
     }
 
     /**
@@ -43,7 +49,11 @@ class Administration extends Entity
      */
     public function transitions()
     {
-        // TODO: Implement transitions() method.
+        return [
+            new Transition('login', 'login', 'logined'),
+            new Transition('need_to_logout', 'logined', 'logout'),
+            new Transition('logout', 'logout', 'loggedout'),
+        ];
     }
 
     /**
