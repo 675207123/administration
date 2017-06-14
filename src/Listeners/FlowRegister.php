@@ -8,6 +8,7 @@
  */
 namespace Notadd\Administration\Listeners;
 
+use Notadd\Administration\Entities\Administration;
 use Notadd\Foundation\Flow\Abstracts\FlowRegister as AbstractFlowRegister;
 
 /**
@@ -16,20 +17,10 @@ use Notadd\Foundation\Flow\Abstracts\FlowRegister as AbstractFlowRegister;
 class FlowRegister extends AbstractFlowRegister
 {
     /**
-     * @var array
-     */
-    protected $definitions = [
-    ];
-
-    /**
      * Register flow or flows.
      */
     public function handle()
     {
-        foreach ($this->definitions as $definition) {
-            if (method_exists($this, 'register' . ucfirst($definition) . 'Flow')) {
-                $this->{'register' . ucfirst($definition) . 'Flow'}();
-            }
-        }
+        $this->flow->register(Administration::class);
     }
 }
