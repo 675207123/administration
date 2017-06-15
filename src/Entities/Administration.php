@@ -8,6 +8,7 @@
  */
 namespace Notadd\Administration\Entities;
 
+use Notadd\Foundation\Database\Model;
 use Notadd\Foundation\Flow\Abstracts\Entity;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use Symfony\Component\Workflow\Transition;
@@ -68,20 +69,30 @@ class Administration extends Entity
      */
     public function guard(GuardEvent $event)
     {
+        $authenticatable = $event->getSubject()->getAuthenticatable();
         switch ($event->getTransition()->getName()) {
             case 'login':
-                if (is_null($event->getSubject()->getAuthenticatable())) {
-                    $this->block($event, false);
+                if ($authenticatable && $authenticatable instanceof Model) {
+                    if ($authenticatable->hasExtendRelation('groups')) {
+                        $builder = $authenticatable->newQuery();
+                        $builder->where('id', $authenticatable->getAttribute('id'));
+                        $groups = $builder->with('groups.details')->first()->getAttribute('groups');
+                        $groups = $groups->transform(function (Model $group) {
+                            return $group->getAttribute('details');
+                        });
+                        $this->block($event, $this->permission('global::administration::global::entry', $groups));
+                    } else {
+                        $this->block($event, true);
+                    }
                 } else {
-                    $this->container->make('log')->info('login', [$this->authenticatable]);
-                    $this->block($event, $this->permission(''));
+                    $this->block($event, false);
                 }
                 break;
             case 'need_to_logout':
-                $this->block($event, $this->permission(''));
+                $this->block($event, $this->permission('', 0));
                 break;
             case 'logout':
-                $this->block($event, $this->permission(''));
+                $this->block($event, $this->permission('', 0));
                 break;
             default:
                 $event->setBlocked(true);
@@ -97,7 +108,7 @@ class Administration extends Entity
     }
 
     /**
-     * @param mixed $authenticatable
+     * @param \Illuminate\Contracts\Auth\Authenticatable $authenticatable
      */
     public function setAuthenticatable($authenticatable)
     {
