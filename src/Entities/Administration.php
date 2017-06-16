@@ -19,11 +19,6 @@ use Symfony\Component\Workflow\Transition;
 class Administration extends Entity
 {
     /**
-     * @var \Illuminate\Contracts\Auth\Authenticatable
-     */
-    protected $authenticatable;
-
-    /**
      * Definition of name for flow.
      *
      * @return string
@@ -69,7 +64,7 @@ class Administration extends Entity
      */
     public function guard(GuardEvent $event)
     {
-        $authenticatable = $event->getSubject()->getAuthenticatable();
+        $authenticatable = $event->getSubject()->authenticatable();
         switch ($event->getTransition()->getName()) {
             case 'login':
                 if ($authenticatable && $authenticatable instanceof Model) {
@@ -92,21 +87,5 @@ class Administration extends Entity
             default:
                 $event->setBlocked(true);
         }
-    }
-
-    /**
-     * @return \Illuminate\Contracts\Auth\Authenticatable
-     */
-    public function getAuthenticatable()
-    {
-        return $this->authenticatable;
-    }
-
-    /**
-     * @param \Illuminate\Contracts\Auth\Authenticatable $authenticatable
-     */
-    public function setAuthenticatable($authenticatable)
-    {
-        $this->authenticatable = $authenticatable;
     }
 }

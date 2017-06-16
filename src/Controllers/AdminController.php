@@ -158,7 +158,7 @@ class AdminController extends Controller
         if ($this->guard()->attempt($credentials, $this->request->has('remember'))) {
             $this->request->session()->regenerate();
             $this->clearLoginAttempts($this->request);
-            $entity->setAuthenticatable($this->guard()->user());
+            $entity->authenticatable($this->guard()->user());
             if (!$flow->can($entity, 'login')) {
                 return $response->withParams([
                     'code'    => 500,
