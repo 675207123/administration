@@ -74,12 +74,7 @@ class Administration extends Entity
             case 'login':
                 if ($authenticatable && $authenticatable instanceof Model) {
                     if ($authenticatable->hasExtendRelation('groups')) {
-                        $builder = $authenticatable->newQuery();
-                        $builder->where('id', $authenticatable->getAttribute('id'));
-                        $groups = $builder->with('groups.details')->first()->getAttribute('groups');
-                        $groups = $groups->transform(function (Model $group) {
-                            return $group->getAttribute('details');
-                        });
+                        $groups = $authenticatable->load('groups')->getAttribute('groups');
                         $this->block($event, $this->permission('global::administration::global::entry', $groups));
                     } else {
                         $this->block($event, true);
