@@ -6,7 +6,7 @@
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-06-14 12:04
  */
-namespace Notadd\Administration\Entities;
+namespace Notadd\Administration\Flows;
 
 use Notadd\Foundation\Database\Model;
 use Notadd\Foundation\Flow\Abstracts\Entity;

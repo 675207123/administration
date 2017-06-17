@@ -8,7 +8,7 @@
  */
 namespace Notadd\Administration\Listeners;
 
-use Notadd\Administration\Entities\Administration;
+use Notadd\Administration\Flows\Administration;
 use Notadd\Foundation\Flow\Abstracts\FlowRegister as AbstractFlowRegister;
 
 /**
