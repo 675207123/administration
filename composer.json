@@ -21,6 +21,11 @@
             "Notadd\\Administration\\Tests\\": "tests/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.9-dev"
+        }
+    },
     "require": {
         "php": ">=7.0"
     },
