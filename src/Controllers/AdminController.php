@@ -176,7 +176,7 @@ class AdminController extends Controller
                 $back = $this->server->respondToAccessTokenRequest($request, new Psr7Response());
                 $back = json_decode((string)$back->getBody(), true);
                 if (isset($back['access_token']) && isset($back['refresh_token'])) {
-                    $this->events->fire(new Logined($this->guard()->user()));
+                    $this->events->dispatch(new Logined($this->guard()->user()));
 
                     return $response->withParams([
                         'status'  => 'success',
