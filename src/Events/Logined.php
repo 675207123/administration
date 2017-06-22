@@ -8,7 +8,6 @@
  */
 namespace Notadd\Administration\Events;
 
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
@@ -22,19 +21,14 @@ class Logined
     protected $authenticatable;
 
     /**
-     * @var \Illuminate\Container\Container
-     */
-    protected $container;
-
-    /**
      * Logined constructor.
      *
-     * @param \Illuminate\Container\Container            $container
      * @param \Illuminate\Contracts\Auth\Authenticatable $authenticatable
+     *
+     * @internal param \Illuminate\Container\Container $container
      */
-    public function __construct(Container $container, Authenticatable $authenticatable)
+    public function __construct(Authenticatable $authenticatable)
     {
-        $this->container = $container;
         $this->authenticatable = $authenticatable;
     }
 
