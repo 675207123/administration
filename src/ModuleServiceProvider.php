@@ -69,16 +69,6 @@ class ModuleServiceProvider extends Module
     }
 
     /**
-     * Description of module
-     *
-     * @return string
-     */
-    public static function description()
-    {
-        return 'Notadd 后台管理模块';
-    }
-
-    /**
      * Install module.
      *
      * @return bool
@@ -89,16 +79,6 @@ class ModuleServiceProvider extends Module
     }
 
     /**
-     * Name of module.
-     *
-     * @return string
-     */
-    public static function name()
-    {
-        return '后台管理';
-    }
-
-    /**
      * Uninstall module.
      *
      * @return mixed
@@ -106,15 +86,5 @@ class ModuleServiceProvider extends Module
     public static function uninstall()
     {
         return true;
-    }
-
-    /**
-     * Version of module.
-     *
-     * @return string
-     */
-    public static function version()
-    {
-        return '2.0.0';
     }
 }
