@@ -30,7 +30,8 @@ class ModuleHandler extends Handler
      * @param \Illuminate\Container\Container         $container
      * @param \Notadd\Foundation\Module\ModuleManager $manager
      */
-    public function __construct(Container $container, ModuleManager $manager) {
+    public function __construct(Container $container, ModuleManager $manager)
+    {
         parent::__construct($container);
         $this->manager = $manager;
     }
@@ -51,9 +52,9 @@ class ModuleHandler extends Handler
         $installed->offsetUnset('notadd/administration');
         $notInstalled->offsetUnset('notadd/administration');
         $this->withCode(200)->withData([
-            'all' => $this->info($all),
-            'enabled' => $this->info($enabled),
-            'installed' => $this->info($installed),
+            'all'        => $this->info($all),
+            'enabled'    => $this->info($enabled),
+            'installed'  => $this->info($installed),
             'notInstall' => $this->info($notInstalled),
         ])->withMessage('获取模块列表成功！');
     }
@@ -65,15 +66,16 @@ class ModuleHandler extends Handler
      *
      * @return array
      */
-    protected function info(Collection $list) {
+    protected function info(Collection $list)
+    {
         $data = new Collection();
-        $list->each(function (Module $module) use($data) {
-            $data->put($module->getIdentification(), [
-                'author' => collect($module->getAuthor())->implode(','),
-                'enabled' => $module->isEnabled(),
-                'description' => $module->getDescription(),
-                'identification' => $module->getIdentification(),
-                'name' => $module->getName(),
+        $list->each(function (Module $module) use ($data) {
+            $data->put($module->identification(), [
+                'author'         => collect($module->author())->implode(','),
+                'enabled'        => $module->enabled(),
+                'description'    => $module->description(),
+                'identification' => $module->identification(),
+                'name'           => $module->name(),
             ]);
         });
 
