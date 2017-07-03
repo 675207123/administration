@@ -14,11 +14,9 @@
         @endif
     @endforeach
     @foreach($modules as $module)
-        @if($module->getStylesheet())
-            @foreach($module->getStylesheet() as $stylesheet)
-                <link href="{{ $stylesheet }}" rel="stylesheet">
-            @endforeach
-        @endif
+        @foreach($module->stylesheets('administration') as $stylesheet)
+            <link href="{{ $stylesheet }}" rel="stylesheet">
+        @endforeach
     @endforeach
 </head>
 <body>
@@ -35,7 +33,7 @@
     ];
     window.modules = [
         @foreach($modules as $module)
-            @foreach($module->getAlias() as $alias)
+            @foreach((array)$module->entries() as $alias)
             "{{ $alias }}",
             @endforeach
         @endforeach
@@ -53,11 +51,9 @@
     @endif
 @endforeach
 @foreach($modules as $module)
-    @if($module->getScript())
-        @foreach((array)$module->getScript() as $script)
-            <script src="{{ $script }}"></script>
-        @endforeach
-    @endif
+    @foreach((array)$module->scripts('administration') as $script)
+        <script src="{{ $script }}"></script>
+    @endforeach
 @endforeach
 <script src="{{ asset('assets/admin/js/app.min.js') }}"></script>
 </body>
