@@ -13,9 +13,14 @@
                     const installed = response.data.data.installed;
                     const notInstalled = response.data.data.notInstall;
                     vm.list.all = Object.keys(all).map(key => all[key]);
-                    vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                    vm.list.enabled = Object.keys(enabled).map(key => {
+                        const data = enabled[key];
+                        data.enabled = data.enabled === '1';
+                        return data;
+                    });
                     vm.list.installed = Object.keys(installed).map(key => {
                         const data = installed[key];
+                        data.enabled = data.enabled === '1';
                         data.loading = false;
                         return data;
                     });
@@ -28,6 +33,7 @@
             });
         },
         data() {
+            const self = this;
             return {
                 columns: {
                     installed: [
@@ -47,16 +53,50 @@
                         },
                         {
                             key: 'status',
-                            render(row, column, index) {
-                                return `<i-switch v-model="list.installed[${index}].enabled" @on-change="statusChanged(${index})"></i-switch>`;
+                            render(h, data) {
+                                return h('i-switch', {
+                                    on: {
+                                        input(status) {
+                                            injection.loading.start();
+                                            injection.http.post(`${window.api}/module/enable`, {
+                                                name: data.row.identification,
+                                                value: status,
+                                            }).then(() => {
+                                                injection.loading.finish();
+                                                injection.notice.open({
+                                                    title: data.row.enabled ? `开启模块${data.row.name}成功！` : `关闭模块${data.row.name}成功！`,
+                                                });
+                                                injection.notice.warning({
+                                                    title: '将在3秒后重载网页！',
+                                                });
+                                                window.setTimeout(() => {
+                                                    window.location.reload();
+                                                }, 3000);
+                                            });
+                                        },
+                                    },
+                                    props: {
+                                        value: self.list.installed[data.index].enabled,
+                                    },
+                                });
                             },
                             title: '状态',
                             width: 200,
                         },
                         {
                             key: 'handle',
-                            render(row, column, index) {
-                                return `<i-button :loading="list.installed[${index}].loading" type="error" @click="uninstall(${index})">卸载</i-button>`;
+                            render(h, data) {
+                                return h('i-button', {
+                                    on: {
+                                        click() {
+                                            self.uninstall(data.index);
+                                        },
+                                    },
+                                    props: {
+                                        loading: self.list.installed[data.index].loading,
+                                        type: 'error',
+                                    },
+                                }, '卸载');
                             },
                             title: '操作',
                             width: 200,
@@ -79,8 +119,18 @@
                         },
                         {
                             key: 'handle',
-                            render(row, column, index) {
-                                return `<i-button :loading="list.notInstalled[${index}].loading" type="primary" @click="install(${index})">安装</i-button>`;
+                            render(h, data) {
+                                return h('i-button', {
+                                    on: {
+                                        click() {
+                                            self.install(data.index);
+                                        },
+                                    },
+                                    props: {
+                                        loading: self.list.notInstalled[data.index].loading,
+                                        type: 'primary',
+                                    },
+                                }, '安装');
                             },
                             title: '操作',
                             width: 200,
@@ -145,26 +195,6 @@
                     item.loading = false;
                 });
             },
-            statusChanged(index) {
-                const self = this;
-                injection.loading.start();
-                const module = self.list.installed[index];
-                injection.http.post(`${window.api}/module/enable`, {
-                    name: module.identification,
-                    value: module.enabled,
-                }).then(() => {
-                    injection.loading.finish();
-                    injection.notice.open({
-                        title: module.enabled ? `开启模块${module.name}成功！` : `关闭模块${module.name}成功！`,
-                    });
-                    injection.notice.warning({
-                        title: '将在3秒后重载网页！',
-                    });
-                    window.setTimeout(() => {
-                        window.location.reload();
-                    }, 3000);
-                });
-            },
             uninstall(index) {
                 const self = this;
                 const module = self.list.installed[index];
@@ -199,14 +229,20 @@
                             const notInstalled = result.data.data.notInstall;
                             self.$nextTick(() => {
                                 self.list.all = Object.keys(all).map(key => all[key]);
-                                self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                                self.list.enabled = Object.keys(enabled).map(key => {
+                                    const data = installed[key];
+                                    data.enabled = data.enabled === '1';
+                                    return data;
+                                });
                                 self.list.installed = Object.keys(installed).map(key => {
                                     const data = installed[key];
+                                    data.enabled = data.enabled === '1';
                                     data.loading = false;
                                     return data;
                                 });
                                 self.list.notInstalled = Object.keys(notInstalled).map(key => {
                                     const data = notInstalled[key];
+                                    data.enabled = data.enabled === '1';
                                     data.loading = false;
                                     return data;
                                 });
