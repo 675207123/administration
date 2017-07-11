@@ -28,6 +28,7 @@
             });
         },
         data() {
+            const self = this;
             return {
                 columns: {
                     installed: [
@@ -47,8 +48,26 @@
                         },
                         {
                             key: 'status',
-                            render(row, column, index) {
-                                return `<i-switch v-model="list.installed[${index}].enabled" @on-change="statusChanged(${index})"></i-switch>`;
+                            render(h, data) {
+                                return h('i-switch', {
+                                    on: {
+                                        input(value) {
+                                            window.console.log(value);
+                                        },
+                                    },
+                                    props: {
+                                        size: 'large',
+                                        value: data.row.enabled,
+                                    },
+                                    scopedSlots: {
+                                        close() {
+                                            return h('span', '关闭');
+                                        },
+                                        open() {
+                                            return h('span', '开启');
+                                        },
+                                    },
+                                });
                             },
                             title: '状态',
                             width: 200,
@@ -79,8 +98,18 @@
                         },
                         {
                             key: 'handle',
-                            render(row, column, index) {
-                                return `<i-button :loading="list.notInstalled[${index}].loading" type="primary" @click="install(${index})">安装</i-button>`;
+                            render(h, data) {
+                                return h('i-button', {
+                                    on: {
+                                        click() {
+                                            self.install(data.index);
+                                        },
+                                    },
+                                    props: {
+                                        loading: self.list.notInstalled[data.index].loading,
+                                        type: 'primary',
+                                    },
+                                }, '安装');
                             },
                             title: '操作',
                             width: 200,
