@@ -74,8 +74,18 @@
                         },
                         {
                             key: 'handle',
-                            render(row, column, index) {
-                                return `<i-button :loading="list.installed[${index}].loading" type="error" @click="uninstall(${index})">卸载</i-button>`;
+                            render(h, data) {
+                                return h('i-button', {
+                                    on: {
+                                        click() {
+                                            self.uninstall(data.index);
+                                        },
+                                    },
+                                    props: {
+                                        loading: self.list.installed[data.index].loading,
+                                        type: 'error',
+                                    },
+                                }, '卸载');
                             },
                             title: '操作',
                             width: 200,
