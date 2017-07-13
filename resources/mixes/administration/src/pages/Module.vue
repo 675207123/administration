@@ -64,7 +64,7 @@
                                             }).then(() => {
                                                 injection.loading.finish();
                                                 injection.notice.open({
-                                                    title: data.row.enabled ? `开启模块${data.row.name}成功！` : `关闭模块${data.row.name}成功！`,
+                                                    title: status ? `开启模块${data.row.name}成功！` : `关闭模块${data.row.name}成功！`,
                                                 });
                                                 injection.notice.warning({
                                                     title: '将在3秒后重载网页！',
