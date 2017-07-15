@@ -178,6 +178,7 @@
                             self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                             self.list.installed = Object.keys(installed).map(key => {
                                 const data = installed[key];
+                                data.enabled = data.enabled === '1';
                                 data.loading = false;
                                 return data;
                             });
