@@ -231,7 +231,7 @@
                             self.$nextTick(() => {
                                 self.list.all = Object.keys(all).map(key => all[key]);
                                 self.list.enabled = Object.keys(enabled).map(key => {
-                                    const data = installed[key];
+                                    const data = enabled[key];
                                     data.enabled = data.enabled === '1';
                                     return data;
                                 });

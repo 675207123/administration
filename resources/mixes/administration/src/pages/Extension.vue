@@ -13,9 +13,14 @@
                     const installed = response.data.data.installed;
                     const notInstalled = response.data.data.notInstall;
                     vm.list.all = Object.keys(all).map(key => all[key]);
-                    vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                    vm.list.enabled = Object.keys(enabled).map(key => {
+                        const data = enabled[key];
+                        data.enabled = data.enabled === '1';
+                        return data;
+                    });
                     vm.list.installed = Object.keys(installed).map(key => {
                         const data = installed[key];
+                        data.enabled = data.enabled === '1';
                         data.loading = false;
                         return data;
                     });
@@ -51,8 +56,23 @@
                             render(h, data) {
                                 return h('i-switch', {
                                     on: {
-                                        input(value) {
-                                            window.console.log(value);
+                                        input(status) {
+                                            injection.loading.start();
+                                            injection.http.post(`${window.api}/extension/enable`, {
+                                                name: data.row.identification,
+                                                value: status,
+                                            }).then(() => {
+                                                injection.loading.finish();
+                                                injection.notice.open({
+                                                    title: status ? `开启插件${data.row.name}成功！` : `关闭插件${data.row.name}成功！`,
+                                                });
+                                                injection.notice.warning({
+                                                    title: '将在3秒后重载网页！',
+                                                });
+                                                window.setTimeout(() => {
+                                                    window.location.reload();
+                                                }, 3000);
+                                            });
                                         },
                                     },
                                     props: {
@@ -167,6 +187,7 @@
                             self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                             self.list.installed = Object.keys(installed).map(key => {
                                 const data = installed[key];
+                                data.enabled = data.enabled === '1';
                                 data.loading = false;
                                 return data;
                             });
@@ -238,7 +259,11 @@
                             const notInstalled = result.data.data.notInstall;
                             self.$nextTick(() => {
                                 self.list.all = Object.keys(all).map(key => all[key]);
-                                self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                                self.list.enabled = Object.keys(enabled).map(key => {
+                                    const data = enabled[key];
+                                    data.enabled = data.enabled === '1';
+                                    return data;
+                                });
                                 self.list.installed = Object.keys(installed).map(key => {
                                     const data = installed[key];
                                     data.loading = false;
