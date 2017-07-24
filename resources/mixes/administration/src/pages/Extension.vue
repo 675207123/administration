@@ -13,17 +13,8 @@
                     const installed = response.data.data.installed;
                     const notInstalled = response.data.data.notInstall;
                     vm.list.all = Object.keys(all).map(key => all[key]);
-                    vm.list.enabled = Object.keys(enabled).map(key => {
-                        const data = enabled[key];
-                        data.enabled = data.enabled === '1';
-                        return data;
-                    });
-                    vm.list.installed = Object.keys(installed).map(key => {
-                        const data = installed[key];
-                        data.enabled = data.enabled === '1';
-                        data.loading = false;
-                        return data;
-                    });
+                    vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                    vm.list.installed = Object.keys(installed).map(key => installed[key]);
                     vm.list.notInstalled = Object.keys(notInstalled).map(key => {
                         const data = notInstalled[key];
                         data.loading = false;
@@ -77,7 +68,7 @@
                                     },
                                     props: {
                                         size: 'large',
-                                        value: data.row.enabled,
+                                        value: self.list.installed[data.index].enabled,
                                     },
                                     scopedSlots: {
                                         close() {
@@ -187,7 +178,7 @@
                             self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                             self.list.installed = Object.keys(installed).map(key => {
                                 const data = installed[key];
-                                data.enabled = data.enabled === '1';
+                                data.enabled = data.enabled === 1;
                                 data.loading = false;
                                 return data;
                             });
@@ -259,11 +250,7 @@
                             const notInstalled = result.data.data.notInstall;
                             self.$nextTick(() => {
                                 self.list.all = Object.keys(all).map(key => all[key]);
-                                self.list.enabled = Object.keys(enabled).map(key => {
-                                    const data = enabled[key];
-                                    data.enabled = data.enabled === '1';
-                                    return data;
-                                });
+                                self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                                 self.list.installed = Object.keys(installed).map(key => {
                                     const data = installed[key];
                                     data.loading = false;
