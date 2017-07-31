@@ -156,11 +156,8 @@
                 }).then(response => {
                     injection.console.log(response);
                     injection.console.log(response.data.data);
-                    const messages = response.data.message;
-                    messages.forEach(message => {
-                        self.$notice.open({
-                            title: message,
-                        });
+                    self.$notice.open({
+                        title: '安装插件成功！',
                     });
                     self.$notice.open({
                         title: '正在刷新数据……',
