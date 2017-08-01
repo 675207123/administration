@@ -13,11 +13,6 @@
             @endforeach
         @endif
     @endforeach
-    @foreach($modules as $module)
-        @foreach($module->stylesheets('administration') as $stylesheet)
-            <link href="{{ $stylesheet }}" rel="stylesheet">
-        @endforeach
-    @endforeach
 </head>
 <body>
 <div id="app"></div>
@@ -31,13 +26,6 @@
             "{{ $extension->getIdentification() }}",
         @endforeach
     ];
-    window.modules = [
-        @foreach($modules as $module)
-            @foreach((array)$module->entries() as $alias)
-            "{{ $alias }}",
-            @endforeach
-        @endforeach
-    ];
     window.local = {!! $translations !!};
     window.upload = "{{ url('editor') }}";
     window.url = "{{ url('') }}";
@@ -49,11 +37,6 @@
     @if($extension->getScript())
         <script src="{{ $extension->getScript() }}"></script>
     @endif
-@endforeach
-@foreach($modules as $module)
-    @foreach((array)$module->scripts('administration') as $script)
-        <script src="{{ $script }}"></script>
-    @endforeach
 @endforeach
 <script src="{{ asset('assets/admin/js/app.min.js') }}"></script>
 </body>
