@@ -17,7 +17,7 @@ import { t } from '../local';
 
 const injection = {};
 
-function load(identification, url) {
+function loadScript(identification, url) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.type = 'text/javascript';
@@ -43,6 +43,15 @@ function load(identification, url) {
     });
 }
 
+function loadStylesheet(url) {
+    return new Promise(() => {
+        const stylesheet = document.createElement('link');
+        stylesheet.rel = 'stylesheet';
+        stylesheet.href = url;
+        document.body.appendChild(stylesheet);
+    });
+}
+
 function install(Vue) {
     mixinDebug(injection);
     mixinLocal(injection);
@@ -61,7 +70,11 @@ function install(Vue) {
             const imports = [];
             Object.keys(respone.data.data.scripts).forEach(index => {
                 const script = respone.data.data.scripts[index];
-                imports.push(load(index, script));
+                imports.push(loadScript(index, script));
+            });
+            Object.keys(respone.data.data.stylesheets).forEach(index => {
+                const stylesheet = respone.data.data.stylesheets[index];
+                loadStylesheet(stylesheet);
             });
             Promise.all(imports).then(modules => {
                 injection.modules = modules;
