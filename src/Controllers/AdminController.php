@@ -13,8 +13,8 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
 use League\OAuth2\Server\AuthorizationServer;
-use Notadd\Administration\Flows\Administration;
 use Notadd\Administration\Events\Logined;
+use Notadd\Administration\Flows\Administration;
 use Notadd\Foundation\Auth\AuthenticatesUsers;
 use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\ModuleManager;
@@ -155,7 +155,7 @@ class AdminController extends Controller
         $entity = new Administration();
         $flow = $this->flow()->get($entity);
         $credentials = $this->credentials($this->request);
-        if ($this->guard()->attempt($credentials, $this->request->has('remember'))) {
+        if ($this->guard()->attempt($credentials, $this->request->has('remember', true))) {
             $this->request->session()->regenerate();
             $this->clearLoginAttempts($this->request);
             $entity->authenticatable($this->guard()->user());
