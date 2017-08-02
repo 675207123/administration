@@ -15,7 +15,28 @@ import App from '../App.vue';
 import store from '../stores';
 import { t } from '../local';
 
-const injection = {};
+const injection = {
+    modules: [],
+};
+
+function init(Vue) {
+    mixinBoard(injection);
+    mixinNavigation(injection);
+    mixinRouter(injection);
+    mixinSidebar(injection);
+    mixinUse(injection);
+    mixinExtension(injection);
+    mixinModule(injection);
+    injection.vue = new Vue({
+        el: '#app',
+        router: injection.router,
+        store,
+        template: '<App/>',
+        components: {
+            App,
+        },
+    });
+}
 
 function loadScript(identification, url) {
     return new Promise((resolve, reject) => {
@@ -78,45 +99,17 @@ function install(Vue) {
             });
             Promise.all(imports).then(modules => {
                 injection.modules = modules;
-                mixinBoard(injection);
-                mixinNavigation(injection);
-                mixinRouter(injection);
-                mixinSidebar(injection);
-                mixinUse(injection);
-                mixinExtension(injection);
-                mixinModule(injection);
-                injection.vue = new Vue({
-                    el: '#app',
-                    router: injection.router,
-                    store,
-                    template: '<App/>',
-                    components: {
-                        App,
-                    },
-                });
+                init(Vue);
                 injection.loading.finish();
                 injection.notice.open({
                     title: '加载模块和插件成功！',
                 });
             });
+        }).catch(() => {
+            init(Vue);
         });
     } else {
-        mixinBoard(injection);
-        mixinNavigation(injection);
-        mixinRouter(injection);
-        mixinSidebar(injection);
-        mixinUse(injection);
-        mixinExtension(injection);
-        mixinModule(injection);
-        injection.vue = new Vue({
-            el: '#app',
-            router: injection.router,
-            store,
-            template: '<App/>',
-            components: {
-                App,
-            },
-        });
+        init(Vue);
     }
 }
 

@@ -15,7 +15,18 @@
     @endforeach
 </head>
 <body>
-<div id="app"></div>
+<div id="app">
+    <img src="{{ asset('assets/admin/images/loading.svg') }}"
+         style="position: absolute;
+             background: #fff;
+             left: 50%;
+             width: 50%;
+             top: 50%;
+             -moz-transform: translate(-50%, -50%);
+             -o-transform: translate(-50%, -50%);
+             -webkit-transform: translate(-50%, -50%);
+             transform: translate(-50%, -50%);">
+</div>
 <script>
     window.admin = "{{ url('admin') }}";
     window.api = "{{ url('api') }}";
