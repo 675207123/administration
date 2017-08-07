@@ -10,6 +10,7 @@ namespace Notadd\Administration\Flows;
 
 use Notadd\Foundation\Database\Model;
 use Notadd\Foundation\Flow\Abstracts\Entity;
+use Notadd\Foundation\Member\Member;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use Symfony\Component\Workflow\Transition;
 
@@ -68,7 +69,7 @@ class Administration extends Entity
         switch ($event->getTransition()->getName()) {
             case 'login':
                 if ($authenticatable && $authenticatable instanceof Model) {
-                    if ($authenticatable->hasExtendRelation('groups')) {
+                    if (Member::hasMacro('groups')) {
                         $groups = $authenticatable->load('groups')->getAttribute('groups');
                         $this->block($event, $this->permission('global::administration::global::entry', $groups));
                     } else {
