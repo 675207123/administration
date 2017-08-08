@@ -40,8 +40,11 @@
                             self.$notice.open({
                                 title: '恭喜，登录成功！',
                             });
+                            self.$notice.open({
+                                title: '即将跳转...',
+                            });
                             self.$store.commit('token', response.data);
-                            self.$router.push('/');
+                            window.location = window.admin;
                         }).finally(() => {
                             self.loading = false;
                         });
