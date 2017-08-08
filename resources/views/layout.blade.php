@@ -19,8 +19,8 @@
     <img src="{{ asset('assets/admin/images/loading.svg') }}"
          style="position: absolute;
              background: #fff;
+             height: 80%;
              left: 50%;
-             width: 50%;
              top: 50%;
              -moz-transform: translate(-50%, -50%);
              -o-transform: translate(-50%, -50%);
