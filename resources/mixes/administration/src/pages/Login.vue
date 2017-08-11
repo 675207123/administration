@@ -33,7 +33,7 @@
                 self.loading = true;
                 self.$refs.form.validate(valid => {
                     if (valid) {
-                        self.$http.post(`${window.admin}/token`, {
+                        self.$http.post(window.token, {
                             name: self.form.username,
                             password: self.form.password,
                         }).then(response => {

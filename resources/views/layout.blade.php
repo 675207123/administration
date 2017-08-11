@@ -32,12 +32,14 @@
     window.api = "{{ url('api') }}";
     window.asset = "{{ asset('assets') }}";
     window.csrf_token = "{{ csrf_token() }}";
+    window.domain = "{{ url('') }}";
     window.extensions = [
         @foreach($extensions as $extension)
             "{{ $extension->getIdentification() }}",
         @endforeach
     ];
     window.local = {!! $translations !!};
+    window.token = "{{ url('admin/token') }}";
     window.upload = "{{ url('editor') }}";
     window.url = "{{ url('') }}";
     window.UEDITOR_HOME_URL = "{{ asset('assets/neditor') }}/";

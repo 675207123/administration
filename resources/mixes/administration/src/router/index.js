@@ -95,8 +95,21 @@ export default {
                 path: '/login',
             },
         ];
-        return new Router({
+        const router = new Router({
             routes,
         });
+        router.beforeEach((to, from, next) => {
+            if (to.matched.length === 0) {
+                injection.notice.error({
+                    title: '所访问的页面不存在，即将跳转...',
+                });
+                next({
+                    path: '/',
+                });
+            } else {
+                next();
+            }
+        });
+        return router;
     },
 };
