@@ -6,6 +6,8 @@
  * @datetime 2017-01-17 14:16
  */
 
+export const debug = state => state.debug;
+
 export const setting = state => state.setting;
 
 export const token = state => state.token;

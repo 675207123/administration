@@ -8,6 +8,10 @@
 
 import Vue from 'vue';
 
+export const debug = (state, payload) => {
+    state.debug = payload;
+};
+
 export const setting = (state, payload) => {
     state.setting = payload;
 };

@@ -7,6 +7,7 @@ import * as mutations from './mutations';
 Vue.use(Vuex);
 
 const state = {
+    debug: false,
     setting: {},
     title: 'Notadd Administration',
     token: {},

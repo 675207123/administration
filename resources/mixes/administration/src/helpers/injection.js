@@ -105,6 +105,9 @@ function install(Vue) {
                     title: '加载模块和插件成功！',
                 });
             });
+            if (respone.data.data.debug) {
+                store.commit('debug', true);
+            }
         }).catch(() => {
             init(Vue);
         });
