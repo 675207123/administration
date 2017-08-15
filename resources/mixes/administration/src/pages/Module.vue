@@ -43,13 +43,20 @@
                         {
                             key: 'host',
                             render(h, data) {
+                                let changed = false;
                                 const row = data.row;
                                 return h('i-input', {
                                     on: {
                                         'on-blur': () => {
-                                            self.updateDomain(row);
+                                            if (changed) {
+                                                changed = false;
+                                                self.updateDomain(row);
+                                            }
                                         },
                                         'on-change': event => {
+                                            if (row.host !== event.target.value) {
+                                                changed = true;
+                                            }
                                             row.host = event.target.value;
                                         },
                                     },
@@ -68,14 +75,21 @@
                                 if (data.row.identification === 'notadd/notadd') {
                                     return data.row.alias;
                                 }
+                                let changed = false;
                                 const row = data.row;
                                 return h('i-input', {
                                     on: {
                                         'on-blur': () => {
-                                            self.updateDomain(row);
+                                            if (changed) {
+                                                changed = false;
+                                                self.updateDomain(row);
+                                            }
                                         },
                                         'on-change': event => {
-                                            row.host = event.target.value;
+                                            if (row.alias !== event.target.value) {
+                                                changed = true;
+                                            }
+                                            row.alias = event.target.value;
                                         },
                                     },
                                     props: {
@@ -96,8 +110,14 @@
                                 return h('i-switch', {
                                     on: {
                                         input(status) {
-                                            data.row.enabled = status;
-                                            self.updateDomain(data.row);
+                                            if (self.list.domains[data.index].host === '') {
+                                                self.$notice.error({
+                                                    title: '请先填写正确的域名，再提交开启！',
+                                                });
+                                            } else {
+                                                data.row.enabled = status;
+                                                self.updateDomain(data.row);
+                                            }
                                         },
                                     },
                                     props: {
