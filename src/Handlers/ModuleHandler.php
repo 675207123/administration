@@ -56,7 +56,7 @@ class ModuleHandler extends Handler
         $installed = $this->manager->getInstalledModules();
         $notInstalled = $this->manager->getNotInstalledModules();
         $modules->offsetUnset('notadd/administration');
-        $domains = $modules->map(function (Module $module) {
+        $domains = $enabled->map(function (Module $module) {
             $data = [];
             $alias = 'module.' . $module->identification() . '.domain.alias';
             $enabled = 'module.' . $module->identification() . '.domain.enabled';
@@ -76,6 +76,7 @@ class ModuleHandler extends Handler
             'identification' => 'notadd/notadd',
             'name' => 'Notadd',
         ], 'notadd/notadd');
+        $domains->offsetUnset('notadd/administration');
         $enabled->offsetUnset('notadd/administration');
         $installed->offsetUnset('notadd/administration');
         $notInstalled->offsetUnset('notadd/administration');
