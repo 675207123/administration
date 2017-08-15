@@ -1,4 +1,5 @@
 <script>
+    import file from '../helpers/export';
     import injection, { trans } from '../helpers/injection';
 
     export default {
@@ -129,6 +130,28 @@
                             width: 160,
                         },
                     ],
+                    exports: [
+                        {
+                            align: 'center',
+                            type: 'selection',
+                            width: 60,
+                        },
+                        {
+                            alias: 'right',
+                            key: 'name',
+                            title: '模块名称',
+                            width: 200,
+                        },
+                        {
+                            key: 'description',
+                            title: '描述',
+                            width: 400,
+                        },
+                        {
+                            key: 'version',
+                            title: '版本',
+                        },
+                    ],
                     installed: [
                         {
                             key: 'name',
@@ -238,10 +261,42 @@
                     installed: [],
                     notInstalled: [],
                 },
-                self: this,
+                loading: false,
+                selection: [],
             };
         },
         methods: {
+            imports() {
+                const self = this;
+                self.$notice.open({
+                    title: '开始导入...',
+                });
+            },
+            exports() {
+                const self = this;
+                if (self.selection.length === 0) {
+                    self.$notice.error({
+                        title: '请先选择一个模块，再执行导出的操作！',
+                    });
+                } else {
+                    self.$notice.open({
+                        title: '开始导出...',
+                    });
+                    self.loading = true;
+                    const data = self.selection.map(module => module.identification);
+                    self.$http.post(`${window.api}/module/exports`, {
+                        modules: data,
+                    }).then(response => {
+                        file.download(response.data.data.file, response.data.data.content, 'yaml');
+                    }).catch(() => {
+                        self.$notice.error({
+                            title: '导出失败！',
+                        });
+                    }).finally(() => {
+                        self.loading = false;
+                    });
+                }
+            },
             install(index) {
                 const self = this;
                 const item = self.list.notInstalled[index];
@@ -292,6 +347,9 @@
                         });
                     });
                 });
+            },
+            selectionChanged(selection) {
+                this.selection = selection;
             },
             uninstall(index) {
                 const self = this;
@@ -347,14 +405,26 @@
         <card :bordered="false">
             <tabs value="installed">
                 <tab-pane label="开启模块" name="installed">
-                    <i-table :columns="columns.installed" :context="self" :data="list.installed"></i-table>
+                    <i-table :columns="columns.installed" :data="list.installed"></i-table>
                 </tab-pane>
                 <tab-pane label="域名配置" name="domain">
-                    <i-table :columns="columns.domains" :context="self" :data="list.domains"></i-table>
+                    <i-table :columns="columns.domains" :data="list.domains"></i-table>
                 </tab-pane>
-                <tab-pane label="导入/导出" name="exchange"></tab-pane>
+                <tab-pane label="导入/导出" name="exchange">
+                    <div style="margin-bottom: 20px">
+                        <i-button :loading="loading" type="default" @click.native="imports">
+                            <span v-if="!loading">导入</span>
+                            <span v-else>正在导入…</span>
+                        </i-button>
+                        <i-button :loading="loading" type="default" @click.native="exports">
+                            <span v-if="!loading">导出</span>
+                            <span v-else>正在导出…</span>
+                        </i-button>
+                    </div>
+                    <i-table :columns="columns.exports" :data="list.enabled" @on-selection-change="selectionChanged"></i-table>
+                </tab-pane>
                 <tab-pane label="本地安装" name="no-installed">
-                    <i-table :columns="columns.notInstalled" :context="self" :data="list.notInstalled"></i-table>
+                    <i-table :columns="columns.notInstalled" :data="list.notInstalled"></i-table>
                 </tab-pane>
             </tabs>
         </card>

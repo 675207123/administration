@@ -106,6 +106,7 @@ class ModuleHandler extends Handler
                 'description'    => $module->description(),
                 'identification' => $module->identification(),
                 'name'           => $module->name(),
+                'version'        => $module->version(),
             ]);
         });
 
