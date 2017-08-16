@@ -87,18 +87,29 @@ function install(Vue) {
         });
         injection.loading.start();
         injection.http.post(`${window.api}/administration/info`).then(respone => {
-            window.console.log(respone);
             const imports = [];
-            Object.keys(respone.data.data.scripts).forEach(index => {
-                const script = respone.data.data.scripts[index];
-                imports.push(loadScript(index, script));
+            const informations = [];
+            const scripts = respone.data.data.scripts;
+            Object.keys(scripts).forEach(index => {
+                const script = scripts[index];
+                imports.push(loadScript(index, script.link));
+                informations.push(script);
             });
             Object.keys(respone.data.data.stylesheets).forEach(index => {
                 const stylesheet = respone.data.data.stylesheets[index];
                 loadStylesheet(stylesheet);
             });
-            Promise.all(imports).then(modules => {
-                injection.modules = modules;
+            Promise.all(imports).then(data => {
+                injection.extensions = [];
+                injection.modules = [];
+                Object.keys(data).forEach(index => {
+                    if (informations[index].type === 'module' && data[index]) {
+                        injection.modules.push(data[index]);
+                    }
+                    if (informations[index].type === 'extension' && data[index]) {
+                        injection.extensions.push(data[index]);
+                    }
+                });
                 init(Vue);
                 injection.loading.finish();
                 injection.notice.open({
