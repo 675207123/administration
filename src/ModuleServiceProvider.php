@@ -9,15 +9,7 @@
 namespace Notadd\Administration;
 
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Events\Dispatcher;
 use Notadd\Administration\Controllers\AdminController;
-use Notadd\Administration\Listeners\CsrfTokenRegister;
-use Notadd\Administration\Listeners\FlowRegister;
-use Notadd\Administration\Listeners\PermissionGroupRegister;
-use Notadd\Administration\Listeners\PermissionModuleRegister;
-use Notadd\Administration\Listeners\PermissionRegister;
-use Notadd\Administration\Listeners\PermissionTypeRegister;
-use Notadd\Administration\Listeners\RouteRegister;
 use Notadd\Foundation\Administration\Administration;
 use Notadd\Foundation\Module\Abstracts\Module;
 
@@ -53,13 +45,6 @@ class ModuleServiceProvider extends Module
         $administrator->registerPath('admin');
         $administrator->registerHandler(AdminController::class . '@handle');
         $this->administration->setAdministrator($administrator);
-        $this->app->make(Dispatcher::class)->subscribe(CsrfTokenRegister::class);
-        $this->app->make(Dispatcher::class)->subscribe(FlowRegister::class);
-        $this->app->make(Dispatcher::class)->subscribe(PermissionGroupRegister::class);
-        $this->app->make(Dispatcher::class)->subscribe(PermissionModuleRegister::class);
-        $this->app->make(Dispatcher::class)->subscribe(PermissionRegister::class);
-        $this->app->make(Dispatcher::class)->subscribe(PermissionTypeRegister::class);
-        $this->app->make(Dispatcher::class)->subscribe(RouteRegister::class);
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'administration');
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'admin');
         $this->publishes([
