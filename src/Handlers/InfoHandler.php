@@ -9,7 +9,7 @@
 namespace Notadd\Administration\Handlers;
 
 use Illuminate\Container\Container;
-use Illuminate\Support\Collection;
+use Notadd\Foundation\Extension\Extension;
 use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\Module;
 use Notadd\Foundation\Module\ModuleManager;
@@ -59,13 +59,27 @@ class InfoHandler extends Handler
      */
     protected function execute()
     {
-        $scripts = new Collection();
-        $stylesheets = new Collection();
+        $scripts = collect();
+        $stylesheets = collect();
         $this->module->getEnabledModules()->each(function (Module $module) use ($scripts, $stylesheets) {
             foreach ((array)$module->scripts('administration') as $entry => $script) {
-                $scripts->put($entry, $script);
+                $scripts->put($entry, [
+                    'link' => $script,
+                    'type' => 'module',
+                ]);
             }
             foreach ((array)$module->stylesheets('administration') as $entry => $stylesheet) {
+                $stylesheets->put($entry, $stylesheet);
+            }
+        });
+        $this->extension->getEnabledExtensions()->each(function (Extension $extension) use ($scripts, $stylesheets) {
+            foreach ((array)$extension->scripts() as $entry => $script) {
+                $scripts->put($entry, [
+                    'link' => $script,
+                    'type' => 'extension',
+                ]);
+            }
+            foreach ((array)$extension->stylesheets() as $entry => $stylesheet) {
                 $stylesheets->put($entry, $stylesheet);
             }
         });
@@ -74,6 +88,5 @@ class InfoHandler extends Handler
             'scripts'     => $scripts->toArray(),
             'stylesheets' => $stylesheets->toArray(),
         ])->withMessage('获取模块和插件信息成功！');
-
     }
 }
