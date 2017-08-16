@@ -62,7 +62,7 @@ class ModuleHandler extends Handler
             $enabled = 'module.' . $module->identification() . '.domain.enabled';
             $host = 'module.' . $module->identification() . '.domain.host';
             $data['identification'] = $module->identification();
-            $data['name'] = $module->name();
+            $data['name'] = $module->offsetGet('name');
             $data['alias'] = $this->setting->get($alias, '');
             $data['enabled'] = boolval($this->setting->get($enabled, 0));
             $data['host'] = $this->setting->get($host, '');
@@ -101,12 +101,12 @@ class ModuleHandler extends Handler
         $data = new Collection();
         $list->each(function (Module $module) use ($data) {
             $data->put($module->identification(), [
-                'author'         => collect($module->author())->implode(','),
-                'enabled'        => boolval($module->enabled()),
-                'description'    => $module->description(),
+                'author'         => collect($module->offsetGet('author'))->implode(','),
+                'enabled'        => boolval($module->offsetGet('enabled')),
+                'description'    => $module->offsetGet('description'),
                 'identification' => $module->identification(),
-                'name'           => $module->name(),
-                'version'        => $module->version(),
+                'name'           => $module->offsetGet('name'),
+                'version'        => $module->offsetGet('version'),
             ]);
         });
 
