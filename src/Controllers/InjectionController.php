@@ -9,6 +9,7 @@
 namespace Notadd\Administration\Controllers;
 
 use Notadd\Administration\Handlers\AccessHandler;
+use Notadd\Administration\Handlers\ConfigurationHandler;
 use Notadd\Administration\Handlers\ExtensionHandler;
 use Notadd\Administration\Handlers\InfoHandler;
 use Notadd\Administration\Handlers\ModuleHandler;
@@ -26,6 +27,16 @@ class InjectionController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function access(AccessHandler $handler)
+    {
+        return $handler->toResponse()->generateHttpResponse();
+    }
+
+    /**
+     * @param \Notadd\Administration\Handlers\ConfigurationHandler $handler
+     *
+     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     */
+    public function configuration(ConfigurationHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }

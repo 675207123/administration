@@ -59,21 +59,20 @@ class InfoHandler extends Handler
      */
     protected function execute()
     {
+        $pages = collect();
         $scripts = collect();
         $stylesheets = collect();
-        $this->module->getEnabledModules()->each(function (Module $module) use ($scripts, $stylesheets) {
-            foreach ((array)$module->scripts('administration') as $entry => $script) {
-                $scripts->put($entry, [
-                    'link' => $script,
-                    'name' => $module->offsetGet('name'),
-                    'type' => 'module',
-                ]);
-            }
-            foreach ((array)$module->stylesheets('administration') as $entry => $stylesheet) {
-                $stylesheets->put($entry, $stylesheet);
-            }
-        });
-        $this->extension->getEnabledExtensions()->each(function (Extension $extension) use ($scripts, $stylesheets) {
+        $this->extension->getEnabledExtensions()->each(function (Extension $extension) use ($pages, $scripts, $stylesheets) {
+            collect((array)$extension->get('pages', []))->map(function ($definition, $identification) {
+                $definition['initialization']['identification'] = $identification;
+                unset($definition['initialization']['tabs']);
+                return $definition['initialization'];
+            })->groupBy('target')->each(function ($data, $target) use ($pages) {
+                if ($pages->has($target)) {
+                    $data = array_merge($pages->get($target), $data);
+                }
+                $pages->put($target, $data);
+            });
             foreach ((array)$extension->scripts() as $entry => $script) {
                 $scripts->put($entry, [
                     'link' => $script,
@@ -85,8 +84,31 @@ class InfoHandler extends Handler
                 $stylesheets->put($entry, $stylesheet);
             }
         });
+        $this->module->getEnabledModules()->each(function (Module $module) use ($pages, $scripts, $stylesheets) {
+            collect((array)$module->get('pages', []))->map(function ($definition, $identification) {
+                $definition['initialization']['identification'] = $identification;
+                unset($definition['initialization']['tabs']);
+                return $definition['initialization'];
+            })->groupBy('target')->each(function ($data, $target) use ($pages) {
+                if ($pages->has($target)) {
+                    $data = array_merge($pages->get($target), $data);
+                }
+                $pages->put($target, $data);
+            });
+            foreach ((array)$module->scripts('administration') as $entry => $script) {
+                $scripts->put($entry, [
+                    'link' => $script,
+                    'name' => $module->offsetGet('name'),
+                    'type' => 'module',
+                ]);
+            }
+            foreach ((array)$module->stylesheets('administration') as $entry => $stylesheet) {
+                $stylesheets->put($entry, $stylesheet);
+            }
+        });
         $this->withCode(200)->withData([
             'debug'       => boolval($this->setting->get('debug.enabled', false)),
+            'pages'       => $pages->toArray(),
             'scripts'     => $scripts->toArray(),
             'stylesheets' => $stylesheets->toArray(),
         ])->withMessage('获取模块和插件信息成功！');
