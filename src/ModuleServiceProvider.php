@@ -19,22 +19,6 @@ use Notadd\Foundation\Module\Abstracts\Module;
 class ModuleServiceProvider extends Module
 {
     /**
-     * @var \Notadd\Foundation\Administration\Administration
-     */
-    protected $administration;
-
-    /**
-     * ModuleServiceProvider constructor.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     */
-    public function __construct(Application $app)
-    {
-        parent::__construct($app);
-        $this->administration = $app[Administration::class];
-    }
-
-    /**
      * Boot service provider.
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
@@ -44,7 +28,7 @@ class ModuleServiceProvider extends Module
         $administrator = new Administrator($this->app['events'], $this->app['router']);
         $administrator->registerPath('admin');
         $administrator->registerHandler(AdminController::class . '@handle');
-        $this->administration->setAdministrator($administrator);
+        $this->app->make(Administration::class)->setAdministrator($administrator);
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'administration');
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'admin');
         $this->publishes([
