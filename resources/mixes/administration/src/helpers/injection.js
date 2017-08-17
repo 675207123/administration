@@ -12,6 +12,7 @@ import {
     mixinUse,
 } from '../mixes/injection';
 import App from '../App.vue';
+import Page from '../pages/Page.vue';
 import store from '../stores';
 import { t } from '../local';
 
@@ -29,6 +30,44 @@ function init(Vue) {
     mixinUse(injection);
     mixinExtension(injection);
     mixinModule(injection);
+    if (typeof injection.pages === 'object') {
+        Object.keys(injection.pages).forEach(index => {
+            switch (index) {
+                case 'extension':
+                    Object.keys(injection.pages[index]).forEach(node => {
+                        injection.useExtensionRoute([
+                            {
+                                beforeEnter: injection.middleware.requireAuth,
+                                component: Page,
+                                path: `extension/${injection.pages[index][node].identification}`,
+                            },
+                        ]);
+                        injection.useSidebarExtension({
+                            path: `extension/${injection.pages[index][node].identification}`,
+                            title: injection.pages[index][node].name,
+                        });
+                    });
+                    break;
+                case 'global':
+                    Object.keys(injection.pages[index]).forEach(node => {
+                        injection.useGlobalRoute([
+                            {
+                                beforeEnter: injection.middleware.requireAuth,
+                                component: Page,
+                                path: `${injection.pages[index][node].identification}`,
+                            },
+                        ]);
+                        injection.useSidebarGlobal({
+                            path: injection.pages[index][node].identification,
+                            title: injection.pages[index][node].name,
+                        });
+                    });
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
     injection.vue = new Vue({
         el: '#app',
         router: injection.router,
@@ -83,6 +122,7 @@ function install(Vue) {
     const token = JSON.parse(window.localStorage.getItem('token'));
     injection.extensions = [];
     injection.modules = [];
+    injection.pages = [];
     if (token && token.access_token) {
         Vue.http.defaults.headers.common.Accept = 'application/json';
         Vue.http.defaults.headers.common.Authorization = `Bearer ${token.access_token}`;
@@ -90,17 +130,18 @@ function install(Vue) {
             title: '正在加载模块和插件...',
         });
         injection.loading.start();
-        injection.http.post(`${window.api}/administration/info`).then(respone => {
+        injection.http.post(`${window.api}/administration/info`).then(response => {
             const imports = [];
             const informations = [];
-            const scripts = respone.data.data.scripts;
+            const scripts = response.data.data.scripts;
+            injection.pages = response.data.data.pages;
             Object.keys(scripts).forEach(index => {
                 const script = scripts[index];
                 imports.push(loadScript(index, script.link));
                 informations.push(script);
             });
-            Object.keys(respone.data.data.stylesheets).forEach(index => {
-                const stylesheet = respone.data.data.stylesheets[index];
+            Object.keys(response.data.data.stylesheets).forEach(index => {
+                const stylesheet = response.data.data.stylesheets[index];
                 loadStylesheet(stylesheet);
             });
             Promise.all(imports).then(data => {
@@ -125,15 +166,13 @@ function install(Vue) {
                             break;
                     }
                 });
-                window.console.log(injection.extensions);
-                window.console.log(injection.modules);
                 init(Vue);
                 injection.loading.finish();
                 injection.notice.open({
                     title: '加载模块和插件成功！',
                 });
             });
-            if (respone.data.data.debug) {
+            if (response.data.data.debug) {
                 store.commit('debug', true);
             }
         }).catch(() => {

@@ -24,6 +24,12 @@ export default function (injection) {
                 injection.routes.extension.push(value);
             });
         },
+        useGlobalRoute(routes) {
+            const data = [].concat(routes);
+            data.forEach(value => {
+                injection.routes.global.push(value);
+            });
+        },
         useModuleRoute(routes) {
             const data = [].concat(routes);
             data.forEach(value => {
@@ -51,6 +57,9 @@ export default function (injection) {
         },
         useSidebarExtension(sidebar) {
             injection.sidebar.lists.setting[3].children.push(sidebar);
+        },
+        useSidebarGlobal(sidebar) {
+            injection.sidebar.lists.setting[0].children.push(sidebar);
         },
     };
 

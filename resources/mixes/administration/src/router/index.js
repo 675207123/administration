@@ -83,6 +83,7 @@ export default {
                         path: '/',
                     },
                     ...configuration,
+                    ...injection.routes.global,
                     ...injection.routes.extension,
                     ...injection.routes.module,
                     ...injection.routes.other,

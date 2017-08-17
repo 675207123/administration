@@ -9,6 +9,7 @@ export default function (injection) {
         },
         routes: {
             extension: [],
+            global: [],
             module: [],
             other: [],
         },
