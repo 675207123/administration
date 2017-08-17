@@ -20,6 +20,8 @@ const injection = {
 };
 
 function init(Vue) {
+    window.console.log(injection.extensions);
+    window.console.log(injection.modules);
     mixinBoard(injection);
     mixinNavigation(injection);
     mixinRouter(injection);
@@ -79,6 +81,8 @@ function install(Vue) {
     mixinComponent(Vue, injection);
     mixinAxios(injection, Vue);
     const token = JSON.parse(window.localStorage.getItem('token'));
+    injection.extensions = [];
+    injection.modules = [];
     if (token && token.access_token && token.refresh_token) {
         Vue.http.defaults.headers.common.Accept = 'application/json';
         Vue.http.defaults.headers.common.Authorization = `Bearer ${token.access_token}`;
@@ -101,8 +105,6 @@ function install(Vue) {
             });
             Promise.all(imports).then(data => {
                 window.console.log(data);
-                injection.extensions = [];
-                injection.modules = [];
                 Object.keys(data).forEach(index => {
                     window.console.log(informations[index].type);
                     switch (informations[index].type) {
@@ -138,6 +140,7 @@ function install(Vue) {
                 store.commit('debug', true);
             }
         }).catch(() => {
+            injection.loading.error();
             init(Vue);
         });
     } else {

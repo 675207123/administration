@@ -41,6 +41,21 @@
                 }
             },
         },
+        mounted() {
+            const self = this;
+            self.$notice.open({
+                title: '正在确认登录状态...',
+            });
+            self.$http.post(`${window.api}/administration/access`).then(() => {
+                self.$notice.open({
+                    title: '登录状态正常！',
+                });
+            }).catch(() => {
+                self.$notice.error({
+                    title: '登录已过期，请重新登录!',
+                });
+            });
+        },
     };
 </script>
 <template>
