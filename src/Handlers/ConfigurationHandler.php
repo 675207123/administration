@@ -14,6 +14,7 @@ use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\Module;
 use Notadd\Foundation\Module\ModuleManager;
 use Notadd\Foundation\Routing\Abstracts\Handler;
+use Notadd\Foundation\Setting\Contracts\SettingsRepository;
 use Notadd\Foundation\Validation\Rule;
 
 /**
@@ -32,17 +33,24 @@ class ConfigurationHandler extends Handler
     protected $module;
 
     /**
+     * @var \Notadd\Foundation\Setting\Contracts\SettingsRepository
+     */
+    protected $setting;
+
+    /**
      * ConfigurationHandler constructor.
      *
-     * @param \Illuminate\Container\Container               $container
-     * @param \Notadd\Foundation\Extension\ExtensionManager $extension
-     * @param \Notadd\Foundation\Module\ModuleManager       $module
+     * @param \Illuminate\Container\Container                         $container
+     * @param \Notadd\Foundation\Extension\ExtensionManager           $extension
+     * @param \Notadd\Foundation\Module\ModuleManager                 $module
+     * @param \Notadd\Foundation\Setting\Contracts\SettingsRepository $setting
      */
-    public function __construct(Container $container, ExtensionManager $extension, ModuleManager $module)
+    public function __construct(Container $container, ExtensionManager $extension, ModuleManager $module, SettingsRepository $setting)
     {
         parent::__construct($container);
         $this->extension = $extension;
         $this->module = $module;
+        $this->setting = $setting;
     }
 
     /**
@@ -71,17 +79,41 @@ class ConfigurationHandler extends Handler
             case 'extension':
                 $this->extension->getEnabledExtensions()->map(function (Extension $extension) use ($pages) {
                     collect((array)$extension->get('pages', []))->map(function ($definition, $identification) {
-
                     });
                 });
                 break;
             case 'module':
                 $this->module->getEnabledModules()->map(function (Module $module) use ($pages) {
-                    collect((array)$module->get('pages', []))->map(function ($definition, $identification) {
+                    collect((array)$module->get('pages', []))->map(function ($definition) {
+                        return collect($definition)->map(function ($data, $key) {
+                            if ($key == 'tabs') {
+                                return collect($data)->map(function ($data) {
+                                    return collect($data)->map(function ($data, $key) {
+                                        if ($key == 'fields') {
+                                            return collect($data)->map(function ($data) {
+                                                $data['value'] = $this->setting->get($data['key']);
 
+                                                return $data;
+                                            });
+                                        } else {
+                                            return $data;
+                                        }
+                                    });
+                                });
+                            } else {
+                                return $data;
+                            }
+                        });
+                    })->map(function ($definition, $identification) use ($pages) {
+                        $pages->put($identification, $definition);
                     });
                 });
                 break;
+        }
+        if ($pages->has($this->request->input('page'))) {
+            $this->withCode(200)->withData($pages->get($this->request->input('page')))->withMessage('获取页面配置成功！');
+        } else {
+            $this->withCode(422)->withMessage('没有对应的页面配置信息！');
         }
     }
 }
