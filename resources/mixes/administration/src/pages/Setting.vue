@@ -32,51 +32,11 @@
                 },
                 loading: false,
                 rules: {
-                    beian: [
-                        {
-                            required: true,
-                            type: 'string',
-                            message: '请输入备案信息',
-                            trigger: 'change',
-                        },
-                    ],
-                    company: [
-                        {
-                            required: true,
-                            type: 'string',
-                            message: '请输入公司名称',
-                            trigger: 'change',
-                        },
-                    ],
-                    copyright: [
-                        {
-                            required: true,
-                            type: 'string',
-                            message: '请输入版权信息',
-                            trigger: 'change',
-                        },
-                    ],
-                    domain: [
-                        {
-                            required: true,
-                            type: 'string',
-                            message: '请输入网站域名',
-                            trigger: 'change',
-                        },
-                    ],
                     name: [
                         {
                             required: true,
                             type: 'string',
                             message: '请输入网站名称',
-                            trigger: 'change',
-                        },
-                    ],
-                    statistics: [
-                        {
-                            required: true,
-                            type: 'string',
-                            message: '请输入统计代码',
                             trigger: 'change',
                         },
                     ],
