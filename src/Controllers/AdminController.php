@@ -13,9 +13,6 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
 use League\OAuth2\Server\AuthorizationServer;
-use Notadd\Administration\Events\Logined;
-use Notadd\Administration\Flows\Administration;
-use Notadd\Foundation\Auth\AuthenticatesUsers;
 use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\ModuleManager;
 use Notadd\Foundation\Passport\Responses\ApiResponse;
@@ -29,8 +26,6 @@ use Zend\Diactoros\Response as Psr7Response;
  */
 class AdminController extends Controller
 {
-    use AuthenticatesUsers;
-
     /**
      * @var int
      */
@@ -128,83 +123,5 @@ class AdminController extends Controller
         $this->share('translations', json_encode($this->translator->fetch('zh-cn')));
 
         return $this->view('admin::layout');
-    }
-
-    /**
-     * Exchange token by username and password.
-     *
-     * @param \Notadd\Foundation\Passport\Responses\ApiResponse $response
-     *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function token(ApiResponse $response)
-    {
-        $this->validateLogin($this->request);
-        if ($this->hasTooManyLoginAttempts($this->request)) {
-            $this->fireLockoutEvent($this->request);
-            $seconds = $this->limiter()->availableIn($this->throttleKey($this->request));
-            $message = $this->translator->get('auth.throttle', ['seconds' => $seconds]);
-
-            return $response->withParams([
-                'code'    => 403,
-                'message' => $message,
-            ])->generateHttpResponse();
-        }
-        $entity = new Administration();
-        $flow = $this->flow()->get($entity);
-        $credentials = $this->credentials($this->request);
-        if ($this->guard()->attempt($credentials, $this->request->has('remember', true))) {
-            $this->request->session()->regenerate();
-            $this->clearLoginAttempts($this->request);
-            $entity->authenticatable($this->guard()->user());
-            if (!$flow->can($entity, 'login')) {
-                return $response->withParams([
-                    'code'    => 500,
-                    'message' => '没有登录权限！',
-                ])->generateHttpResponse();
-            }
-            try {
-                $this->request->offsetSet('grant_type', 'password');
-                $this->request->offsetSet('client_id', $this->client_id);
-                $this->request->offsetSet('client_secret', $this->client_secret);
-                $this->request->offsetSet('username', $this->request->offsetGet($this->username()));
-                $this->request->offsetSet('password', $this->request->offsetGet('password'));
-                $this->request->offsetSet('scope', '*');
-                $request = (new DiactorosFactory)->createRequest($this->request);
-                $back = $this->server->respondToAccessTokenRequest($request, new Psr7Response());
-                $back = json_decode((string)$back->getBody(), true);
-                if (isset($back['access_token']) && isset($back['refresh_token'])) {
-                    $this->events->dispatch(new Logined($this->guard()->user()));
-
-                    return $response->withParams([
-                        'status'  => 'success',
-                        'message' => $this->translator->trans('administration::login.success'),
-                    ])->withParams($back)->generateHttpResponse();
-                }
-            } catch (Exception $exception) {
-                return $response->withParams([
-                    'code'    => $exception->getCode(),
-                    'message' => $exception->getMessage(),
-                    'trace'   => $exception->getTraceAsString(),
-                ])->generateHttpResponse();
-            }
-        }
-
-        return $response->withParams([
-            'code'    => 403,
-            'message' => $this->translator->trans('administration::login.fail'),
-        ])->generateHttpResponse();
-    }
-
-    /**
-     * Username id.
-     *
-     * @return string
-     */
-    public function username()
-    {
-        return 'name';
     }
 }
