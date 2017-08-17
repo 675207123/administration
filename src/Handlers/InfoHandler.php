@@ -65,6 +65,7 @@ class InfoHandler extends Handler
             foreach ((array)$module->scripts('administration') as $entry => $script) {
                 $scripts->put($entry, [
                     'link' => $script,
+                    'name' => $module->offsetGet('name'),
                     'type' => 'module',
                 ]);
             }
@@ -76,6 +77,7 @@ class InfoHandler extends Handler
             foreach ((array)$extension->scripts() as $entry => $script) {
                 $scripts->put($entry, [
                     'link' => $script,
+                    'name' => $extension->offsetGet('name'),
                     'type' => 'extension',
                 ]);
             }

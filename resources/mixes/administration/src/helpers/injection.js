@@ -105,9 +105,13 @@ function install(Vue) {
                 Object.keys(data).forEach(index => {
                     if (informations[index].type === 'module' && data[index]) {
                         injection.modules.push(data[index]);
+                    } else {
+                        window.console.warn(`模块[${informations[index].name}]加载失败！`);
                     }
                     if (informations[index].type === 'extension' && data[index]) {
                         injection.extensions.push(data[index]);
+                    } else {
+                        window.console.warn(`插件[${informations[index].name}]加载失败！`);
                     }
                 });
                 init(Vue);
