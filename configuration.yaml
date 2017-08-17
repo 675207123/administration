@@ -11,3 +11,34 @@ csrf:
 events:
     subscribes:
         - Notadd\Administration\Listeners\RouteRegister
+pages:
+    configurations:
+        initialization:
+            name: 全局设置
+            tabs: true
+            target: global
+        tabs:
+            configuration:
+                default: true
+                show: true
+                title: 全局设置
+                fields:
+                    enabled:
+                        default: false
+                        label: 站点开启
+                        key: site.enabled
+                        required: false
+                        type: switch
+                    name:
+                        default: ''
+                        label: 网站名称
+                        key: ''
+                        placeholder: 请输入网站名称
+                        required: true
+                        type: input
+                        validates:
+                            -
+                                message: 请输入网站名称
+                                required: true
+                                trigger: change
+                                type: string
