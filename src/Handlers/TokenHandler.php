@@ -98,8 +98,12 @@ class TokenHandler extends Handler
                 $back = $this->server->respondToAccessTokenRequest($request, new Psr7Response());
                 $back = json_decode((string)$back->getBody(), true);
                 if (isset($back['access_token']) && isset($back['refresh_token'])) {
+                    $data = [
+                        'access_token' => $back['access_token'],
+                        'name' => $this->guard()->user()->getAttribute('name'),
+                    ];
                     $this->container->make('events')->dispatch(new Logined($this->guard()->user()));
-                    $this->withCode(200)->withData($back)->withMessage('administration::login.success');
+                    $this->withCode(200)->withData($data)->withMessage('administration::login.success');
                 } else {
                     $this->withCode(500)->withError('administration::login.fail');
                 }

@@ -83,7 +83,7 @@ function install(Vue) {
     const token = JSON.parse(window.localStorage.getItem('token'));
     injection.extensions = [];
     injection.modules = [];
-    if (token && token.access_token && token.refresh_token) {
+    if (token && token.access_token) {
         Vue.http.defaults.headers.common.Accept = 'application/json';
         Vue.http.defaults.headers.common.Authorization = `Bearer ${token.access_token}`;
         injection.notice.open({
@@ -104,13 +104,10 @@ function install(Vue) {
                 loadStylesheet(stylesheet);
             });
             Promise.all(imports).then(data => {
-                window.console.log(data);
                 Object.keys(data).forEach(index => {
-                    window.console.log(informations[index].type);
                     switch (informations[index].type) {
                         case 'extension':
                             if (data[index] && data[index].default) {
-                                window.console.log(data[index].default);
                                 injection.extensions.push(data[index].default);
                             } else {
                                 window.console.warn(`插件[${informations[index].name}]加载失败！`);
