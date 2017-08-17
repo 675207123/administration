@@ -1,12 +1,10 @@
 export default function (injection) {
-    const sources = window.extensions ? window.extensions : [];
     const list = [];
-    sources.forEach(key => {
-        if (window[key]) {
-            const instance = window[key].default;
-            injection.use(instance);
-            list.push(instance);
-        }
+
+    Object.keys(injection.extensions).forEach(index => {
+        const module = injection.modules[index];
+        injection.use(module);
+        list.push(module);
     });
 
     Object.defineProperties(injection, {

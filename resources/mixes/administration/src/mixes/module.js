@@ -1,7 +1,7 @@
 export default function (injection) {
     const list = [];
     Object.keys(injection.modules).forEach(index => {
-        const module = injection.modules[index].default;
+        const module = injection.modules[index];
         injection.use(module);
         list.push(module);
     });

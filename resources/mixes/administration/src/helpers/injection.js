@@ -100,20 +100,34 @@ function install(Vue) {
                 loadStylesheet(stylesheet);
             });
             Promise.all(imports).then(data => {
+                window.console.log(data);
                 injection.extensions = [];
                 injection.modules = [];
                 Object.keys(data).forEach(index => {
-                    if (informations[index].type === 'module' && data[index]) {
-                        injection.modules.push(data[index]);
-                    } else {
-                        window.console.warn(`模块[${informations[index].name}]加载失败！`);
-                    }
-                    if (informations[index].type === 'extension' && data[index]) {
-                        injection.extensions.push(data[index]);
-                    } else {
-                        window.console.warn(`插件[${informations[index].name}]加载失败！`);
+                    window.console.log(informations[index].type);
+                    switch (informations[index].type) {
+                        case 'extension':
+                            if (data[index] && data[index].default) {
+                                window.console.log(data[index].default);
+                                injection.extensions.push(data[index].default);
+                            } else {
+                                window.console.warn(`插件[${informations[index].name}]加载失败！`);
+                            }
+                            break;
+                        case 'module':
+                            if (data[index] && data[index].default) {
+                                injection.modules.push(data[index].default);
+                            } else {
+                                window.console.warn(`模块[${informations[index].name}]加载失败！`);
+                            }
+                            break;
+                        default:
+                            window.console.error('不支持的注入类型！');
+                            break;
                     }
                 });
+                window.console.log(injection.extensions);
+                window.console.log(injection.modules);
                 init(Vue);
                 injection.loading.finish();
                 injection.notice.open({
