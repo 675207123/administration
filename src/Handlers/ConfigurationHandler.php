@@ -9,6 +9,7 @@
 namespace Notadd\Administration\Handlers;
 
 use Illuminate\Container\Container;
+use Illuminate\Routing\UrlGenerator;
 use Notadd\Foundation\Extension\Extension;
 use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\Module;
@@ -88,10 +89,25 @@ class ConfigurationHandler extends Handler
                         return collect($definition)->map(function ($data, $key) {
                             if ($key == 'tabs') {
                                 return collect($data)->map(function ($data) {
+                                    if (isset($data['submit'])) {
+                                        $data['submit'] = $this->container->make(UrlGenerator::class)->to($data['submit']);
+                                    }
                                     return collect($data)->map(function ($data, $key) {
                                         if ($key == 'fields') {
                                             return collect($data)->map(function ($data) {
-                                                $data['value'] = $this->setting->get($data['key']);
+                                                $setting = $this->setting->get($data['key']);
+                                                if (isset($data['format'])) {
+                                                    switch ($data['format']) {
+                                                        case 'boolean':
+                                                            $data['value'] = boolval($setting);
+                                                            break;
+                                                        default:
+                                                            $data['value'] = $setting;
+                                                            break;
+                                                    }
+                                                } else {
+                                                    $data['value'] = $setting;
+                                                }
 
                                                 return $data;
                                             });
