@@ -14,17 +14,19 @@ events:
 pages:
     configurations:
         initialization:
-            name: 全局设置
+            name: 参数配置
             tabs: true
             target: global
         tabs:
             configuration:
                 default: true
                 show: true
+                submit: api/setting/set
                 title: 全局设置
                 fields:
                     enabled:
                         default: false
+                        format: boolean
                         label: 站点开启
                         key: site.enabled
                         required: false
@@ -32,7 +34,7 @@ pages:
                     name:
                         default: ''
                         label: 网站名称
-                        key: ''
+                        key: site.name
                         placeholder: 请输入网站名称
                         required: true
                         type: input
@@ -42,3 +44,57 @@ pages:
                                 required: true
                                 trigger: change
                                 type: string
+                    domain:
+                        default: ''
+                        label: 网站域名
+                        key: site.domain
+                        required: false
+                        type: input
+                    beian:
+                        default: ''
+                        label: 备案信息
+                        key: site.beian
+                        required: false
+                        type: input
+                    company:
+                        default: ''
+                        label: 公司名称
+                        key: site.company
+                        required: false
+                        type: input
+                    copyright:
+                        default: ''
+                        label: 版权信息
+                        key: site.copyright
+                        required: false
+                        type: input
+                    statistics:
+                        default: ''
+                        label: 统计代码
+                        key: site.statistics
+                        required: false
+                        type: textarea
+            seo:
+                default: false
+                show: true
+                submit: api/seo/set
+                title: 'SEO 配置'
+                fields:
+                    title:
+                        default: ''
+                        label: 标题
+                        key: seo.title
+                        required: false
+                        type: input
+                    keyword:
+                        default: ''
+                        label: 关键字
+                        key: seo.keyword
+                        required: false
+                        type: textarea
+                    description:
+                        default: ''
+                        label: 描述
+                        key: seo.description
+                        required: false
+                        type: textarea
