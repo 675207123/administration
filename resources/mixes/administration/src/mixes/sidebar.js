@@ -5,16 +5,7 @@ export default function (injection) {
             lists: {
                 setting: [
                     {
-                        children: [
-                            {
-                                path: '/setting',
-                                title: injection.trans('administration.menu.sidebar.global.configuration'),
-                            },
-                            {
-                                path: '/seo',
-                                title: injection.trans('administration.menu.sidebar.global.seo'),
-                            },
-                        ],
+                        children: [],
                         icon: 'ios-cog',
                         title: injection.trans('administration.menu.sidebar.global.group'),
                     },
