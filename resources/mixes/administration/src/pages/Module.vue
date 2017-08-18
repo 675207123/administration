@@ -71,6 +71,28 @@
                             width: 300,
                         },
                         {
+                            alias: 'center',
+                            key: 'default',
+                            render(h, data) {
+                                if (data.row.identification === 'notadd/api' || data.row.identification === 'notadd/notadd') {
+                                    return '';
+                                }
+                                return h('checkbox', {
+                                    on: {
+                                        'on-change': event => {
+                                            data.row.default = event.target.value;
+                                            self.updateDomain(data.row);
+                                        },
+                                    },
+                                    props: {
+                                        value: self.list.domains[data.index].default,
+                                    },
+                                });
+                            },
+                            title: '默认',
+                            width: 60,
+                        },
+                        {
                             key: 'alias',
                             render(h, data) {
                                 if (data.row.identification === 'notadd/notadd') {

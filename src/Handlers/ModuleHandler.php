@@ -61,22 +61,39 @@ class ModuleHandler extends Handler
             $alias = 'module.' . $module->identification() . '.domain.alias';
             $enabled = 'module.' . $module->identification() . '.domain.enabled';
             $host = 'module.' . $module->identification() . '.domain.host';
-            $data['identification'] = $module->identification();
-            $data['name'] = $module->offsetGet('name');
             $data['alias'] = $this->setting->get($alias, '');
+            $data['default'] = $this->setting->get('module.default', '') == $module->identification();
             $data['enabled'] = boolval($this->setting->get($enabled, 0));
             $data['host'] = $this->setting->get($host, '');
+            $data['identification'] = $module->identification();
+            $data['name'] = $module->offsetGet('name');
 
             return $data;
         });
-        $domains->prepend([
-            'alias' => '/',
-            'enabled' => boolval($this->setting->get('module.notadd/notadd.domain.enabled', 0)),
-            'host' => $this->setting->get('module.notadd/notadd.domain.host', ''),
-            'identification' => 'notadd/notadd',
-            'name' => 'Notadd',
-        ], 'notadd/notadd');
         $domains->offsetUnset('notadd/administration');
+        $domains->prepend([
+            'alias'          => $this->setting->get('module.notadd/administration.alias.host', ''),
+            'default'        => $this->setting->get('module.default', '') == 'notadd/administration',
+            'enabled'        => boolval($this->setting->get('module.notadd/administration.domain.enabled', 0)),
+            'host'           => $this->setting->get('module.notadd/administration.domain.host', ''),
+            'identification' => 'notadd/administration',
+            'name'           => 'Notadd 后台',
+        ], 'notadd/administration');
+        $domains->prepend([
+            'alias'          => $this->setting->get('module.notadd/api.alias.host', ''),
+            'default'        => $this->setting->get('module.default', '') == 'notadd/api',
+            'enabled'        => boolval($this->setting->get('module.notadd/api.domain.enabled', 0)),
+            'host'           => $this->setting->get('module.notadd/api.domain.host', ''),
+            'identification' => 'notadd/api',
+            'name'           => 'Notadd API',
+        ], 'notadd/api');
+        $domains->prepend([
+            'alias'          => '/',
+            'enabled'        => boolval($this->setting->get('module.notadd/notadd.domain.enabled', 0)),
+            'host'           => $this->setting->get('module.notadd/notadd.domain.host', ''),
+            'identification' => 'notadd/notadd',
+            'name'           => 'Notadd',
+        ], 'notadd/notadd');
         $enabled->offsetUnset('notadd/administration');
         $installed->offsetUnset('notadd/administration');
         $notInstalled->offsetUnset('notadd/administration');
