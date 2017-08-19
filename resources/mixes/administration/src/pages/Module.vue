@@ -79,8 +79,8 @@
                                 }
                                 return h('checkbox', {
                                     on: {
-                                        'on-change': event => {
-                                            data.row.default = event.target.value;
+                                        'on-change': value => {
+                                            data.row.default = value;
                                             self.updateDomain(data.row);
                                         },
                                     },
