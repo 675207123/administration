@@ -46,24 +46,36 @@
                             render(h, data) {
                                 let changed = false;
                                 const row = data.row;
-                                return h('i-input', {
-                                    on: {
-                                        'on-blur': () => {
-                                            if (changed) {
-                                                changed = false;
-                                                self.updateDomain(row);
-                                            }
-                                        },
-                                        'on-change': event => {
-                                            if (row.host !== event.target.value) {
-                                                changed = true;
-                                            }
-                                            row.host = event.target.value;
-                                        },
-                                    },
+                                return h('tooltip', {
                                     props: {
-                                        placeholder: '请填写不带 http:// 或 https:// 的域名',
-                                        value: self.list.domains[data.index].host,
+                                        placement: 'right-end',
+                                    },
+                                    scopedSlots: {
+                                        content() {
+                                            return '回车更新数据';
+                                        },
+                                        default() {
+                                            return h('i-input', {
+                                                on: {
+                                                    'on-keydown': event => {
+                                                        if (changed && event.keyCode === 13) {
+                                                            changed = false;
+                                                            self.updateDomain(row);
+                                                        }
+                                                    },
+                                                    'on-change': event => {
+                                                        if (row.host !== event.target.value) {
+                                                            changed = true;
+                                                        }
+                                                        row.host = event.target.value;
+                                                    },
+                                                },
+                                                props: {
+                                                    placeholder: '请填写不带 http:// 或 https:// 的域名',
+                                                    value: self.list.domains[data.index].host,
+                                                },
+                                            });
+                                        },
                                     },
                                 });
                             },
