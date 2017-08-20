@@ -154,6 +154,7 @@
                                                 v-if="field.value === '' || field.value === null">
                                         </upload>
                                     </div>
+                                    <p style="color: #666;">{{ field.description}}</p>
                                 </form-item>
                             </i-col>
                         </row>

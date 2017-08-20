@@ -35,13 +35,11 @@ const file = {
         return /Edge/.test(navigator.userAgent);
     },
     getDownloadUrl(text, mime) {
-        const BOM = '\uFEFF';
-        // Add BOM to text for open in excel correctly
         if (window.Blob && window.URL && window.URL.createObjectURL && !has('Safari')) {
-            const csvData = new Blob([BOM + text], { type: `text/${mime}` });
+            const csvData = new Blob([text], { type: `text/${mime}` });
             return URL.createObjectURL(csvData);
         }
-        return `data:attachment/${mime};charset=utf-8,${BOM}${encodeURIComponent(text)}`;
+        return `data:attachment/${mime};charset=utf-8,${encodeURIComponent(text)}`;
     },
     download(filename, text, mime) {
         if (has('ie') && has('ie') < 10) {
@@ -53,8 +51,7 @@ const file = {
             oWin.document.execCommand('SaveAs', filename);
             oWin.close();
         } else if (has('ie') === 10 || this.isIE11() || this.isEdge()) {
-            const BOM = '\uFEFF';
-            const data = new Blob([BOM + text], { type: `text/${mime}` });
+            const data = new Blob([text], { type: `text/${mime}` });
             navigator.msSaveBlob(data, filename);
         } else {
             const link = document.createElement('a');
