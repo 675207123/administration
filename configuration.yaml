@@ -57,6 +57,7 @@ pages:
                     multidomain:
                         default: false
                         description: '由于前后端分离机制，官方不对多域名做特殊支持，可能导致其他未知问题'
+                        format: boolean
                         label: 开启多域名
                         key: site.multidomain
                         required: false
