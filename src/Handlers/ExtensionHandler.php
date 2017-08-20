@@ -43,13 +43,13 @@ class ExtensionHandler extends Handler
      */
     protected function execute()
     {
-        $all = $this->manager->getExtensions();
         $enabled = $this->manager->getEnabledExtensions();
+        $extensions = $this->manager->getExtensions();
         $installed = $this->manager->getInstalledExtensions();
         $notInstalled = $this->manager->getNotInstalledExtensions();
         $this->withCode(200)->withData([
-            'all'        => $this->info($all),
             'enabled'    => $this->info($enabled),
+            'extensions' => $this->info($extensions),
             'installed'  => $this->info($installed),
             'notInstall' => $this->info($notInstalled),
         ])->withMessage('获取插件列表成功！');
