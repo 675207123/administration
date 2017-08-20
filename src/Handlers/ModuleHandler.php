@@ -61,7 +61,7 @@ class ModuleHandler extends Handler
             $enabled = 'module.' . $module->identification() . '.domain.enabled';
             $host = 'module.' . $module->identification() . '.domain.host';
             $data['alias'] = $this->setting->get($alias, '');
-            $data['default'] = $this->setting->get('module.default', '') == $module->identification();
+            $data['default'] = $this->setting->get('module.default', 'notadd/notadd') == $module->identification();
             $data['enabled'] = boolval($this->setting->get($enabled, 0));
             $data['host'] = $this->setting->get($host, '');
             $data['identification'] = $module->identification();
@@ -72,7 +72,7 @@ class ModuleHandler extends Handler
         $domains->offsetUnset('notadd/administration');
         $domains->prepend([
             'alias'          => $this->setting->get('module.notadd/administration.domain.alias', ''),
-            'default'        => $this->setting->get('module.default', '') == 'notadd/administration',
+            'default'        => $this->setting->get('module.default', 'notadd/notadd') == 'notadd/administration',
             'enabled'        => boolval($this->setting->get('module.notadd/administration.domain.enabled', 0)),
             'host'           => $this->setting->get('module.notadd/administration.domain.host', ''),
             'identification' => 'notadd/administration',
@@ -80,7 +80,7 @@ class ModuleHandler extends Handler
         ], 'notadd/administration');
         $domains->prepend([
             'alias'          => $this->setting->get('module.notadd/api.domain.alias', ''),
-            'default'        => $this->setting->get('module.default', '') == 'notadd/api',
+            'default'        => $this->setting->get('module.default', 'notadd/notadd') == 'notadd/api',
             'enabled'        => boolval($this->setting->get('module.notadd/api.domain.enabled', 0)),
             'host'           => $this->setting->get('module.notadd/api.domain.host', ''),
             'identification' => 'notadd/api',
@@ -88,6 +88,7 @@ class ModuleHandler extends Handler
         ], 'notadd/api');
         $domains->prepend([
             'alias'          => '/',
+            'default'        => $this->setting->get('module.default', 'notadd/notadd') == 'notadd/notadd',
             'enabled'        => boolval($this->setting->get('module.notadd/notadd.domain.enabled', 0)),
             'host'           => $this->setting->get('module.notadd/notadd.domain.host', ''),
             'identification' => 'notadd/notadd',

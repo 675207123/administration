@@ -95,7 +95,7 @@
                             alias: 'center',
                             key: 'default',
                             render(h, data) {
-                                if (data.row.identification === 'notadd/api' || data.row.identification === 'notadd/notadd') {
+                                if (data.row.identification === 'notadd/api') {
                                     return '';
                                 }
                                 return h('checkbox', {
