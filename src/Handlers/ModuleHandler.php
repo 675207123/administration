@@ -51,11 +51,10 @@ class ModuleHandler extends Handler
      */
     protected function execute()
     {
-        $modules = $this->manager->getModules();
         $enabled = $this->manager->getEnabledModules();
         $installed = $this->manager->getInstalledModules();
+        $modules = $this->manager->getModules();
         $notInstalled = $this->manager->getNotInstalledModules();
-        $modules->offsetUnset('notadd/administration');
         $domains = $enabled->map(function (Module $module) {
             $data = [];
             $alias = 'module.' . $module->identification() . '.domain.alias';
@@ -72,7 +71,7 @@ class ModuleHandler extends Handler
         });
         $domains->offsetUnset('notadd/administration');
         $domains->prepend([
-            'alias'          => $this->setting->get('module.notadd/administration.alias.host', ''),
+            'alias'          => $this->setting->get('module.notadd/administration.domain.alias', ''),
             'default'        => $this->setting->get('module.default', '') == 'notadd/administration',
             'enabled'        => boolval($this->setting->get('module.notadd/administration.domain.enabled', 0)),
             'host'           => $this->setting->get('module.notadd/administration.domain.host', ''),
@@ -80,7 +79,7 @@ class ModuleHandler extends Handler
             'name'           => 'Notadd 后台',
         ], 'notadd/administration');
         $domains->prepend([
-            'alias'          => $this->setting->get('module.notadd/api.alias.host', ''),
+            'alias'          => $this->setting->get('module.notadd/api.domain.alias', ''),
             'default'        => $this->setting->get('module.default', '') == 'notadd/api',
             'enabled'        => boolval($this->setting->get('module.notadd/api.domain.enabled', 0)),
             'host'           => $this->setting->get('module.notadd/api.domain.host', ''),
@@ -94,13 +93,18 @@ class ModuleHandler extends Handler
             'identification' => 'notadd/notadd',
             'name'           => 'Notadd',
         ], 'notadd/notadd');
-        $enabled->offsetUnset('notadd/administration');
-        $installed->offsetUnset('notadd/administration');
-        $notInstalled->offsetUnset('notadd/administration');
+        $enabled->forget('notadd/administration');
+        $exports = $modules->map(function ($data) {
+            return $data;
+        });
+        $installed->forget('notadd/administration');
+        $modules->forget('notadd/administration');
+        $notInstalled->forget('notadd/administration');
         $this->withCode(200)->withData([
-            'all'        => $this->info($modules),
+            'modules'    => $this->info($modules),
             'domains'    => $domains->toArray(),
             'enabled'    => $this->info($enabled),
+            'exports'    => $this->info($exports),
             'installed'  => $this->info($installed),
             'notInstall' => $this->info($notInstalled),
         ])->withMessage('获取模块列表成功！');

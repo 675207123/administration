@@ -9,19 +9,21 @@
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    const all = response.data.data.all;
                     const domains = response.data.data.domains;
                     const enabled = response.data.data.enabled;
+                    const exports = response.data.data.exports;
                     const installed = response.data.data.installed;
+                    const modules = response.data.data.modules;
                     const notInstalled = response.data.data.notInstall;
-                    vm.list.all = Object.keys(all).map(key => all[key]);
                     vm.list.domains = Object.keys(domains).map(key => domains[key]);
                     vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                    vm.list.exports = Object.keys(exports).map(key => exports[key]);
                     vm.list.installed = Object.keys(installed).map(key => {
                         const data = installed[key];
                         data.loading = false;
                         return data;
                     });
+                    vm.list.modules = Object.keys(modules).map(key => modules[key]);
                     vm.list.notInstalled = Object.keys(notInstalled).map(key => {
                         const data = notInstalled[key];
                         data.loading = false;
@@ -112,23 +114,35 @@
                                 }
                                 let changed = false;
                                 const row = data.row;
-                                return h('i-input', {
-                                    on: {
-                                        'on-blur': () => {
-                                            if (changed) {
-                                                changed = false;
-                                                self.updateDomain(row);
-                                            }
-                                        },
-                                        'on-change': event => {
-                                            if (row.alias !== event.target.value) {
-                                                changed = true;
-                                            }
-                                            row.alias = event.target.value;
-                                        },
-                                    },
+                                return h('tooltip', {
                                     props: {
-                                        value: self.list.domains[data.index].alias,
+                                        placement: 'right-end',
+                                    },
+                                    scopedSlots: {
+                                        content() {
+                                            return '回车更新数据';
+                                        },
+                                        default() {
+                                            return h('i-input', {
+                                                on: {
+                                                    'on-keydown': event => {
+                                                        if (changed && event.keyCode === 13) {
+                                                            changed = false;
+                                                            self.updateDomain(row);
+                                                        }
+                                                    },
+                                                    'on-change': event => {
+                                                        if (row.alias !== event.target.value) {
+                                                            changed = true;
+                                                        }
+                                                        row.alias = event.target.value;
+                                                    },
+                                                },
+                                                props: {
+                                                    value: self.list.domains[data.index].alias,
+                                                },
+                                            });
+                                        },
                                     },
                                 });
                             },
@@ -289,10 +303,11 @@
                     ],
                 },
                 list: {
-                    all: [],
                     domains: [],
                     enabled: [],
+                    exports: [],
                     installed: [],
+                    modules: [],
                     notInstalled: [],
                 },
                 loading: false,
@@ -357,20 +372,22 @@
                 injection.http.post(`${window.api}/administration/module`).then(result => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    const all = result.data.data.all;
                     const domains = result.data.data.domains;
                     const enabled = result.data.data.enabled;
+                    const exports = result.data.data.exports;
                     const installed = result.data.data.installed;
+                    const modules = result.data.data.modules;
                     const notInstalled = result.data.data.notInstall;
                     self.$nextTick(() => {
-                        self.list.all = Object.keys(all).map(key => all[key]);
                         self.list.domains = Object.keys(domains).map(key => domains[key]);
                         self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                        self.list.exports = Object.keys(exports).map(key => exports[key]);
                         self.list.installed = Object.keys(installed).map(key => {
                             const data = installed[key];
                             data.loading = false;
                             return data;
                         });
+                        self.list.modules = Object.keys(modules).map(key => modules[key]);
                         self.list.notInstalled = Object.keys(notInstalled).map(key => {
                             const data = notInstalled[key];
                             data.loading = false;
@@ -455,7 +472,7 @@
                             <span v-else>正在导出…</span>
                         </i-button>
                     </div>
-                    <i-table :columns="columns.exports" :data="list.enabled" @on-selection-change="selectionChanged"></i-table>
+                    <i-table :columns="columns.exports" :data="list.exports" @on-selection-change="selectionChanged"></i-table>
                 </tab-pane>
                 <tab-pane label="本地安装" name="no-installed">
                     <i-table :columns="columns.notInstalled" :data="list.notInstalled"></i-table>
