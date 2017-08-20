@@ -4,9 +4,9 @@ module.exports = {
     build: {
         env: require('./prod.env'),
         index: path.resolve(__dirname, '../dist/index.html'),
+        assetsPublicPath: '/',
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'assets/admin/',
-        assetsPublicPath: '/',
         productionSourceMap: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
