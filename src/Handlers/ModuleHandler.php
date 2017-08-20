@@ -101,12 +101,13 @@ class ModuleHandler extends Handler
         $modules->forget('notadd/administration');
         $notInstalled->forget('notadd/administration');
         $this->withCode(200)->withData([
-            'modules'    => $this->info($modules),
-            'domains'    => $domains->toArray(),
-            'enabled'    => $this->info($enabled),
-            'exports'    => $this->info($exports),
-            'installed'  => $this->info($installed),
-            'notInstall' => $this->info($notInstalled),
+            'domains'     => $domains->toArray(),
+            'enabled'     => $this->info($enabled),
+            'exports'     => $this->info($exports),
+            'installed'   => $this->info($installed),
+            'multidomain' => boolval($this->setting->get('site.multidomain', false)),
+            'modules'     => $this->info($modules),
+            'notInstall'  => $this->info($notInstalled),
         ])->withMessage('获取模块列表成功！');
     }
 

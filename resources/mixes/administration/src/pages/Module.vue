@@ -14,6 +14,7 @@
                     const exports = response.data.data.exports;
                     const installed = response.data.data.installed;
                     const modules = response.data.data.modules;
+                    const multidomain = response.data.data.multidomain;
                     const notInstalled = response.data.data.notInstall;
                     vm.list.domains = Object.keys(domains).map(key => domains[key]);
                     vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
@@ -29,12 +30,14 @@
                         data.loading = false;
                         return data;
                     });
+                    vm.multidomain = multidomain;
                 });
             });
         },
         data() {
             const self = this;
             return {
+                action: `${window.api}/module/imports`,
                 columns: {
                     domains: [
                         {
@@ -54,7 +57,10 @@
                                     },
                                     scopedSlots: {
                                         content() {
-                                            return '回车更新数据';
+                                            if (self.multidomain) {
+                                                return '回车更新数据';
+                                            }
+                                            return '多域名功能未开启';
                                         },
                                         default() {
                                             return h('i-input', {
@@ -73,6 +79,7 @@
                                                     },
                                                 },
                                                 props: {
+                                                    disabled: !self.multidomain,
                                                     placeholder: '请填写不带 http:// 或 https:// 的域名',
                                                     value: self.list.domains[data.index].host,
                                                 },
@@ -170,6 +177,7 @@
                                         },
                                     },
                                     props: {
+                                        disabled: !self.multidomain,
                                         value: self.list.domains[data.index].enabled,
                                     },
                                 });
@@ -310,7 +318,11 @@
                     modules: [],
                     notInstalled: [],
                 },
-                loading: false,
+                loading: {
+                    exports: false,
+                    imports: false,
+                },
+                multidomain: false,
                 selection: [],
             };
         },
@@ -331,7 +343,7 @@
                     self.$notice.open({
                         title: '开始导出...',
                     });
-                    self.loading = true;
+                    self.loading.exports = true;
                     const data = self.selection.map(module => module.identification);
                     self.$http.post(`${window.api}/module/exports`, {
                         modules: data,
@@ -342,7 +354,7 @@
                             title: '导出失败！',
                         });
                     }).finally(() => {
-                        self.loading = false;
+                        self.loading.exports = false;
                     });
                 }
             },
@@ -377,6 +389,7 @@
                     const exports = result.data.data.exports;
                     const installed = result.data.data.installed;
                     const modules = result.data.data.modules;
+                    const multidomain = result.data.data.multidomain;
                     const notInstalled = result.data.data.notInstall;
                     self.$nextTick(() => {
                         self.list.domains = Object.keys(domains).map(key => domains[key]);
@@ -393,6 +406,7 @@
                             data.loading = false;
                             return data;
                         });
+                        self.multidomain = multidomain;
                         self.$notice.open({
                             title: '刷新数据完成！',
                         });
@@ -445,6 +459,23 @@
                     });
                 });
             },
+            uploadBefore() {
+                this.$loading.start();
+            },
+            uploadFormatError(upload) {
+                this.$notice.warning({
+                    title: '文件格式不正确',
+                    desc: `文件 ${upload.name} 格式不正确`,
+                });
+            },
+            uploadSuccess(data) {
+                const self = this;
+                window.console.log(data);
+                self.$loading.finish();
+                self.$notice.open({
+                    title: data.message,
+                });
+            },
         },
         mounted() {
             this.$store.commit('title', trans('administration.title.module'));
@@ -463,16 +494,31 @@
                 </tab-pane>
                 <tab-pane label="导入/导出" name="exchange">
                     <div style="margin-bottom: 20px">
-                        <i-button :loading="loading" type="default" @click.native="imports">
-                            <span v-if="!loading">导入</span>
-                            <span v-else>正在导入…</span>
-                        </i-button>
-                        <i-button :loading="loading" type="default" @click.native="exports">
-                            <span v-if="!loading">导出</span>
+                        <upload :action="action"
+                                :before-upload="uploadBefore"
+                                :format="['yaml']"
+                                :headers="{
+                                    Authorization: `Bearer ${$store.state.token.access_token}`
+                                }"
+                                :on-format-error="uploadFormatError"
+                                :on-success="uploadSuccess"
+                                :show-upload-list="false"
+                                style="float: left;margin-right: 10px;">
+                            <i-button :loading="loading.imports"
+                                      type="ghost"
+                                      icon="ios-cloud-upload-outline"
+                                      @click.native="imports">
+                                <span v-if="!loading.imports">导入</span>
+                                <span v-else>正在导入…</span>
+                            </i-button>
+                        </upload>
+                        <i-button :loading="loading.exports" type="default" @click.native="exports">
+                            <span v-if="!loading.exports">导出</span>
                             <span v-else>正在导出…</span>
                         </i-button>
                     </div>
-                    <i-table :columns="columns.exports" :data="list.exports" @on-selection-change="selectionChanged"></i-table>
+                    <i-table :columns="columns.exports" :data="list.exports"
+                             @on-selection-change="selectionChanged"></i-table>
                 </tab-pane>
                 <tab-pane label="本地安装" name="no-installed">
                     <i-table :columns="columns.notInstalled" :data="list.notInstalled"></i-table>
