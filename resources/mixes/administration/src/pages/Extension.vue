@@ -269,7 +269,11 @@
             uploadBefore() {
                 this.$loading.start();
             },
+            uploadError() {
+                this.$loading.error();
+            },
             uploadFormatError(upload) {
+                this.$loading.error();
                 this.$notice.warning({
                     title: '文件格式不正确',
                     desc: `文件 ${upload.name} 格式不正确`,
@@ -304,14 +308,14 @@
                                 :headers="{
                                     Authorization: `Bearer ${$store.state.token.access_token}`
                                 }"
+                                :on-error="uploadError"
                                 :on-format-error="uploadFormatError"
                                 :on-success="uploadSuccess"
                                 :show-upload-list="false"
                                 style="float: left;margin-right: 10px;">
                             <i-button :loading="loading.imports"
                                       type="ghost"
-                                      icon="ios-cloud-upload-outline"
-                                      @click.native="imports">
+                                      icon="ios-cloud-upload-outline">
                                 <span v-if="!loading.imports">导入</span>
                                 <span v-else>正在导入…</span>
                             </i-button>
