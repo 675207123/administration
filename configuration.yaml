@@ -110,3 +110,6 @@ pages:
                         key: seo.description
                         required: false
                         type: textarea
+publishes:
+    assets/admin: resources/mixes/administration/dist/assets/admin
+    assets/neditor: resources/mixes/neditor

@@ -31,10 +31,6 @@ class ModuleServiceProvider extends Module
         $this->app->make(Administration::class)->setAdministrator($administrator);
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'administration');
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'admin');
-        $this->publishes([
-            realpath(__DIR__ . '/../resources/mixes/administration/dist/assets/admin') => public_path('assets/admin'),
-            realpath(__DIR__ . '/../resources/mixes/neditor')                          => public_path('assets/neditor'),
-        ], 'public');
     }
 
     /**
