@@ -24,7 +24,7 @@
     <div class="bashboard-wrap">
         <row :gutter="20">
             <i-col :span="board.span" v-for="(board, key) in boards" :key="key">
-                <card v-if="board.type === 'button'">
+                <card :bordered="false" v-if="board.type === 'button'">
                     <p slot="title" v-if="board.title">{{ board.title }}</p>
                     <template v-if="board.link">
                         <template v-if="board.link.indexOf('http://') !== -1 || board.link.indexOf('https://') !== -1">
@@ -42,15 +42,15 @@
                         <i-button long :type="board.theme">{{ board.content }}</i-button>
                     </template>
                 </card>
-                <card v-if="board.type === 'chart'">
+                <card :bordered="false" v-if="board.type === 'chart'">
                     <p slot="title" v-if="board.title">{{ board.title }}</p>
                     <i-echarts :option="board.content" :style="board.style"></i-echarts>
                 </card>
-                <card v-if="board.type === 'html'">
+                <card :bordered="false" v-if="board.type === 'html'">
                     <p slot="title" v-if="board.title">{{ board.title }}</p>
                     <div v-html="board.content"></div>
                 </card>
-                <card v-if="board.type === 'text'">
+                <card :bordered="false" v-if="board.type === 'text'">
                     <p slot="title" v-if="board.title">{{ board.title }}</p>
                     <p>{{ board.content }}</p>
                 </card>

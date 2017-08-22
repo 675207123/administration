@@ -3,8 +3,8 @@
 
     export default {
         computed: {
-            iconSize() {
-                return this.spanLeft === 5 ? 14 : 24;
+            name() {
+                return this.$store.state.token.name;
             },
         },
         created() {
@@ -40,6 +40,16 @@
                     this.spanRight = 19;
                 }
             },
+        },
+        mounted() {
+            const self = this;
+            self.$http.post(`${window.api}/administration/access`).then(() => {
+                window.console.log('登录状态正常！');
+            }).catch(() => {
+                self.$notice.error({
+                    title: '登录已过期，请重新登录!',
+                });
+            });
         },
     };
 </script>
@@ -87,7 +97,7 @@
                 <submenu name="right-2">
                     <template slot="title">
                         <icon type="person"></icon>
-                        后台管理员
+                        {{ name }}
                     </template>
                     <menu-item name="right-2-1" @click.native="logout">退出</menu-item>
                 </submenu>

@@ -2,7 +2,7 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author TwilRoad <heshudong@ibenchu.com>
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-02-18 14:12
  */
@@ -22,15 +22,15 @@ class RouteRegister extends AbstractRouteRegister
      */
     public function handle()
     {
-        $this->router->group(['middleware' => ['cross', 'web'], 'prefix' => 'admin'], function () {
-            $this->router->post('token', AdminController::class . '@token');
-        });
-        $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'admin'], function () {
-            $this->router->post('/', AdminController::class . '@access');
+        $this->router->group(['middleware' => ['cross', 'web'], 'prefix' => 'api/administration'], function () {
+            $this->router->post('token', InjectionController::class . '@token');
         });
         $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'api/administration'], function () {
-            $this->router->post('module', InjectionController::class . '@module');
+            $this->router->post('access', InjectionController::class . '@access');
+            $this->router->post('configuration', InjectionController::class . '@configuration');
             $this->router->post('extension', InjectionController::class . '@extension');
+            $this->router->post('info', InjectionController::class . '@info');
+            $this->router->post('module', InjectionController::class . '@module');
         });
     }
 }

@@ -1,4 +1,5 @@
 <script>
+    import file from '../helpers/export';
     import injection, { trans } from '../helpers/injection';
 
     export default {
@@ -8,28 +9,205 @@
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    const all = response.data.data.all;
+                    const domains = response.data.data.domains;
                     const enabled = response.data.data.enabled;
+                    const exports = response.data.data.exports;
                     const installed = response.data.data.installed;
+                    const modules = response.data.data.modules;
+                    const multidomain = response.data.data.multidomain;
                     const notInstalled = response.data.data.notInstall;
-                    vm.list.all = Object.keys(all).map(key => all[key]);
+                    vm.list.domains = Object.keys(domains).map(key => domains[key]);
                     vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                    vm.list.exports = Object.keys(exports).map(key => exports[key]);
                     vm.list.installed = Object.keys(installed).map(key => {
                         const data = installed[key];
                         data.loading = false;
                         return data;
                     });
+                    vm.list.modules = Object.keys(modules).map(key => modules[key]);
                     vm.list.notInstalled = Object.keys(notInstalled).map(key => {
                         const data = notInstalled[key];
                         data.loading = false;
                         return data;
                     });
+                    vm.multidomain = multidomain;
                 });
             });
         },
         data() {
+            const self = this;
             return {
+                action: `${window.api}/module/imports`,
                 columns: {
+                    domains: [
+                        {
+                            alias: 'right',
+                            key: 'name',
+                            title: '模块名称',
+                            width: 200,
+                        },
+                        {
+                            key: 'host',
+                            render(h, data) {
+                                let changed = false;
+                                const row = data.row;
+                                return h('tooltip', {
+                                    props: {
+                                        placement: 'right-end',
+                                    },
+                                    scopedSlots: {
+                                        content() {
+                                            if (self.multidomain) {
+                                                return '回车更新数据';
+                                            }
+                                            return '多域名功能未开启';
+                                        },
+                                        default() {
+                                            return h('i-input', {
+                                                on: {
+                                                    'on-keydown': event => {
+                                                        if (changed && event.keyCode === 13) {
+                                                            changed = false;
+                                                            self.updateDomain(row);
+                                                        }
+                                                    },
+                                                    'on-change': event => {
+                                                        if (row.host !== event.target.value) {
+                                                            changed = true;
+                                                        }
+                                                        row.host = event.target.value;
+                                                    },
+                                                },
+                                                props: {
+                                                    disabled: !self.multidomain,
+                                                    placeholder: '请填写不带 http:// 或 https:// 的域名',
+                                                    value: self.list.domains[data.index].host,
+                                                },
+                                            });
+                                        },
+                                    },
+                                });
+                            },
+                            title: '域名',
+                            width: 300,
+                        },
+                        {
+                            alias: 'center',
+                            key: 'default',
+                            render(h, data) {
+                                if (data.row.identification === 'notadd/api') {
+                                    return '';
+                                }
+                                return h('checkbox', {
+                                    on: {
+                                        'on-change': value => {
+                                            data.row.default = value;
+                                            self.updateDomain(data.row);
+                                        },
+                                    },
+                                    props: {
+                                        value: self.list.domains[data.index].default,
+                                    },
+                                });
+                            },
+                            title: '默认',
+                            width: 60,
+                        },
+                        {
+                            key: 'alias',
+                            render(h, data) {
+                                if (data.row.identification === 'notadd/notadd') {
+                                    return data.row.alias;
+                                }
+                                let changed = false;
+                                const row = data.row;
+                                return h('tooltip', {
+                                    props: {
+                                        placement: 'right-end',
+                                    },
+                                    scopedSlots: {
+                                        content() {
+                                            return '回车更新数据';
+                                        },
+                                        default() {
+                                            return h('i-input', {
+                                                on: {
+                                                    'on-keydown': event => {
+                                                        if (changed && event.keyCode === 13) {
+                                                            changed = false;
+                                                            self.updateDomain(row);
+                                                        }
+                                                    },
+                                                    'on-change': event => {
+                                                        if (row.alias !== event.target.value) {
+                                                            changed = true;
+                                                        }
+                                                        row.alias = event.target.value;
+                                                    },
+                                                },
+                                                props: {
+                                                    value: self.list.domains[data.index].alias,
+                                                },
+                                            });
+                                        },
+                                    },
+                                });
+                            },
+                            title: '别名',
+                            width: 300,
+                        },
+                        {
+                            key: 'extra',
+                            title: ' ',
+                        },
+                        {
+                            key: 'using',
+                            render(h, data) {
+                                return h('i-switch', {
+                                    on: {
+                                        input(status) {
+                                            if (self.list.domains[data.index].host === '') {
+                                                self.$notice.error({
+                                                    title: '请先填写正确的域名，再提交开启！',
+                                                });
+                                            } else {
+                                                data.row.enabled = status;
+                                                self.updateDomain(data.row);
+                                            }
+                                        },
+                                    },
+                                    props: {
+                                        disabled: !self.multidomain,
+                                        value: self.list.domains[data.index].enabled,
+                                    },
+                                });
+                            },
+                            title: '使用域名',
+                            width: 160,
+                        },
+                    ],
+                    exports: [
+                        {
+                            align: 'center',
+                            type: 'selection',
+                            width: 60,
+                        },
+                        {
+                            alias: 'right',
+                            key: 'name',
+                            title: '模块名称',
+                            width: 200,
+                        },
+                        {
+                            key: 'description',
+                            title: '描述',
+                            width: 400,
+                        },
+                        {
+                            key: 'version',
+                            title: '版本',
+                        },
+                    ],
                     installed: [
                         {
                             key: 'name',
@@ -47,16 +225,51 @@
                         },
                         {
                             key: 'status',
-                            render(row, column, index) {
-                                return `<i-switch v-model="list.installed[${index}].enabled" @on-change="statusChanged(${index})"></i-switch>`;
+                            render(h, data) {
+                                return h('i-switch', {
+                                    on: {
+                                        input(status) {
+                                            injection.loading.start();
+                                            injection.http.post(`${window.api}/module/enable`, {
+                                                name: data.row.identification,
+                                                value: status,
+                                            }).then(() => {
+                                                injection.loading.finish();
+                                                injection.notice.open({
+                                                    title: status ? `开启模块${data.row.name}成功！` : `关闭模块${data.row.name}成功！`,
+                                                });
+                                                injection.notice.warning({
+                                                    title: '将在3秒后重载网页！',
+                                                });
+                                                window.setTimeout(() => {
+                                                    window.location.reload();
+                                                }, 3000);
+                                            });
+                                        },
+                                    },
+                                    props: {
+                                        value: self.list.installed[data.index].enabled,
+                                    },
+                                });
                             },
                             title: '状态',
                             width: 200,
                         },
                         {
                             key: 'handle',
-                            render(row, column, index) {
-                                return `<i-button :loading="list.installed[${index}].loading" type="error" @click="uninstall(${index})">卸载</i-button>`;
+                            render(h, data) {
+                                return h('i-button', {
+                                    on: {
+                                        click() {
+                                            self.uninstall(data.index);
+                                        },
+                                    },
+                                    props: {
+                                        loading: self.list.installed[data.index].loading,
+                                        size: 'small',
+                                        type: 'error',
+                                    },
+                                }, '卸载');
                             },
                             title: '操作',
                             width: 200,
@@ -79,8 +292,18 @@
                         },
                         {
                             key: 'handle',
-                            render(row, column, index) {
-                                return `<i-button :loading="list.notInstalled[${index}].loading" type="primary" @click="install(${index})">安装</i-button>`;
+                            render(h, data) {
+                                return h('i-button', {
+                                    on: {
+                                        click() {
+                                            self.install(data.index);
+                                        },
+                                    },
+                                    props: {
+                                        loading: self.list.notInstalled[data.index].loading,
+                                        type: 'primary',
+                                    },
+                                }, '安装');
                             },
                             title: '操作',
                             width: 200,
@@ -88,15 +311,53 @@
                     ],
                 },
                 list: {
-                    all: [],
+                    domains: [],
                     enabled: [],
+                    exports: [],
                     installed: [],
+                    modules: [],
                     notInstalled: [],
                 },
-                self: this,
+                loading: {
+                    exports: false,
+                    imports: false,
+                },
+                multidomain: false,
+                selection: [],
             };
         },
         methods: {
+            imports() {
+                const self = this;
+                self.$notice.open({
+                    title: '开始导入...',
+                });
+            },
+            exports() {
+                const self = this;
+                if (self.selection.length === 0) {
+                    self.$notice.error({
+                        title: '请先选择一个模块，再执行导出的操作！',
+                    });
+                } else {
+                    self.$notice.open({
+                        title: '开始导出...',
+                    });
+                    self.loading.exports = true;
+                    const data = self.selection.map(module => module.identification);
+                    self.$http.post(`${window.api}/module/exports`, {
+                        modules: data,
+                    }).then(response => {
+                        file.download(response.data.data.file, response.data.data.content, 'yaml');
+                    }).catch(() => {
+                        self.$notice.error({
+                            title: '导出失败！',
+                        });
+                    }).finally(() => {
+                        self.loading.exports = false;
+                    });
+                }
+            },
             install(index) {
                 const self = this;
                 const item = self.list.notInstalled[index];
@@ -106,64 +367,54 @@
                 }).then(response => {
                     injection.console.log(response);
                     injection.console.log(response.data.data);
-                    const messages = response.data.message;
-                    messages.forEach(message => {
-                        self.$notice.open({
-                            title: message,
-                        });
-                    });
                     self.$notice.open({
-                        title: '正在刷新数据……',
+                        title: '安装模块成功！',
                     });
-                    injection.loading.start();
-                    injection.http.post(`${window.api}/administration/module`).then(result => {
-                        injection.loading.finish();
-                        injection.sidebar.active('setting');
-                        const all = result.data.data.all;
-                        const enabled = result.data.data.enabled;
-                        const installed = result.data.data.installed;
-                        const notInstalled = result.data.data.notInstall;
-                        self.$nextTick(() => {
-                            self.list.all = Object.keys(all).map(key => all[key]);
-                            self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
-                            self.list.installed = Object.keys(installed).map(key => {
-                                const data = installed[key];
-                                data.loading = false;
-                                return data;
-                            });
-                            self.list.notInstalled = Object.keys(notInstalled).map(key => {
-                                const data = notInstalled[key];
-                                data.loading = false;
-                                return data;
-                            });
-                            self.$notice.open({
-                                title: '刷新数据完成！',
-                            });
-                        });
-                    });
+                    self.refresh();
                 }).finally(() => {
                     item.loading = false;
                 });
             },
-            statusChanged(index) {
+            refresh() {
                 const self = this;
-                injection.loading.start();
-                const module = self.list.installed[index];
-                injection.http.post(`${window.api}/module/enable`, {
-                    name: module.identification,
-                    value: module.enabled,
-                }).then(() => {
-                    injection.loading.finish();
-                    injection.notice.open({
-                        title: module.enabled ? `开启模块${module.name}成功！` : `关闭模块${module.name}成功！`,
-                    });
-                    injection.notice.warning({
-                        title: '将在3秒后重载网页！',
-                    });
-                    window.setTimeout(() => {
-                        window.location.reload();
-                    }, 3000);
+                self.$notice.open({
+                    title: '正在刷新数据……',
                 });
+                injection.loading.start();
+                injection.http.post(`${window.api}/administration/module`).then(result => {
+                    injection.loading.finish();
+                    injection.sidebar.active('setting');
+                    const domains = result.data.data.domains;
+                    const enabled = result.data.data.enabled;
+                    const exports = result.data.data.exports;
+                    const installed = result.data.data.installed;
+                    const modules = result.data.data.modules;
+                    const multidomain = result.data.data.multidomain;
+                    const notInstalled = result.data.data.notInstall;
+                    self.$nextTick(() => {
+                        self.list.domains = Object.keys(domains).map(key => domains[key]);
+                        self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
+                        self.list.exports = Object.keys(exports).map(key => exports[key]);
+                        self.list.installed = Object.keys(installed).map(key => {
+                            const data = installed[key];
+                            data.loading = false;
+                            return data;
+                        });
+                        self.list.modules = Object.keys(modules).map(key => modules[key]);
+                        self.list.notInstalled = Object.keys(notInstalled).map(key => {
+                            const data = notInstalled[key];
+                            data.loading = false;
+                            return data;
+                        });
+                        self.multidomain = multidomain;
+                        self.$notice.open({
+                            title: '刷新数据完成！',
+                        });
+                    });
+                });
+            },
+            selectionChanged(selection) {
+                this.selection = selection;
             },
             uninstall(index) {
                 const self = this;
@@ -186,39 +437,48 @@
                                 title: message,
                             });
                         });
-                        self.$notice.open({
-                            title: '正在刷新数据……',
-                        });
-                        injection.loading.start();
-                        injection.http.post(`${window.api}/administration/module`).then(result => {
-                            injection.loading.finish();
-                            injection.sidebar.active('setting');
-                            const all = result.data.data.all;
-                            const enabled = result.data.data.enabled;
-                            const installed = result.data.data.installed;
-                            const notInstalled = result.data.data.notInstall;
-                            self.$nextTick(() => {
-                                self.list.all = Object.keys(all).map(key => all[key]);
-                                self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
-                                self.list.installed = Object.keys(installed).map(key => {
-                                    const data = installed[key];
-                                    data.loading = false;
-                                    return data;
-                                });
-                                self.list.notInstalled = Object.keys(notInstalled).map(key => {
-                                    const data = notInstalled[key];
-                                    data.loading = false;
-                                    return data;
-                                });
-                                self.$notice.open({
-                                    title: '刷新数据完成！',
-                                });
-                            });
-                        });
+                        self.refresh();
                     }).finally(() => {
                         module.loading = false;
                     });
                 }
+            },
+            updateDomain(data) {
+                const self = this;
+                self.$loading.start();
+                self.$http.post(`${window.api}/module/domain`, data).then(() => {
+                    self.$loading.finish();
+                    self.$notice.open({
+                        title: '更新模块域名信息成功！',
+                    });
+                    self.refresh();
+                }).catch(() => {
+                    self.$loading.error();
+                    self.$notice.error({
+                        title: '更新模块域名信息失败！',
+                    });
+                });
+            },
+            uploadBefore() {
+                this.$loading.start();
+            },
+            uploadError() {
+                this.$loading.error();
+            },
+            uploadFormatError(upload) {
+                this.$loading.error();
+                this.$notice.warning({
+                    title: '文件格式不正确',
+                    desc: `文件 ${upload.name} 格式不正确`,
+                });
+            },
+            uploadSuccess(data) {
+                const self = this;
+                window.console.log(data);
+                self.$loading.finish();
+                self.$notice.open({
+                    title: data.message,
+                });
             },
         },
         mounted() {
@@ -231,10 +491,41 @@
         <card :bordered="false">
             <tabs value="installed">
                 <tab-pane label="开启模块" name="installed">
-                    <i-table :columns="columns.installed" :context="self" :data="list.installed"></i-table>
+                    <i-table :columns="columns.installed" :data="list.installed"></i-table>
+                </tab-pane>
+                <tab-pane label="域名配置" name="domain">
+                    <i-table :columns="columns.domains" :data="list.domains"></i-table>
+                </tab-pane>
+                <tab-pane label="导入/导出" name="exchange">
+                    <div style="margin-bottom: 20px">
+                        <upload :action="action"
+                                :before-upload="uploadBefore"
+                                :format="['yaml']"
+                                :headers="{
+                                    Authorization: `Bearer ${$store.state.token.access_token}`
+                                }"
+                                :on-error="uploadError"
+                                :on-format-error="uploadFormatError"
+                                :on-success="uploadSuccess"
+                                :show-upload-list="false"
+                                style="float: left;margin-right: 10px;">
+                            <i-button :loading="loading.imports"
+                                      type="ghost"
+                                      icon="ios-cloud-upload-outline">
+                                <span v-if="!loading.imports">导入</span>
+                                <span v-else>正在导入…</span>
+                            </i-button>
+                        </upload>
+                        <i-button :loading="loading.exports" type="default" @click.native="exports">
+                            <span v-if="!loading.exports">导出</span>
+                            <span v-else>正在导出…</span>
+                        </i-button>
+                    </div>
+                    <i-table :columns="columns.exports" :data="list.exports"
+                             @on-selection-change="selectionChanged"></i-table>
                 </tab-pane>
                 <tab-pane label="本地安装" name="no-installed">
-                    <i-table :columns="columns.notInstalled" :context="self" :data="list.notInstalled"></i-table>
+                    <i-table :columns="columns.notInstalled" :data="list.notInstalled"></i-table>
                 </tab-pane>
             </tabs>
         </card>

@@ -33,15 +33,18 @@
                 self.loading = true;
                 self.$refs.form.validate(valid => {
                     if (valid) {
-                        self.$http.post(`${window.admin}/token`, {
+                        self.$http.post(`${window.api}/administration/token`, {
                             name: self.form.username,
                             password: self.form.password,
                         }).then(response => {
                             self.$notice.open({
                                 title: '恭喜，登录成功！',
                             });
-                            self.$store.commit('token', response.data);
-                            self.$router.push('/');
+                            self.$notice.open({
+                                title: '即将跳转...',
+                            });
+                            self.$store.commit('token', response.data.data);
+                            window.location = window.admin;
                         }).finally(() => {
                             self.loading = false;
                         });

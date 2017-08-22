@@ -1,12 +1,30 @@
 import axios from 'axios';
+import store from '../stores';
 
 export default function (injection, Vue) {
+    let time = 0;
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-    axios.interceptors.request.use(configuration => configuration, error => {
+    axios.interceptors.request.use(configuration => {
+        if (configuration.url !== `${window.api}/debug/publish`) {
+            time = 1;
+        }
+        return configuration;
+    }, error => {
         injection.console.log(error);
         return Promise.reject(error);
     });
-    axios.interceptors.response.use(response => response, error => {
+    axios.interceptors.response.use(response => {
+        if (store.state.debug && time === 1) {
+            time = 0;
+            axios.post(`${window.api}/debug/publish`).then(() => {
+                injection.notice.open({
+                    title: '调试模式下发布资源成功！',
+                });
+            });
+        }
+
+        return response;
+    }, error => {
         injection.console.log(error.response);
         injection.console.log(error.response.data);
         const data = error.response.data;

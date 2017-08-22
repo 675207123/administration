@@ -1,6 +1,7 @@
 export default function (injection) {
     const methods = {
         use(plugin) {
+            window.console.log('Use Extension or Module:', plugin);
             if (plugin.installed) {
                 return false;
             }
@@ -21,6 +22,12 @@ export default function (injection) {
             const data = [].concat(routes);
             data.forEach(value => {
                 injection.routes.extension.push(value);
+            });
+        },
+        useGlobalRoute(routes) {
+            const data = [].concat(routes);
+            data.forEach(value => {
+                injection.routes.global.push(value);
             });
         },
         useModuleRoute(routes) {
@@ -50,6 +57,9 @@ export default function (injection) {
         },
         useSidebarExtension(sidebar) {
             injection.sidebar.lists.setting[3].children.push(sidebar);
+        },
+        useSidebarGlobal(sidebar) {
+            injection.sidebar.lists.setting[0].children.push(sidebar);
         },
     };
 

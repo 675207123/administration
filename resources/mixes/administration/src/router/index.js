@@ -10,8 +10,6 @@ import Login from '../pages/Login.vue';
 import Mail from '../pages/Mail.vue';
 import Module from '../pages/Module.vue';
 import Navigation from '../pages/Navigation.vue';
-import Seo from '../pages/Seo.vue';
-import Setting from '../pages/Setting.vue';
 import Template from '../pages/Template.vue';
 import Upload from '../pages/Upload.vue';
 
@@ -52,16 +50,6 @@ const configuration = [
     },
     {
         beforeEnter: requireAuth,
-        component: Seo,
-        path: 'seo',
-    },
-    {
-        beforeEnter: requireAuth,
-        component: Setting,
-        path: 'setting',
-    },
-    {
-        beforeEnter: requireAuth,
         component: Template,
         path: 'template',
     },
@@ -83,6 +71,7 @@ export default {
                         path: '/',
                     },
                     ...configuration,
+                    ...injection.routes.global,
                     ...injection.routes.extension,
                     ...injection.routes.module,
                     ...injection.routes.other,
@@ -95,8 +84,21 @@ export default {
                 path: '/login',
             },
         ];
-        return new Router({
+        const router = new Router({
             routes,
         });
+        router.beforeEach((to, from, next) => {
+            if (to.matched.length === 0) {
+                injection.notice.error({
+                    title: '所访问的页面不存在，即将跳转...',
+                });
+                next({
+                    path: '/',
+                });
+            } else {
+                next();
+            }
+        });
+        return router;
     },
 };
