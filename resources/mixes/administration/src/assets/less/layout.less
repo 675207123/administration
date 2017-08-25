@@ -28,27 +28,30 @@ html, body {
         z-index: 11;
         > .ivu-menu {
             > .layout-logo-left {
-                background: #5b6270;
-                border-radius: 3px;
+                background: #464c5b url("../images/logo.svg") center no-repeat;
+                border-bottom: 1px solid rgba(54, 62, 79, .5);
                 color: #fff;
-                height: 30px;
-                line-height: 30px;
-                margin: 15px auto;
+                height: 88px;
+                line-height: 88px;
                 text-align: center;
-                width: 90%;
             }
             .ivu-menu-item {
                 padding: 0;
                 > a {
                     color: #9ea7b4;
                     display: block;
-                    padding: 14px 24px;
+                    line-height: 20px;
+                    padding: 10px 24px 10px 64px;
                     > i {
                         margin-right: 8px;
                     }
                 }
             }
             .ivu-menu-submenu {
+                > .ivu-menu-submenu-title {
+                    line-height: 24px;
+                    padding: 18px 24px 18px 64px;
+                }
                 .ivu-menu-item {
                     &.ivu-menu-item-active,
                     &.ivu-menu-item-active:hover {
@@ -57,7 +60,7 @@ html, body {
                         }
                     }
                     > a {
-                        padding-left: 47px;
+                        padding-left: 86px;
                     }
                 }
             }
@@ -66,7 +69,7 @@ html, body {
     > .layout-header {
         background: #fff;
         box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-        height: 60px;
+        height: 88px;
         left: 0;
         padding-left: 300px;
         position: fixed;
@@ -75,10 +78,13 @@ html, body {
         z-index: 10;
         > button.ivu-btn {
             float: left;
-            margin: 6.5px 0;
+            margin: 20.5px 0;
+            padding: 6px 20px;
         }
         > .ivu-menu {
             float: left;
+            height: 88px;
+            line-height: 88px;
             &:last-child {
                 float: right;
             }
@@ -104,7 +110,7 @@ html, body {
         }
     }
     > .layout-content {
-        margin-top: 60px;
+        margin-top: 88px;
         margin-left: 300px;
         padding: 20px;
         > .layout-copy {

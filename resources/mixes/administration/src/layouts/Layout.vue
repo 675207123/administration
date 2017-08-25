@@ -50,7 +50,7 @@
     <div class="layout" :class="{'layout-hide-sidebar': hideSidebar}">
         <div class="layout-left">
             <i-menu :accordion="true" theme="dark" width="auto">
-                <div class="layout-logo-left">Notadd 后台管理</div>
+                <div class="layout-logo-left"></div>
                 <template v-for="(item, key) in sidebar">
                     <submenu :name="'sidebar-' + key" v-if="item.children">
                         <template slot="title">
