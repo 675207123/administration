@@ -295,12 +295,14 @@
 </script>
 <template>
     <div class="module-wrap">
-        <card :bordered="false">
-            <tabs value="installed">
-                <tab-pane label="开启插件" name="installed">
+        <tabs value="installed">
+            <tab-pane label="开启插件" name="installed">
+                <card :bordered="false">
                     <i-table :columns="columns.installed" :context="self" :data="list.installed"></i-table>
-                </tab-pane>
-                <tab-pane label="导入/导出" name="exchange">
+                </card>
+            </tab-pane>
+            <tab-pane label="导入/导出" name="exchange">
+                <card :bordered="false">
                     <div style="margin-bottom: 20px">
                         <upload :action="action"
                                 :before-upload="uploadBefore"
@@ -327,11 +329,13 @@
                     </div>
                     <i-table :columns="columns.exports" :data="list.extensions"
                              @on-selection-change="selectionChanged"></i-table>
-                </tab-pane>
-                <tab-pane label="本地安装" name="no-installed">
+                </card>
+            </tab-pane>
+            <tab-pane label="本地安装" name="no-installed">
+                <card :bordered="false">
                     <i-table :columns="columns.notInstalled" :context="self" :data="list.notInstalled"></i-table>
-                </tab-pane>
-            </tabs>
-        </card>
+                </card>
+            </tab-pane>
+        </tabs>
     </div>
 </template>
