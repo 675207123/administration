@@ -61,6 +61,12 @@
 </script>
 <template>
     <div class="login-layout" @keyup.enter="submit">
+        <div class="background one"></div>
+        <div class="background two"></div>
+        <div class="background three"></div>
+        <div class="background four"></div>
+        <div class="background five"></div>
+        <div class="background six"></div>
         <i-form :model="form" :label-width="0" ref="form" :rules="rules">
             <div class="login-logo">Notadd 管理后台</div>
             <form-item label="账号" prop="username">
