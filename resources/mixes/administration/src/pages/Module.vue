@@ -178,7 +178,16 @@
                                     },
                                     props: {
                                         disabled: !self.multidomain,
+                                        size: 'large',
                                         value: self.list.domains[data.index].enabled,
+                                    },
+                                    scopedSlots: {
+                                        close() {
+                                            return '关闭';
+                                        },
+                                        open() {
+                                            return '开启';
+                                        },
                                     },
                                 });
                             },
@@ -248,7 +257,16 @@
                                         },
                                     },
                                     props: {
+                                        size: 'large',
                                         value: self.list.installed[data.index].enabled,
+                                    },
+                                    scopedSlots: {
+                                        close() {
+                                            return '关闭';
+                                        },
+                                        open() {
+                                            return '开启';
+                                        },
                                     },
                                 });
                             },
@@ -488,22 +506,26 @@
 </script>
 <template>
     <div class="module-wrap">
-        <card :bordered="false">
-            <tabs value="installed">
-                <tab-pane label="开启模块" name="installed">
+        <tabs value="installed">
+            <tab-pane label="开启模块" name="installed">
+                <card :bordered="false">
                     <i-table :columns="columns.installed" :data="list.installed"></i-table>
-                </tab-pane>
-                <tab-pane label="域名配置" name="domain">
+                </card>
+            </tab-pane>
+            <tab-pane label="域名配置" name="domain">
+                <card :bordered="false">
                     <i-table :columns="columns.domains" :data="list.domains"></i-table>
-                </tab-pane>
-                <tab-pane label="导入/导出" name="exchange">
+                </card>
+            </tab-pane>
+            <tab-pane label="导入/导出" name="exchange">
+                <card :bordered="false">
                     <div style="margin-bottom: 20px">
                         <upload :action="action"
                                 :before-upload="uploadBefore"
                                 :format="['yaml']"
                                 :headers="{
-                                    Authorization: `Bearer ${$store.state.token.access_token}`
-                                }"
+                                Authorization: `Bearer ${$store.state.token.access_token}`
+                            }"
                                 :on-error="uploadError"
                                 :on-format-error="uploadFormatError"
                                 :on-success="uploadSuccess"
@@ -523,11 +545,13 @@
                     </div>
                     <i-table :columns="columns.exports" :data="list.exports"
                              @on-selection-change="selectionChanged"></i-table>
-                </tab-pane>
-                <tab-pane label="本地安装" name="no-installed">
+                </card>
+            </tab-pane>
+            <tab-pane label="本地安装" name="no-installed">
+                <card :bordered="false">
                     <i-table :columns="columns.notInstalled" :data="list.notInstalled"></i-table>
-                </tab-pane>
-            </tabs>
-        </card>
+                </card>
+            </tab-pane>
+        </tabs>
     </div>
 </template>

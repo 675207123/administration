@@ -109,16 +109,18 @@
 </script>
 <template>
     <div class="page-wrap">
-        <card :bordered="false">
-            <tabs>
-                <tab-pane :label="tab.title" :name="identification" v-for="(tab, identification) in tabs">
+        <tabs>
+            <tab-pane :label="tab.title" :name="identification" v-for="(tab, identification) in tabs">
+                <card :bordered="false">
                     <i-form :label-width="200" :model="tab.fields" :ref="identification">
                         <row v-for="(field, key) in tab.fields">
                             <i-col span="12">
-                                <form-item :label="field.label" :key="key" :prop="key + '.value'" :rules="field.validates">
+                                <form-item :label="field.label" :key="key" :prop="key + '.value'"
+                                           :rules="field.validates">
                                     {{ field.rules }}
                                     <i-input v-if="field.type === 'input'" v-model="field.value"></i-input>
-                                    <i-input :rows="4" type="textarea" v-if="field.type === 'textarea'" v-model="field.value"></i-input>
+                                    <i-input :rows="4" type="textarea" v-if="field.type === 'textarea'"
+                                             v-model="field.value"></i-input>
                                     <i-switch v-model="field.value" size="large" v-if="field.type === 'switch'">
                                         <span slot="open">开启</span>
                                         <span slot="close">关闭</span>
@@ -161,7 +163,9 @@
                         <row>
                             <i-col span="12">
                                 <form-item>
-                                    <i-button :loading="tab.loading" type="primary" @click.native="submit(identification)">
+                                    <i-button :loading="tab.loading"
+                                              type="primary"
+                                              @click.native="submit(identification)">
                                         <span v-if="!tab.loading">确认提交</span>
                                         <span v-else>正在提交…</span>
                                     </i-button>
@@ -169,8 +173,8 @@
                             </i-col>
                         </row>
                     </i-form>
-                </tab-pane>
-            </tabs>
-        </card>
+                </card>
+            </tab-pane>
+        </tabs>
     </div>
 </template>

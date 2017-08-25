@@ -18,6 +18,62 @@ html, body {
             width: 0;
         }
     }
+    > .layout-content {
+        margin-top: 88px;
+        margin-left: 300px;
+        padding: 20px;
+        > .layout-copy {
+            color: #9ea7b4;
+            text-align: center;
+            padding: 10px 0 20px;
+        }
+        > .layout-content-main {
+            margin-bottom: 20px;
+        }
+    }
+    > .layout-header {
+        background: #fff;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+        height: 88px;
+        left: 0;
+        padding-left: 300px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        > button.ivu-btn {
+            float: left;
+            margin: 20.5px 0;
+            padding: 6px 20px;
+        }
+        > .ivu-menu {
+            float: left;
+            height: 88px;
+            line-height: 88px;
+            &:last-child {
+                float: right;
+            }
+            > .ivu-menu-item {
+                border-color: #fff;
+                padding: 0;
+                &.ivu-menu-item-active,
+                &:hover {
+                    border-bottom: 2px solid #3399ff;
+                    > a {
+                        color: #3399ff;
+                    }
+                }
+                > a {
+                    color: #657180;
+                    display: block;
+                    padding: 0 20px;
+                }
+            }
+            > .ivu-menu-submenu {
+                border-color: #fff;
+            }
+        }
+    }
     > .layout-left {
         background: #464c5b;
         height: 100%;
@@ -64,62 +120,6 @@ html, body {
                     }
                 }
             }
-        }
-    }
-    > .layout-header {
-        background: #fff;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-        height: 88px;
-        left: 0;
-        padding-left: 300px;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 10;
-        > button.ivu-btn {
-            float: left;
-            margin: 20.5px 0;
-            padding: 6px 20px;
-        }
-        > .ivu-menu {
-            float: left;
-            height: 88px;
-            line-height: 88px;
-            &:last-child {
-                float: right;
-            }
-            > .ivu-menu-item {
-                border-color: #fff;
-                padding: 0;
-                &.ivu-menu-item-active,
-                &:hover {
-                    border-bottom: 2px solid #3399ff;
-                    > a {
-                        color: #3399ff;
-                    }
-                }
-                > a {
-                    color: #657180;
-                    display: block;
-                    padding: 0 20px;
-                }
-            }
-            > .ivu-menu-submenu {
-                border-color: #fff;
-            }
-        }
-    }
-    > .layout-content {
-        margin-top: 88px;
-        margin-left: 300px;
-        padding: 20px;
-        > .layout-copy {
-            color: #9ea7b4;
-            text-align: center;
-            padding: 10px 0 20px;
-        }
-        > .layout-content-main {
-            margin-bottom: 20px;
         }
     }
 }
