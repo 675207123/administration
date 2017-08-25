@@ -6,6 +6,18 @@ html, body {
     border-radius: 4px;
     position: relative;
     width: 100%;
+    &.layout-hide-sidebar {
+        > .layout-content {
+            margin-left: 0;
+        }
+        > .layout-header {
+            padding-left: 0;
+        }
+        > .layout-left {
+            overflow: hidden;
+            width: 0;
+        }
+    }
     > .layout-left {
         background: #464c5b;
         height: 100%;

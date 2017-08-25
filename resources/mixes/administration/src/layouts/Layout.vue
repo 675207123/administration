@@ -14,10 +14,9 @@
         },
         data() {
             return {
+                hideSidebar: false,
                 navigation: injection.navigation,
                 sidebar: [],
-                spanLeft: 5,
-                spanRight: 19,
                 url: window.url,
             };
         },
@@ -32,13 +31,7 @@
                 this.$router.push('/login');
             },
             toggleClick() {
-                if (this.spanLeft === 5) {
-                    this.spanLeft = 2;
-                    this.spanRight = 22;
-                } else {
-                    this.spanLeft = 5;
-                    this.spanRight = 19;
-                }
+                this.hideSidebar = !this.hideSidebar;
             },
         },
         mounted() {
@@ -54,7 +47,7 @@
     };
 </script>
 <template>
-    <div class="layout" :class="{'layout-hide-text': spanLeft < 5}">
+    <div class="layout" :class="{'layout-hide-sidebar': hideSidebar}">
         <div class="layout-left">
             <i-menu :accordion="true" theme="dark" width="auto">
                 <div class="layout-logo-left">Notadd 后台管理</div>
@@ -80,7 +73,8 @@
         </div>
         <div class="layout-header">
             <i-button type="text" @click.native="toggleClick">
-                <icon type="navicon" size="32"></icon>
+                <icon size="32" type="ios-arrow-right" v-if="hideSidebar"></icon>
+                <icon size="32" type="ios-arrow-left" v-else></icon>
             </i-button>
             <i-menu mode="horizontal" theme="light">
                 <menu-item :name="'nav-' + key" v-for="(nav, key) in navigation" :key="key">
