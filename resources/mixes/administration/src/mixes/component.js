@@ -48,6 +48,8 @@ import {
     decamelize,
 } from '../helpers/functions';
 import Affix from '../components/affix';
+import Dashboard from '../components/dashboard';
+import DashboardContent from '../components/dashboard-content';
 import Input from '../components/input';
 import Upload from '../components/upload';
 
@@ -67,6 +69,8 @@ const components = {
     Checkbox,
     CheckboxGroup: Checkbox.Group,
     iCircle: Circle,
+    Dashboard,
+    DashboardContent,
     DatePicker,
     Dropdown,
     DropdownItem: Dropdown.Item,

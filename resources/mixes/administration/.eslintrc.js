@@ -42,6 +42,7 @@ module.exports = {
         'no-plusplus': ['error', {
             allowForLoopAfterthoughts: true,
         }],
-        'no-restricted-syntax': ['error', 'WithStatement', "BinaryExpression[operator='in']"],
+        'no-restricted-syntax': ['error', 'WithStatement'],
+        'no-underscore-dangle': 0,
     },
 };

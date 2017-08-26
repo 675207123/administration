@@ -3,16 +3,23 @@
 
     export default {
         beforeRouteEnter(to, from, next) {
-            next(() => {
-                injection.sidebar.active('setting');
+            injection.loading.start();
+            injection.http.post(`${window.api}/administration/dashboard`).then(response => {
+                next(vm => {
+                    vm.dashboards.first = response.data.data;
+                    vm.dashboards.last = response.data.data;
+                    injection.sidebar.active('setting');
+                });
+            }).catch(() => {
+                injection.loading.error();
             });
-        },
-        created() {
-            this.boards = injection.board.lists;
         },
         data() {
             return {
-                boards: [],
+                dashboards: {
+                    first: [],
+                    last: [],
+                },
             };
         },
         mounted() {
@@ -23,37 +30,21 @@
 <template>
     <div class="bashboard-wrap">
         <row :gutter="20">
-            <i-col :span="board.span" v-for="(board, key) in boards" :key="key">
-                <card :bordered="false" v-if="board.type === 'button'">
-                    <p slot="title" v-if="board.title">{{ board.title }}</p>
-                    <template v-if="board.link">
-                        <template v-if="board.link.indexOf('http://') !== -1 || board.link.indexOf('https://') !== -1">
-                            <a :href="board.link">
-                                <i-button long :type="board.theme">{{ board.content }}</i-button>
-                            </a>
-                        </template>
-                        <template v-else>
-                            <router-link :to="board.link">
-                                <i-button long :type="board.theme">{{ board.content }}</i-button>
-                            </router-link>
-                        </template>
-                    </template>
-                    <template v-else>
-                        <i-button long :type="board.theme">{{ board.content }}</i-button>
-                    </template>
-                </card>
-                <card :bordered="false" v-if="board.type === 'chart'">
-                    <p slot="title" v-if="board.title">{{ board.title }}</p>
-                    <i-echarts :option="board.content" :style="board.style"></i-echarts>
-                </card>
-                <card :bordered="false" v-if="board.type === 'html'">
-                    <p slot="title" v-if="board.title">{{ board.title }}</p>
-                    <div v-html="board.content"></div>
-                </card>
-                <card :bordered="false" v-if="board.type === 'text'">
-                    <p slot="title" v-if="board.title">{{ board.title }}</p>
-                    <p>{{ board.content }}</p>
-                </card>
+            <i-col span="12">
+                <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.first" style="min-height: 100px;">
+                    <card :bordered="false" v-for="dashboard in dashboards.first" style="margin-bottom: 20px;">
+                        <p slot="title">{{ dashboard.title }}</p>
+                        <dashboard-content :template="dashboard.template"></dashboard-content>
+                    </card>
+                </dashboard>
+            </i-col>
+            <i-col span="12">
+                <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.last" style="min-height: 100px;">
+                    <card :bordered="false" v-for="dashboard in dashboards.last" style="margin-bottom: 20px;">
+                        <p slot="title">{{ dashboard.title }}</p>
+                        <dashboard-content :template="dashboard.template"></dashboard-content>
+                    </card>
+                </dashboard>
             </i-col>
         </row>
     </div>
