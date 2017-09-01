@@ -33,7 +33,7 @@
         <row :gutter="20">
             <i-col span="12">
                 <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.first" style="min-height: 100px;">
-                    <card :bordered="false" v-for="dashboard in dashboards.first" style="margin-bottom: 20px;">
+                    <card :bordered="false" :key="index" v-for="(dashboard, index) in dashboards.first" style="margin-bottom: 20px;">
                         <p slot="title">{{ dashboard.title }}</p>
                         <dashboard-content :template="dashboard.template"></dashboard-content>
                     </card>
@@ -41,7 +41,7 @@
             </i-col>
             <i-col span="12">
                 <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.last" style="min-height: 100px;">
-                    <card :bordered="false" v-for="dashboard in dashboards.last" style="margin-bottom: 20px;">
+                    <card :bordered="false" :key="index" v-for="(dashboard, index) in dashboards.last" style="margin-bottom: 20px;">
                         <p slot="title">{{ dashboard.title }}</p>
                         <dashboard-content :template="dashboard.template"></dashboard-content>
                     </card>

@@ -110,10 +110,10 @@
 <template>
     <div class="page-wrap">
         <tabs>
-            <tab-pane :label="tab.title" :name="identification" v-for="(tab, identification) in tabs">
+            <tab-pane :key="identification" :label="tab.title" :name="identification" v-for="(tab, identification) in tabs">
                 <card :bordered="false">
                     <i-form :label-width="200" :model="tab.fields" :ref="identification">
-                        <row v-for="(field, key) in tab.fields">
+                        <row :key="key" v-for="(field, key) in tab.fields">
                             <i-col span="12">
                                 <form-item :label="field.label" :key="key" :prop="key + '.value'"
                                            :rules="field.validates">
@@ -131,7 +131,7 @@
                                                        field.type === 'datetime'"
                                                  v-model="field.value"></date-picker>
                                     <radio-group v-model="field.value" size="large" v-if="field.type === 'radio'">
-                                        <radio :label="option" v-for="option in field.opinions"></radio>
+                                        <radio :key="i" :label="option" v-for="(option, i) in field.opinions"></radio>
                                     </radio-group>
                                     <div class="ivu-upload-wrapper" v-if="field.type === 'picture'">
                                         <div class="preview" v-if="field.value">

@@ -148,6 +148,7 @@ function install(Vue) {
                 Object.keys(data).forEach(index => {
                     switch (informations[index].type) {
                         case 'extension':
+                            window.console.log(index, data[index]);
                             if (data[index] && data[index].default) {
                                 injection.extensions.push(data[index].default);
                             } else {
