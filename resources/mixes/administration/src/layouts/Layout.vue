@@ -38,10 +38,6 @@
             const self = this;
             self.$http.post(`${window.api}/administration/access`).then(() => {
                 window.console.log('登录状态正常！');
-            }).catch(() => {
-                self.$notice.error({
-                    title: '登录已过期，请重新登录!',
-                });
             });
         },
     };

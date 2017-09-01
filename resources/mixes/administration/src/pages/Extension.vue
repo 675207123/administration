@@ -281,7 +281,6 @@
             },
             uploadSuccess(data) {
                 const self = this;
-                window.console.log(data);
                 self.$loading.finish();
                 self.$notice.open({
                     title: data.message,
