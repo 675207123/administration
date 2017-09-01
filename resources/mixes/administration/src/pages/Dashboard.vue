@@ -8,6 +8,7 @@
                 next(vm => {
                     vm.dashboards.first = response.data.data;
                     vm.dashboards.last = response.data.data;
+                    injection.loading.finish();
                     injection.sidebar.active('setting');
                 });
             }).catch(() => {
