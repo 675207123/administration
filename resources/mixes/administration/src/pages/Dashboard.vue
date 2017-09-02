@@ -6,8 +6,8 @@
             injection.loading.start();
             injection.http.post(`${window.api}/administration/dashboard`).then(response => {
                 next(vm => {
-                    vm.dashboards.first = response.data.data;
-                    vm.dashboards.last = response.data.data;
+                    vm.dashboards.left = response.data.data.left;
+                    vm.dashboards.right = response.data.data.right;
                     injection.loading.finish();
                     injection.sidebar.active('setting');
                 });
@@ -18,8 +18,8 @@
         data() {
             return {
                 dashboards: {
-                    first: [],
-                    last: [],
+                    left: [],
+                    right: [],
                 },
             };
         },
@@ -32,16 +32,16 @@
     <div class="bashboard-wrap">
         <row :gutter="20">
             <i-col span="12">
-                <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.first" style="min-height: 100px;">
-                    <card :bordered="false" :key="index" v-for="(dashboard, index) in dashboards.first" style="margin-bottom: 20px;">
+                <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.left" style="min-height: 100px;">
+                    <card :bordered="false" :key="index" v-for="(dashboard, index) in dashboards.left" style="margin-bottom: 20px;">
                         <p slot="title">{{ dashboard.title }}</p>
                         <dashboard-content :template="dashboard.template"></dashboard-content>
                     </card>
                 </dashboard>
             </i-col>
             <i-col span="12">
-                <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.last" style="min-height: 100px;">
-                    <card :bordered="false" :key="index" v-for="(dashboard, index) in dashboards.last" style="margin-bottom: 20px;">
+                <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.right" style="min-height: 100px;">
+                    <card :bordered="false" :key="index" v-for="(dashboard, index) in dashboards.right" style="margin-bottom: 20px;">
                         <p slot="title">{{ dashboard.title }}</p>
                         <dashboard-content :template="dashboard.template"></dashboard-content>
                     </card>
