@@ -50,6 +50,7 @@ import {
 import Affix from '../components/affix';
 import Dashboard from '../components/dashboard';
 import DashboardContent from '../components/dashboard-content';
+import Editor from '../components/Editor.vue';
 import Input from '../components/input';
 import Upload from '../components/upload';
 
@@ -75,6 +76,7 @@ const components = {
     Dropdown,
     DropdownItem: Dropdown.Item,
     DropdownMenu: Dropdown.Menu,
+    Editor,
     iEcharts: Echarts,
     iForm: Form,
     FormItem: Form.Item,
