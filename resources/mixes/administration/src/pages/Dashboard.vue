@@ -36,6 +36,7 @@
         mounted() {
             this.$store.commit('title', trans('administration.title.dashboard'));
         },
+        name: 'Dashboard',
     };
 </script>
 <template>
