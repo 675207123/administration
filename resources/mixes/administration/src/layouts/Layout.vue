@@ -73,8 +73,7 @@
         </div>
         <div class="layout-header">
             <i-button type="text" @click.native="toggleClick">
-                <icon size="32" type="ios-arrow-right" v-if="hideSidebar"></icon>
-                <icon size="32" type="ios-arrow-left" v-else></icon>
+                <icon size="32" type="navicon"></icon>
             </i-button>
             <i-menu mode="horizontal" theme="light">
                 <menu-item :name="'nav-' + key" v-for="(nav, key) in navigation" :key="key">
