@@ -38,6 +38,16 @@
                 window.localStorage.clear();
                 this.$router.push('/login');
             },
+            saveDashboard() {
+                this.$children.filter(item => item.$options.name === 'Administration-Dashboard').forEach(item => {
+                    if (item.saveDashboard) {
+                        item.saveDashboard();
+                    }
+                });
+            },
+            switchMode() {
+                this.design = !this.design;
+            },
             toggleClick() {
                 this.hideSidebar = !this.hideSidebar;
             },
@@ -88,6 +98,9 @@
                 </menu-item>
             </i-menu>
             <i-menu mode="horizontal" theme="light">
+                <menu-item name="right-0" v-if="design">
+                    <i-button type="primary" @click.native="saveDashboard">保存布局</i-button>
+                </menu-item>
                 <menu-item name="right-1">
                     <a :href="url" target="_blank">前台</a>
                 </menu-item>
@@ -96,6 +109,7 @@
                         <icon type="person"></icon>
                         {{ name }}
                     </template>
+                    <menu-item name="right-2-0" @click.native="switchMode" v-if="$route.path === '/' && !design">设计模式</menu-item>
                     <menu-item name="right-2-1" @click.native="logout">退出</menu-item>
                 </submenu>
             </i-menu>
@@ -104,7 +118,7 @@
             <div class="layout-content-main">
                 <router-view></router-view>
             </div>
-            <div class="layout-copy">2017 &copy; Notadd</div>
+            <div class="layout-copy" v-if="!design">2017 &copy; Notadd</div>
         </div>
     </div>
 </template>

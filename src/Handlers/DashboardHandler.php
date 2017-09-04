@@ -51,6 +51,7 @@ class DashboardHandler extends Handler
     protected function execute()
     {
         $dashboards = collect();
+        $hidden = collect();
         $left = collect();
         $right = collect();
         $this->module->getEnabledModules()->each(function (Module $module) use ($dashboards) {
@@ -71,7 +72,25 @@ class DashboardHandler extends Handler
                 $dashboards->put($identification, $definition);
             });
         });
-        collect(json_decode($this->setting->get('administration.dashboards', '')))->each(function ($item) {
+        $dashboards = $dashboards->keyBy('identification');
+        $saved = collect(json_decode($this->setting->get('administration.dashboards', '')));
+        $saved->has('hidden') && collect($saved->get('hidden', []))->each(function ($identification) use ($dashboards, $hidden) {
+            if ($dashboards->has($identification)) {
+                $hidden->push($dashboards->get($identification));
+                $dashboards->offsetUnset($identification);
+            }
+        });
+        $saved->has('left') && collect($saved->get('left', []))->each(function ($identification) use ($dashboards, $left) {
+            if ($dashboards->has($identification)) {
+                $left->push($dashboards->get($identification));
+                $dashboards->offsetUnset($identification);
+            }
+        });
+        $saved->has('right') && collect($saved->get('right', []))->each(function ($identification) use ($dashboards, $right) {
+            if ($dashboards->has($identification)) {
+                $right->push($dashboards->get($identification));
+                $dashboards->offsetUnset($identification);
+            }
         });
         if ($dashboards->isNotEmpty()) {
             $dashboards->each(function ($definition) use ($left) {
@@ -79,8 +98,9 @@ class DashboardHandler extends Handler
             });
         }
         $this->withCode(200)->withData([
-            'left'  => $left->toArray(),
-            'right' => $right->toArray(),
+            'hidden' => $hidden->toArray(),
+            'left'   => $left->toArray(),
+            'right'  => $right->toArray(),
         ])->withMessage('获取面板数据成功！');
     }
 }
