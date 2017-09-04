@@ -3,6 +3,14 @@
 
     export default {
         computed: {
+            design: {
+                get() {
+                    return this.$store.state.design;
+                },
+                set(value) {
+                    this.$store.commit('design', value);
+                },
+            },
             name() {
                 return this.$store.state.token.name;
             },

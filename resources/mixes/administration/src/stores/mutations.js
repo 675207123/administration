@@ -12,6 +12,10 @@ export const debug = (state, payload) => {
     state.debug = payload;
 };
 
+export const design = (state, payload) => {
+    state.design = payload;
+};
+
 export const setting = (state, payload) => {
     state.setting = payload;
 };

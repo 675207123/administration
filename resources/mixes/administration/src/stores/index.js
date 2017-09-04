@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 const state = {
     debug: false,
+    design: false,
     setting: {},
     title: 'Notadd Administration',
     token: {},

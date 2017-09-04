@@ -15,6 +15,11 @@
                 injection.loading.error();
             });
         },
+        computed: {
+            design() {
+                return this.$store.state.design;
+            },
+        },
         data() {
             return {
                 dashboards: {
@@ -22,6 +27,11 @@
                     right: [],
                 },
             };
+        },
+        methods: {
+            dragEnd(...args) {
+                window.console.log(args);
+            },
         },
         mounted() {
             this.$store.commit('title', trans('administration.title.dashboard'));
@@ -31,8 +41,11 @@
 <template>
     <div class="bashboard-wrap">
         <row :gutter="20">
-            <i-col span="12">
-                <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.left" style="min-height: 100px;">
+            <i-col span="12">{{ design }}
+                <dashboard :options="{ group: 'dashboards' }"
+                           v-model="dashboards.left"
+                           style="min-height: 100px;"
+                           @end="dragEnd">
                     <card :bordered="false" :key="index" v-for="(dashboard, index) in dashboards.left" style="margin-bottom: 20px;">
                         <p slot="title">{{ dashboard.title }}</p>
                         <dashboard-content :template="dashboard.template"></dashboard-content>
@@ -40,7 +53,10 @@
                 </dashboard>
             </i-col>
             <i-col span="12">
-                <dashboard :options="{ group: 'dashboards' }" v-model="dashboards.right" style="min-height: 100px;">
+                <dashboard :options="{ group: 'dashboards' }"
+                           v-model="dashboards.right"
+                           style="min-height: 100px;"
+                           @end="dragEnd">
                     <card :bordered="false" :key="index" v-for="(dashboard, index) in dashboards.right" style="margin-bottom: 20px;">
                         <p slot="title">{{ dashboard.title }}</p>
                         <dashboard-content :template="dashboard.template"></dashboard-content>

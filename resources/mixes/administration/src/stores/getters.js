@@ -8,6 +8,8 @@
 
 export const debug = state => state.debug;
 
+export const design = state => state.design;
+
 export const setting = state => state.setting;
 
 export const token = state => state.token;

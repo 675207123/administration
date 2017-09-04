@@ -1,7 +1,6 @@
 export default function (injection) {
     const methods = {
         use(plugin) {
-            window.console.log('Use Extension or Module:', plugin);
             if (plugin.installed) {
                 return false;
             }
