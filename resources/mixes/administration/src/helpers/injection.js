@@ -21,8 +21,6 @@ const injection = {
 };
 
 function init(Vue) {
-    window.console.log(injection.extensions);
-    window.console.log(injection.modules);
     mixinBoard(injection);
     mixinNavigation(injection);
     mixinRouter(injection);
@@ -150,6 +148,7 @@ function install(Vue) {
                         case 'extension':
                             if (data[index] && data[index].default) {
                                 injection.extensions.push(data[index].default);
+                                window.console.log(`插件[${informations[index].name}]加载成功！`);
                             } else {
                                 window.console.warn(`插件[${informations[index].name}]加载失败！`);
                             }
@@ -157,6 +156,7 @@ function install(Vue) {
                         case 'module':
                             if (data[index] && data[index].default) {
                                 injection.modules.push(data[index].default);
+                                window.console.log(`模块[${informations[index].name}]加载成功！`);
                             } else {
                                 window.console.warn(`模块[${informations[index].name}]加载失败！`);
                             }
