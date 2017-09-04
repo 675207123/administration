@@ -109,7 +109,7 @@
                         <icon type="person"></icon>
                         {{ name }}
                     </template>
-                    <menu-item name="right-2-0" @click.native="switchMode" v-if="$route.path === '/' && !design">设计模式</menu-item>
+                    <menu-item name="right-2-0" @click.native="switchMode" v-if="$route.path === '/' && !design">编辑模式</menu-item>
                     <menu-item name="right-2-1" @click.native="logout">退出</menu-item>
                 </submenu>
             </i-menu>
