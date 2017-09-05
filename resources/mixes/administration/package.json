@@ -14,7 +14,7 @@
         "axios": "^0.16.1",
         "core-js": "^2.4.1",
         "deepmerge": "latest",
-        "iview": "^2.2.0",
+        "iview": "^2.3.0",
         "promise.prototype.finally": "^2.0.1",
         "sortablejs": "^1.6.0",
         "vue": "^2.3.3",
