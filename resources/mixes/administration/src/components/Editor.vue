@@ -111,6 +111,7 @@
                 default() {
                     return {
                         initialFrameHeight: 600,
+                        topOffset: 89,
                     };
                 },
             },

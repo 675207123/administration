@@ -6,7 +6,6 @@
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-08-17 15:22
  */
-
 namespace Notadd\Administration\Handlers;
 
 use Illuminate\Auth\AuthManager;
