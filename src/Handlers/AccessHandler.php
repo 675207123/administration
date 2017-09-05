@@ -76,7 +76,7 @@ class AccessHandler extends Handler
         if ($this->auth->guard('api')->user() && isset($back['access_token'])) {
             $this->withCode(200)->withData($back)->withMessage('已登录！');
         } else {
-            $this->withCode(500)->withError('未登录！');
+            $this->withCode(401)->withError('未登录！');
         }
     }
 }
