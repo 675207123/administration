@@ -20,6 +20,7 @@
                     enabled: false,
                     testing: false,
                 },
+                loading: false,
             };
         },
         methods: {
@@ -33,6 +34,21 @@
                     });
                 });
             },
+            clearRedisCache() {
+                const self = this;
+                self.loading = true;
+                self.$http.post(`${window.api}/redis/clear`).then(() => {
+                    self.$notice.open({
+                        title: 'Redis 缓存清除成功！',
+                    });
+                }).catch(() => {
+                    self.$notice.error({
+                        title: 'Redis 缓存清除失败！',
+                    });
+                }).finally(() => {
+                    self.loading = false;
+                });
+            },
         },
         mounted() {
             this.$store.commit('title', trans('administration.title.debug'));
@@ -43,6 +59,16 @@
     <card :bordered="false">
         <p slot="title">调试工具</p>
         <i-form :label-width="200" :form="form">
+            <row>
+                <i-col span="12">
+                    <form-item label="Redis 缓存清除">
+                        <i-button :loading="loading" type="primary" @click.native="clearRedisCache">
+                            <span v-if="loading">正在清除...</span>
+                            <span v-else>清除</span>
+                        </i-button>
+                    </form-item>
+                </i-col>
+            </row>
             <row>
                 <i-col span="12">
                     <form-item label="Debug 模式">
