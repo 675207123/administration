@@ -152,7 +152,7 @@ menus:
         icon: setting
         permission:
         path: '/'
-        title: 全局
+        text: 全局
 pages:
     configurations:
         initialization:
