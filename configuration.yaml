@@ -147,6 +147,12 @@ dashboards:
 events:
     subscribes:
         - Notadd\Administration\Listeners\RouteRegister
+menus:
+    global:
+        icon: setting
+        permission:
+        path: '/'
+        title: 全局
 pages:
     configurations:
         initialization:
@@ -221,30 +227,30 @@ pages:
                         key: site.statistics
                         required: false
                         type: textarea
-            seo:
-                default: false
-                show: true
-                submit: api/seo/set
-                title: 'SEO 配置'
-                fields:
-                    title:
-                        default: ''
-                        label: 标题
-                        key: seo.title
-                        required: false
-                        type: input
-                    keyword:
-                        default: ''
-                        label: 关键字
-                        key: seo.keyword
-                        required: false
-                        type: textarea
-                    description:
-                        default: ''
-                        label: 描述
-                        key: seo.description
-                        required: false
-                        type: textarea
+#            seo:
+#                default: false
+#                show: true
+#                submit: api/seo/set
+#                title: 'SEO 配置'
+#                fields:
+#                    title:
+#                        default: ''
+#                        label: 标题
+#                        key: seo.title
+#                        required: false
+#                        type: input
+#                    keyword:
+#                        default: ''
+#                        label: 关键字
+#                        key: seo.keyword
+#                        required: false
+#                        type: textarea
+#                    description:
+#                        default: ''
+#                        label: 描述
+#                        key: seo.description
+#                        required: false
+#                        type: textarea
 publishes:
     assets/admin: resources/mixes/administration/dist/assets/admin
     assets/neditor: resources/mixes/neditor

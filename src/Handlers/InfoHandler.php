@@ -59,9 +59,11 @@ class InfoHandler extends Handler
      */
     protected function execute()
     {
+        $menus = collect();
         $pages = collect();
         $scripts = collect();
         $stylesheets = collect();
+        // Get data from extensions.
         $this->extension->getEnabledExtensions()->each(function (Extension $extension) use ($pages, $scripts, $stylesheets) {
             collect((array)$extension->get('pages', []))->map(function ($definition, $identification) {
                 $definition['initialization']['identification'] = $identification;
@@ -84,7 +86,11 @@ class InfoHandler extends Handler
                 $stylesheets->put($entry, $stylesheet);
             }
         });
-        $this->module->getEnabledModules()->each(function (Module $module) use ($pages, $scripts, $stylesheets) {
+        // Get data from modules.
+        $this->module->getEnabledModules()->each(function (Module $module) use ($menus, $pages, $scripts, $stylesheets) {
+            collect((array)$module->get('menus', []))->each(function ($definition, $identification) use ($menus) {
+                $menus->put($identification, $definition);
+            });
             collect((array)$module->get('pages', []))->map(function ($definition, $identification) {
                 $definition['initialization']['identification'] = $identification;
                 unset($definition['initialization']['tabs']);
@@ -108,6 +114,7 @@ class InfoHandler extends Handler
         });
         $this->withCode(200)->withData([
             'debug'       => boolval($this->setting->get('debug.enabled', false)),
+            'menus'       => $menus->toArray(),
             'pages'       => $pages->toArray(),
             'scripts'     => $scripts->toArray(),
             'stylesheets' => $stylesheets->toArray(),
