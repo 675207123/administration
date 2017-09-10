@@ -8,6 +8,7 @@ import Extension from '../pages/Extension.vue';
 import Layout from '../layouts/Layout.vue';
 import Login from '../pages/Login.vue';
 import Mail from '../pages/Mail.vue';
+import Menu from '../pages/Menu.vue';
 import Module from '../pages/Module.vue';
 import Navigation from '../pages/Navigation.vue';
 import Template from '../pages/Template.vue';
@@ -37,6 +38,11 @@ const configuration = [
         beforeEnter: requireAuth,
         component: Mail,
         path: 'mail',
+    },
+    {
+        beforeEnter: requireAuth,
+        component: Menu,
+        path: 'menu',
     },
     {
         beforeEnter: requireAuth,

@@ -48,6 +48,14 @@ export default function (injection) {
                     },
                     {
                         children: [
+                            {
+                                path: '/menu',
+                                title: '菜单管理',
+                            },
+                            {
+                                path: '/seo',
+                                title: 'SEO 管理',
+                            },
                             // {
                             //     path: '/navigation',
                             //     title: '导航管理',
