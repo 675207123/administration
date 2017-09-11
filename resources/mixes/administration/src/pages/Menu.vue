@@ -4,8 +4,8 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/administration/info`).then(response => {
-                const data = response.data.data.menus;
+            injection.http.post(`${window.api}/administration/menu`).then(response => {
+                const data = response.data.data;
                 next(vm => {
                     vm.list = Object.keys(data).map(index => data[index]);
                     injection.loading.finish();
@@ -14,10 +14,46 @@
             });
         },
         data() {
+            const self = this;
+
             return {
                 columns: [
                     {
                         key: 'order',
+                        render(h, data) {
+                            const row = data.row;
+                            if (row.identification === 'global') {
+                                return '0';
+                            }
+
+                            return h('tooltip', {
+                                props: {
+                                    placement: 'right-end',
+                                },
+                                scopedSlots: {
+                                    content() {
+                                        return '回车以修改数据';
+                                    },
+                                    default() {
+                                        return h('i-input', {
+                                            on: {
+                                                'on-change': event => {
+                                                    row.order = event.target.value;
+                                                },
+                                                'on-enter': () => {
+                                                    self.list[data.index].order = row.order;
+                                                    self.update();
+                                                },
+                                            },
+                                            props: {
+                                                number: true,
+                                                value: self.list[data.index].order,
+                                            },
+                                        });
+                                    },
+                                },
+                            });
+                        },
                         title: '排序',
                         width: 200,
                     },
@@ -28,7 +64,26 @@
                     {
                         key: 'show',
                         render(h, data) {
-                            return data;
+                            return h('i-switch', {
+                                on: {
+                                    'on-change': value => {
+                                        self.list[data.index].show = value;
+                                        self.update();
+                                    },
+                                },
+                                props: {
+                                    size: 'large',
+                                    value: data.row.show,
+                                },
+                                scopedSlots: {
+                                    close() {
+                                        return h('span', '关闭');
+                                    },
+                                    open() {
+                                        return h('span', '开启');
+                                    },
+                                },
+                            });
                         },
                         title: '是否显示',
                         width: 200,
@@ -36,6 +91,25 @@
                 ],
                 list: [],
             };
+        },
+        methods: {
+            update() {
+                const self = this;
+                self.$loading.start();
+                self.$http.post(`${window.api}/administration/navigation`, {
+                    data: self.list,
+                }).then(() => {
+                    self.$loading.finish();
+                    self.$notice.open({
+                        title: '更新菜单成功！',
+                    });
+                }).catch(() => {
+                    self.$loading.error();
+                    self.$notice.error({
+                        title: '更新菜单失败！',
+                    });
+                });
+            },
         },
     };
 </script>

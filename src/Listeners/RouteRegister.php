@@ -8,7 +8,6 @@
  */
 namespace Notadd\Administration\Listeners;
 
-use Notadd\Administration\Controllers\AdminController;
 use Notadd\Administration\Controllers\InjectionController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
 
@@ -33,6 +32,7 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('info', InjectionController::class . '@info');
             $this->router->post('menu', InjectionController::class . '@menu');
             $this->router->post('module', InjectionController::class . '@module');
+            $this->router->post('navigation', InjectionController::class . '@navigation');
             $this->router->post('save', InjectionController::class . '@save');
         });
     }
