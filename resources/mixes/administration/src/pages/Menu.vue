@@ -19,6 +19,17 @@
             return {
                 columns: [
                     {
+                        render(h) {
+                            return h('p', {
+                                style: {
+                                    textAlign: 'center',
+                                },
+                            }, '子级菜单，尽请期待！');
+                        },
+                        type: 'expand',
+                        width: 50,
+                    },
+                    {
                         key: 'order',
                         render(h, data) {
                             const row = data.row;
