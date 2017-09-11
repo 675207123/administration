@@ -14,9 +14,6 @@ export default function (injection) {
             plugin.installed = true;
             return this;
         },
-        useBoard(data) {
-            injection.board.lists.push(data);
-        },
         useExtensionRoute(routes) {
             const data = [].concat(routes);
             data.forEach(value => {
@@ -33,12 +30,6 @@ export default function (injection) {
             const data = [].concat(routes);
             data.forEach(value => {
                 injection.routes.module.push(value);
-            });
-        },
-        useNavigation(navigation) {
-            const data = [].concat(navigation);
-            data.forEach(value => {
-                injection.navigation.push(value);
             });
         },
         useOtherRoute(routes) {
