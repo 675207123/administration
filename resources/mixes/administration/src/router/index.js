@@ -11,6 +11,7 @@ import Mail from '../pages/Mail.vue';
 import Menu from '../pages/Menu.vue';
 import Module from '../pages/Module.vue';
 import Navigation from '../pages/Navigation.vue';
+import Seo from '../pages/Seo.vue';
 import Template from '../pages/Template.vue';
 import Upload from '../pages/Upload.vue';
 
@@ -53,6 +54,11 @@ const configuration = [
         beforeEnter: requireAuth,
         component: Navigation,
         path: 'navigation',
+    },
+    {
+        beforeEnter: requireAuth,
+        component: Seo,
+        path: 'seo',
     },
     {
         beforeEnter: requireAuth,
