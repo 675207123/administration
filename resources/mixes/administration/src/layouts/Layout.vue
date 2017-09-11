@@ -93,7 +93,7 @@
                 <menu-item :name="'nav-' + key" v-for="(nav, key) in navigation" :key="key">
                     <router-link :to="nav.path">
                         <icon :type="nav.icon"></icon>
-                        {{ nav.title }}
+                        {{ nav.text }}
                     </router-link>
                 </menu-item>
             </i-menu>

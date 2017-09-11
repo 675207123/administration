@@ -149,7 +149,7 @@ events:
         - Notadd\Administration\Listeners\RouteRegister
 menus:
     global:
-        icon: setting
+        icon: settings
         permission:
         path: '/'
         text: 全局

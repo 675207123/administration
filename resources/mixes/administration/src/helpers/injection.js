@@ -1,12 +1,10 @@
 import {
     mixinAxios,
-    mixinBoard,
     mixinComponent,
     mixinDebug,
     mixinExtension,
     mixinLocal,
     mixinModule,
-    mixinNavigation,
     mixinRouter,
     mixinSidebar,
     mixinUse,
@@ -21,8 +19,6 @@ const injection = {
 };
 
 function init(Vue) {
-    mixinBoard(injection);
-    mixinNavigation(injection);
     mixinRouter(injection);
     mixinSidebar(injection);
     mixinUse(injection);
@@ -120,6 +116,7 @@ function install(Vue) {
     const token = JSON.parse(window.localStorage.getItem('token'));
     injection.extensions = [];
     injection.modules = [];
+    injection.navigation = [];
     injection.pages = [];
     if (token && token.access_token) {
         Vue.http.defaults.headers.common.Accept = 'application/json';
@@ -132,7 +129,9 @@ function install(Vue) {
             const imports = [];
             const informations = [];
             const scripts = response.data.data.scripts;
+            injection.navigation = response.data.data.navigation;
             injection.pages = response.data.data.pages;
+            window.console.log(injection.navigation);
             Object.keys(scripts).forEach(index => {
                 const script = scripts[index];
                 imports.push(loadScript(index, script.link));

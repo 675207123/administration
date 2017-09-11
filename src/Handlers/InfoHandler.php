@@ -59,7 +59,8 @@ class InfoHandler extends Handler
      */
     protected function execute()
     {
-        $menus = collect();
+        $configurations = collect((array)json_decode($this->setting->get('administration.menus', ''), true));
+        $navigation = collect();
         $pages = collect();
         $scripts = collect();
         $stylesheets = collect();
@@ -68,6 +69,7 @@ class InfoHandler extends Handler
             collect((array)$extension->get('pages', []))->map(function ($definition, $identification) {
                 $definition['initialization']['identification'] = $identification;
                 unset($definition['initialization']['tabs']);
+
                 return $definition['initialization'];
             })->groupBy('target')->each(function ($data, $target) use ($pages) {
                 if ($pages->has($target)) {
@@ -87,14 +89,23 @@ class InfoHandler extends Handler
             }
         });
         // Get data from modules.
-        $this->module->getEnabledModules()->each(function (Module $module) use ($menus, $pages, $scripts, $stylesheets) {
-            collect((array)$module->get('menus', []))->each(function ($definition, $identification) use ($menus) {
-                $definition['order'] = 0;
-                $menus->put($identification, $definition);
+        $this->module->getEnabledModules()->each(function (Module $module) use ($configurations, $navigation, $pages, $scripts, $stylesheets) {
+            collect((array)$module->get('menus', []))->each(function ($definition, $identification) use ($configurations, $navigation) {
+                $configuration = $configurations->get($identification);
+                $definition['identification'] = $identification;
+                if (is_array($configuration)) {
+                    $definition['order'] = isset($configuration['order']) ? intval($configuration['order']) : 0;
+                    $definition['show'] = isset($configuration['show']) ? boolval($configuration['show']) : true;
+                } else {
+                    $definition['order'] = 0;
+                    $definition['show'] = true;
+                }
+                $definition['show'] && $navigation->put($identification, $definition);
             });
             collect((array)$module->get('pages', []))->map(function ($definition, $identification) {
                 $definition['initialization']['identification'] = $identification;
                 unset($definition['initialization']['tabs']);
+
                 return $definition['initialization'];
             })->groupBy('target')->each(function ($data, $target) use ($pages) {
                 if ($pages->has($target)) {
@@ -115,7 +126,7 @@ class InfoHandler extends Handler
         });
         $this->withCode(200)->withData([
             'debug'       => boolval($this->setting->get('debug.enabled', false)),
-            'menus'       => $menus->sortBy('order')->toArray(),
+            'navigation'  => $navigation->sortBy('order')->values()->toArray(),
             'pages'       => $pages->toArray(),
             'scripts'     => $scripts->toArray(),
             'stylesheets' => $stylesheets->toArray(),
