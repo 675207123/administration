@@ -43,7 +43,7 @@
                                                 },
                                                 'on-enter': () => {
                                                     self.list[data.index].order = row.order;
-                                                    self.update();
+                                                    self.update(data.index);
                                                 },
                                             },
                                             props: {
@@ -90,7 +90,22 @@
             };
         },
         methods: {
-
+            update(index) {
+                const self = this;
+                const data = self.list[index];
+                self.$loading.start();
+                self.$http.post(`${window.api}/administration/seo/order`, data).then(() => {
+                    self.$loading.finish();
+                    self.$notice.open({
+                        title: '更新数据成功！',
+                    });
+                }).catch(() => {
+                    self.$loading.error();
+                    self.$notice.error({
+                        title: '更新数据失败！',
+                    });
+                });
+            },
         },
     };
 </script>
