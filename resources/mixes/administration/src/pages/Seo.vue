@@ -97,12 +97,32 @@
                 self.$http.post(`${window.api}/administration/seo/order`, data).then(() => {
                     self.$loading.finish();
                     self.$notice.open({
-                        title: '更新数据成功！',
+                        title: '更新模块匹配排序数据成功！',
+                    });
+                    self.refresh();
+                }).catch(() => {
+                    self.$loading.error();
+                    self.$notice.error({
+                        title: '更新模块匹配排序数据失败！',
+                    });
+                });
+            },
+            refresh() {
+                const self = this;
+                self.$notice.open({
+                    title: '正在刷新数据...',
+                });
+                self.$loading.start();
+                self.$http.post(`${window.api}/administration/seo/module`).then(response => {
+                    self.list = Object.keys(response.data.data).map(index => response.data.data[index]);
+                    self.$loading.finish();
+                    self.$notice.open({
+                        title: '刷新数据成功！',
                     });
                 }).catch(() => {
                     self.$loading.error();
                     self.$notice.error({
-                        title: '更新数据失败！',
+                        title: '刷新数据失败！',
                     });
                 });
             },
