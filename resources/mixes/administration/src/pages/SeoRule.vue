@@ -1,5 +1,6 @@
 <script>
     import injection from '../helpers/injection';
+    import Input from '../cells/Input.vue';
 
     export default {
         beforeRouteEnter(to, from, next) {
@@ -24,20 +25,11 @@
                     {
                         key: 'order',
                         render(h, data) {
-                            const row = data.row;
-
-                            return h('i-input', {
-                                on: {
-                                    'on-change': event => {
-                                        row.order = event.target.value;
-                                    },
-                                    'on-blur': () => {
-                                        self.list[data.index].order = row.order;
-                                    },
-                                },
+                            return h(Input, {
                                 props: {
-                                    number: true,
-                                    value: self.list[data.index].order,
+                                    index: data.index,
+                                    key: 'order',
+                                    list: self.list,
                                 },
                             });
                         },
@@ -95,7 +87,6 @@
                     {
                         key: 'handle',
                         render(h, data) {
-                            window.console.log(data);
                             const buttons = [];
                             if (data.row.id) {
                                 buttons.push(h('router-link', {
@@ -118,7 +109,7 @@
                                 on: {
                                     click() {
                                         if (data.row.id) {
-                                            window.console.log(data.row);
+                                            window.console.log(data);
                                         } else {
                                             self.list.splice(data.index, 1);
                                         }
@@ -146,7 +137,6 @@
         methods: {
             add() {
                 const self = this;
-                window.console.log(self);
                 self.list.push({
                     module: self.$route.query.identification,
                     open: true,
@@ -161,9 +151,9 @@
                 deep: true,
                 handler(value, old) {
                     const self = this;
+                    window.console.log(value);
                     if (old.length > 0) {
                         self.changed = true;
-                        window.console.log('changed');
                     }
                 },
             },
