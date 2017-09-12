@@ -12,6 +12,7 @@ import Menu from '../pages/Menu.vue';
 import Module from '../pages/Module.vue';
 import Navigation from '../pages/Navigation.vue';
 import Seo from '../pages/Seo.vue';
+import SeoRule from '../pages/SeoRule.vue';
 import Template from '../pages/Template.vue';
 import Upload from '../pages/Upload.vue';
 
@@ -59,6 +60,11 @@ const configuration = [
         beforeEnter: requireAuth,
         component: Seo,
         path: 'seo',
+    },
+    {
+        beforeEnter: requireAuth,
+        component: SeoRule,
+        path: 'seo/module',
     },
     {
         beforeEnter: requireAuth,
