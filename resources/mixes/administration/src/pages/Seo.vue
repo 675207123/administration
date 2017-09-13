@@ -71,7 +71,7 @@
                         render(h, data) {
                             return h('router-link', {
                                 props: {
-                                    to: `/seo/module?identification=${data.row.identification}`,
+                                    to: `/seo/${data.row.identification}`,
                                 },
                             }, [
                                 h('i-button', {

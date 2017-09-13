@@ -5,7 +5,7 @@
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
             injection.http.post(`${window.api}/administration/seo/list`, {
-                identification: to.query.identification,
+                identification: to.params.module,
             }).then(response => {
                 next(vm => {
                     vm.list = Object.keys(response.data.data).map(index => {
@@ -36,7 +36,7 @@
             add() {
                 const self = this;
                 self.list.push({
-                    module: self.$route.query.identification,
+                    module: self.$route.params.module,
                     open: true,
                     order: 0,
                     path: '',
@@ -51,7 +51,7 @@
                 });
                 self.$loading.start();
                 self.$http.post(`${window.api}/administration/seo/list`, {
-                    identification: self.$route.query.identification,
+                    identification: self.$route.params.module,
                 }).then(response => {
                     self.list = Object.keys(response.data.data).map(index => {
                         const item = response.data.data[index];
@@ -224,7 +224,7 @@
                                             </td>
                                             <td>
                                                 <div class="ivu-table-cell">
-                                                    <router-link to="dsjkfjskfj" v-if="item.id">
+                                                    <router-link :to="`/seo/${$route.params.module}/${item.id}`" v-if="item.id">
                                                         <i-button size="small" style="margin-right: 10px" type="primary">编辑模板</i-button>
                                                     </router-link>
                                                     <i-button size="small" type="danger" @click.native="remove(index)">删除</i-button>
