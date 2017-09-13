@@ -1,6 +1,5 @@
 <script>
     import injection from '../helpers/injection';
-    import Input from '../cells/Input.vue';
 
     export default {
         beforeRouteEnter(to, from, next) {
@@ -8,130 +7,29 @@
             injection.http.post(`${window.api}/administration/seo/list`, {
                 identification: to.query.identification,
             }).then(response => {
-                const list = response.data.data;
                 next(vm => {
-                    vm.list = Object.keys(list).map(index => list[index]);
+                    vm.list = Object.keys(response.data.data).map(index => {
+                        const item = response.data.data[index];
+                        item.deleted = false;
+                        item.show = true;
+
+                        return item;
+                    });
                     injection.loading.finish();
                     injection.sidebar.active('setting');
                 });
             });
         },
         data() {
-            const self = this;
-
             return {
                 changed: false,
-                columns: [
-                    {
-                        key: 'order',
-                        render(h, data) {
-                            return h(Input, {
-                                props: {
-                                    index: data.index,
-                                    key: 'order',
-                                    list: self.list,
-                                },
-                            });
-                        },
-                        title: '匹配排序',
-                        width: 200,
-                    },
-                    {
-                        key: 'path',
-                        render(h, data) {
-                            const row = data.row;
-
-                            return h('i-input', {
-                                on: {
-                                    'on-change': event => {
-                                        row.path = event.target.value;
-                                    },
-                                    'on-blur': () => {
-                                        self.list[data.index].path = row.path;
-                                    },
-                                },
-                                props: {
-                                    number: true,
-                                    value: self.list[data.index].path,
-                                },
-                            });
-                        },
-                        title: '路由',
-                    },
-                    {
-                        key: 'open',
-                        render(h, data) {
-                            return h('i-switch', {
-                                on: {
-                                    'on-change': value => {
-                                        self.list[data.index].open = value;
-                                    },
-                                },
-                                props: {
-                                    size: 'large',
-                                    value: data.row.open,
-                                },
-                                scopedSlots: {
-                                    close() {
-                                        return h('span', '关闭');
-                                    },
-                                    open() {
-                                        return h('span', '开启');
-                                    },
-                                },
-                            });
-                        },
-                        title: '是否开启',
-                        width: 200,
-                    },
-                    {
-                        key: 'handle',
-                        render(h, data) {
-                            const buttons = [];
-                            if (data.row.id) {
-                                buttons.push(h('router-link', {
-                                    props: {
-                                        to: '',
-                                    },
-                                }, [
-                                    h('i-button', {
-                                        props: {
-                                            size: 'small',
-                                            type: 'primary',
-                                        },
-                                        style: {
-                                            marginRight: '10px',
-                                        },
-                                    }, '编辑模板'),
-                                ]));
-                            }
-                            buttons.push(h('i-button', {
-                                on: {
-                                    click() {
-                                        if (data.row.id) {
-                                            window.console.log(data);
-                                        } else {
-                                            self.list.splice(data.index, 1);
-                                        }
-                                    },
-                                },
-                                props: {
-                                    size: 'small',
-                                    type: 'danger',
-                                },
-                            }, '删除'));
-                            return h('div', buttons);
-                        },
-                        title: '操作',
-                        width: 300,
-                    },
-                ],
                 jump: h => (h('router-link', {
                     props: {
                         to: '/seo',
                     },
                 }, '<')),
                 list: [],
+                loading: false,
             };
         },
         methods: {
@@ -142,7 +40,88 @@
                     open: true,
                     order: 0,
                     path: '',
+                    show: true,
                     template: '',
+                });
+            },
+            refresh() {
+                const self = this;
+                self.$notice.open({
+                    title: '正在刷新数据...',
+                });
+                self.$loading.start();
+                self.$http.post(`${window.api}/administration/seo/list`, {
+                    identification: self.$route.query.identification,
+                }).then(response => {
+                    self.list = Object.keys(response.data.data).map(index => {
+                        const item = response.data.data[index];
+                        item.deleted = false;
+                        item.show = true;
+
+                        return item;
+                    });
+                    self.$loading.finish();
+                    self.$notice.open({
+                        title: '刷新数据成功！',
+                    });
+                    self.$nextTick(() => {
+                        self.changed = false;
+                    });
+                }).catch(() => {
+                    self.$loading.error();
+                    self.$notice.error({
+                        title: '刷新数据失败！',
+                    });
+                });
+            },
+            remove(index) {
+                const self = this;
+                if (self.list[index].id) {
+                    self.list[index].deleted = true;
+                    self.list[index].show = false;
+                } else {
+                    self.list.splice(index, 1);
+                }
+            },
+            update() {
+                const self = this;
+                self.$refs.form.validate(valid => {
+                    if (valid) {
+                        const added = [];
+                        const deleted = [];
+                        const edited = [];
+                        Object.keys(self.list).forEach(index => {
+                            const item = self.list[index];
+                            if (item.id && item.deleted) {
+                                deleted.push(item);
+                            } else if (item.id && !item.deleted) {
+                                edited.push(item);
+                            } else {
+                                added.push(item);
+                            }
+                        });
+                        self.loading = true;
+                        self.$http.post(`${window.api}/administration/seo/batch`, {
+                            add: added,
+                            delete: deleted,
+                            edit: edited,
+                        }).then(() => {
+                            self.$notice.open({
+                                title: '批量更新数据成功！',
+                            });
+                            self.refresh();
+                        }).catch(() => {
+                            self.$notice.error({
+                                title: '批量更新数据失败！',
+                            });
+                        }).finally(() => {
+                            self.loading = false;
+                        });
+                    } else {
+                        self.$notice.error({
+                            title: '请填写正确的数据！',
+                        });
+                    }
                 });
             },
         },
@@ -167,11 +146,106 @@
             <tab-pane label="编辑" name="current">
                 <card :bordered="false">
                     <div style="margin-bottom: 16px">
-                        <i-button style="margin-right: 10px" type="primary" v-if="changed" @click.native="update">批量更新</i-button>
                         <i-button style="margin-right: 10px" @click.native="add">添加</i-button>
-                        <p style="color: #a00; display: inline-block;" v-if="changed">数据已修改！修改后请批量更新数据！</p>
+                        <div style="float: right;" v-if="changed">
+                            <p style="color: #aa0000; display: inline-block; margin-right: 10px;">数据已修改！修改后请批量更新数据！</p>
+                            <i-button :loading="loading" type="primary" @click.native="update">
+                                <span v-if="loading">批量更新中...</span>
+                                <span v-else>批量更新</span>
+                            </i-button>
+                        </div>
                     </div>
-                    <i-table :columns="columns" :data="list"></i-table>
+                    <i-form :model="list" ref="form">
+                        <div class="ivu-table-wrapper">
+                            <div class="ivu-table">
+                                <div class="ivu-table-header">
+                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                        <colgroup>
+                                            <col width="200">
+                                            <col>
+                                            <col width="200">
+                                            <col width="300">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>匹配排序</span></div>
+                                            </th>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>路由</span></div>
+                                            </th>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>是否开启</span></div>
+                                            </th>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>操作</span></div>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="ivu-table-body" v-if="list.length">
+                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                        <colgroup>
+                                            <col width="200">
+                                            <col>
+                                            <col width="200">
+                                            <col width="300">
+                                        </colgroup>
+                                        <tbody class="ivu-table-tbody">
+                                        <tr class="ivu-table-row" v-for="(item, index) in list" v-if="item.show">
+                                            <td>
+                                                <div class="ivu-table-cell">
+                                                    <form-item label=""
+                                                               :prop="index + '.order'"
+                                                               :rules="{required: true, message: '规则排序不能为空', trigger: 'change', type: 'number'}"
+                                                               style="margin-bottom: 0;">
+                                                        <i-input :number="true" placeholder="请输入规则排序" v-model="item.order"></i-input>
+                                                    </form-item>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="ivu-table-cell">
+                                                    <form-item label=""
+                                                               :prop="index + '.path'"
+                                                               :rules="{required: true, message: '规则路由不能为空', trigger: 'change'}"
+                                                               style="margin-bottom: 0;">
+                                                        <i-input placeholder="请输入规则路由" v-model="item.path"></i-input>
+                                                    </form-item>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="ivu-table-cell">
+                                                    <i-switch size="large" v-model="item.open">
+                                                        <span slot="close">关闭</span>
+                                                        <span slot="open">开启</span>
+                                                    </i-switch>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="ivu-table-cell">
+                                                    <router-link to="dsjkfjskfj" v-if="item.id">
+                                                        <i-button size="small" style="margin-right: 10px" type="primary">编辑模板</i-button>
+                                                    </router-link>
+                                                    <i-button size="small" type="danger" @click.native="remove(index)">删除</i-button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="ivu-table-tip" v-if="list.length === 0">
+                                    <table cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                        <tr>
+                                            <td><span>暂无筛选结果</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </i-form>
                 </card>
             </tab-pane>
         </tabs>
