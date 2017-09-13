@@ -10,6 +10,7 @@
             }).then(response => {
                 next(vm => {
                     vm.form = response.data.data;
+                    vm.module = response.data.module;
                     vm.templates = response.data.templates;
                     injection.loading.finish();
                     injection.sidebar.active('setting');
@@ -24,12 +25,8 @@
                     module: '',
                     template: '',
                 },
-                jump: h => (h('router-link', {
-                    props: {
-                        to: '/seo',
-                    },
-                }, '<')),
                 loading: false,
+                module: '',
                 rules: {
                     template: [
                         {
@@ -75,9 +72,8 @@
         watch: {
             form: {
                 deep: true,
-                handler(value) {
+                handler() {
                     const self = this;
-                    window.console.log(value);
                     if (self.form.template.length) {
                         this.changed = true;
                     }
@@ -95,8 +91,8 @@
 <template>
     <div class="seo-wrap">
         <tabs :animated="false" style="overflow: visible;" value="current">
-            <tab-pane :label="jump"></tab-pane>
-            <tab-pane label="编辑" name="current">
+            <router-link slot="extra" style="display: block;height: 37px;line-height: 37px;" :to="`/seo/${$route.params.module}`">返回</router-link>
+            <tab-pane :label="`编辑模块：${module}的规则`" name="current">
                 <card :bordered="false">
                     <div style="margin-bottom: 16px">
                         <i-select style="width: 200px;" @on-change="selectedChange">

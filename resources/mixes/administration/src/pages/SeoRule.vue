@@ -15,6 +15,7 @@
 
                         return item;
                     });
+                    vm.module = response.data.module;
                     injection.loading.finish();
                     injection.sidebar.active('setting');
                 });
@@ -23,13 +24,9 @@
         data() {
             return {
                 changed: false,
-                jump: h => (h('router-link', {
-                    props: {
-                        to: '/seo',
-                    },
-                }, '<')),
                 list: [],
                 loading: false,
+                module: '',
             };
         },
         methods: {
@@ -142,8 +139,8 @@
 <template>
     <div class="seo-wrap">
         <tabs :animated="false" style="overflow: visible;" value="current">
-            <tab-pane :label="jump"></tab-pane>
-            <tab-pane label="编辑" name="current">
+            <router-link slot="extra" style="display: block;height: 37px;line-height: 37px;" to="/seo">返回</router-link>
+            <tab-pane :label="`编辑模块：${module}的规则列表`" name="current">
                 <card :bordered="false">
                     <div style="margin-bottom: 16px">
                         <i-button style="margin-right: 10px" @click.native="add">添加</i-button>
