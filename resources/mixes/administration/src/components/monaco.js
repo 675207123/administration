@@ -71,17 +71,39 @@ export default {
                 self.editor.onDidChangeModelOptions(event => {
                     self.$emit('modelOptions', event);
                 });
-                self.editor.onDidDispose(event => self.$emit('afterDispose', event));
-                self.editor.onDidFocusEditor(() => self.$emit('focus'));
-                self.editor.onDidFocusEditorText(() => self.$emit('focusText'));
-                self.editor.onDidLayoutChange(event => self.$emit('layout', event));
-                self.editor.onDidScrollChange(event => self.$emit('scroll', event));
-                self.editor.onKeyDown(event => self.$emit('keydown', event));
-                self.editor.onKeyUp(event => self.$emit('keyup', event));
-                self.editor.onMouseDown(event => self.$emit('mouseDown', event));
-                self.editor.onMouseLeave(event => self.$emit('mouseLeave', event));
-                self.editor.onMouseMove(event => self.$emit('mouseMove', event));
-                self.editor.onMouseUp(event => self.$emit('mouseUp', event));
+                self.editor.onDidDispose(event => {
+                    self.$emit('afterDispose', event);
+                });
+                self.editor.onDidFocusEditor(() => {
+                    self.$emit('focus');
+                });
+                self.editor.onDidFocusEditorText(() => {
+                    self.$emit('focusText');
+                });
+                self.editor.onDidLayoutChange(event => {
+                    self.$emit('layout', event);
+                });
+                self.editor.onDidScrollChange(event => {
+                    self.$emit('scroll', event);
+                });
+                self.editor.onKeyDown(event => {
+                    self.$emit('keydown', event);
+                });
+                self.editor.onKeyUp(event => {
+                    self.$emit('keyup', event);
+                });
+                self.editor.onMouseDown(event => {
+                    self.$emit('mouseDown', event);
+                });
+                self.editor.onMouseLeave(event => {
+                    self.$emit('mouseLeave', event);
+                });
+                self.editor.onMouseMove(event => {
+                    self.$emit('mouseMove', event);
+                });
+                self.editor.onMouseUp(event => {
+                    self.$emit('mouseUp', event);
+                });
             });
         },
         load() {

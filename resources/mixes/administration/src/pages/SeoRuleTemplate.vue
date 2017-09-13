@@ -49,26 +49,35 @@
             },
             update() {
                 const self = this;
-                self.loading = true;
-                self.$http.post(`${window.api}/administration/seo/edit`, self.form).then(() => {
-                    self.$notice.open({
-                        title: '更新数据成功！',
-                    });
-                    self.$router.push(`/seo/${self.$route.params.module}`);
-                }).catch(() => {
-                    self.$notice.error({
-                        title: '更新数据失败！',
-                    });
-                }).finally(() => {
-                    self.loading = false;
+                self.$refs.form.validate(valid => {
+                    if (valid) {
+                        self.loading = true;
+                        self.$http.post(`${window.api}/administration/seo/edit`, self.form).then(() => {
+                            self.$notice.open({
+                                title: '更新数据成功！',
+                            });
+                            self.$router.push(`/seo/${self.$route.params.module}`);
+                        }).catch(() => {
+                            self.$notice.error({
+                                title: '更新数据失败！',
+                            });
+                        }).finally(() => {
+                            self.loading = false;
+                        });
+                    } else {
+                        self.$notice.error({
+                            title: '请填写模板代码！',
+                        });
+                    }
                 });
             },
         },
         watch: {
             form: {
                 deep: true,
-                handler() {
+                handler(value) {
                     const self = this;
+                    window.console.log(value);
                     if (self.form.template.length) {
                         this.changed = true;
                     }
@@ -101,9 +110,9 @@
                             </i-button>
                         </div>
                     </div>
-                    <i-form :model="form" ref="form">
+                    <i-form :model="form" ref="form" :rules="rules">
                         <form-item label="" prop="template">
-                            <monaco class="monaco-editor" language="php" theme="vs-dark" v-model="form.template"></monaco>
+                            <monaco class="monaco-editor" language="php" v-model="form.template"></monaco>
                         </form-item>
                     </i-form>
                 </card>
