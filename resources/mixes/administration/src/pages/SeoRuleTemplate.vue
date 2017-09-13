@@ -77,6 +77,12 @@
         },
     };
 </script>
+<style scoped>
+    .monaco-editor {
+        height: 500px;
+        width: 100%;
+    }
+</style>
 <template>
     <div class="seo-wrap">
         <tabs :animated="false" style="overflow: visible;" value="current">
@@ -97,7 +103,7 @@
                     </div>
                     <i-form :model="form" ref="form">
                         <form-item label="" prop="template">
-                            <monaco v-model="form.template"></monaco>
+                            <monaco class="monaco-editor" language="php" theme="vs-dark" v-model="form.template"></monaco>
                         </form-item>
                     </i-form>
                 </card>
