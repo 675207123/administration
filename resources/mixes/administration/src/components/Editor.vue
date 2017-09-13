@@ -30,7 +30,7 @@
                 let configScriptTag = document.getElementById('configScriptTag');
                 let editorScriptTag = document.getElementById('editorScriptTag');
                 // 如果这个tag不存在，则生成相关代码tag以加载代码
-                if (editorScriptTag === null) {
+                if (configScriptTag === null) {
                     loading.push(new Promise((resolve, reject) => {
                         configScriptTag = document.createElement('script');
                         configScriptTag.type = 'text/javascript';
