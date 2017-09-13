@@ -34,6 +34,8 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
 
         shell.rm('-rf', assetsPath);
         shell.mkdir('-p', assetsPath);
+        shell.rm('-rf', monacoPath);
+        shell.mkdir('-p', monacoPath);
         shell.config.silent = true;
         shell.cp('-R', path.join(__dirname, '../dist/assets/admin/css'), assetsPath);
         shell.cp('-R', path.join(__dirname, '../dist/assets/admin/fonts'), assetsPath);
