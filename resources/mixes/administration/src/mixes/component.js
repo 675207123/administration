@@ -52,6 +52,7 @@ import Dashboard from '../components/dashboard';
 import DashboardContent from '../components/dashboard-content';
 import Editor from '../components/Editor.vue';
 import Input from '../components/input';
+import Monaco from '../components/monaco';
 import Upload from '../components/upload';
 
 const components = {
@@ -89,6 +90,7 @@ const components = {
     iMenu: Menu,
     MenuGroup: Menu.Group,
     MenuItem: Menu.Item,
+    Monaco,
     Submenu: Menu.Sub,
     Message,
     Modal,
