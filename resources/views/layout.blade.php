@@ -27,6 +27,7 @@
     window.csrf_token = "{{ csrf_token() }}";
     window.domain = "{{ url('') }}";
     window.local = {!! $translations !!};
+    window.monaco = "{{ asset('assets/monaco/vs') }}";
     window.token = "{{ url('admin/token') }}";
     window.upload = "{{ url('editor') }}";
     window.url = "{{ url('') }}";
