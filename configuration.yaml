@@ -146,7 +146,7 @@ dashboards:
                     - 。
 events:
     subscribes:
-        - Notadd\Administration\Listeners\RouteRegister
+        - Notadd\Administration\Subscribers\RouteRegister
 menus:
     global:
         icon: settings

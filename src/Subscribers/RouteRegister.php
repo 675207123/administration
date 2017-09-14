@@ -6,7 +6,7 @@
  * @copyright (c) 2017, notadd.com
  * @datetime 2017-02-18 14:12
  */
-namespace Notadd\Administration\Listeners;
+namespace Notadd\Administration\Subscribers;
 
 use Notadd\Administration\Controllers\InjectionController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
