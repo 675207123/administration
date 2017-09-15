@@ -27,7 +27,7 @@
     window.csrf_token = "{{ csrf_token() }}";
     window.domain = "{{ url('') }}";
     window.local = {!! $translations !!};
-    window.monaco = "https://cdn.bootcss.com/monaco-editor/0.10.0/min/vs";
+    window.monacoPath = "https://cdn.bootcss.com/monaco-editor/0.10.0/min/vs";
     window.token = "{{ url('admin/token') }}";
     window.upload = "{{ url('editor') }}";
     window.url = "{{ url('') }}";
