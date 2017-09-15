@@ -144,9 +144,6 @@ dashboards:
                         content:
                             - 怒杀一只鸡
                     - 。
-events:
-    subscribes:
-        - Notadd\Administration\Subscribers\RouteRegister
 menus:
     global:
         icon: settings
