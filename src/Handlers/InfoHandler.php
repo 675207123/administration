@@ -90,6 +90,7 @@ class InfoHandler extends Handler
         });
         // Get data from modules.
         $this->module->getEnabledModules()->each(function (Module $module) use ($configurations, $navigation, $pages, $scripts, $stylesheets) {
+            $module->menus();
             collect((array)$module->get('menus', []))->each(function ($definition, $identification) use ($configurations, $navigation) {
                 $configuration = $configurations->get($identification);
                 $definition['identification'] = $identification;
@@ -102,12 +103,7 @@ class InfoHandler extends Handler
                 }
                 $definition['show'] && $navigation->put($identification, $definition);
             });
-            collect((array)$module->get('pages', []))->map(function ($definition, $identification) {
-                $definition['initialization']['identification'] = $identification;
-                unset($definition['initialization']['tabs']);
-
-                return $definition['initialization'];
-            })->groupBy('target')->each(function ($data, $target) use ($pages) {
+            $module->pages()->each(function ($data, $target) use ($pages) {
                 if ($pages->has($target)) {
                     $data = array_merge($pages->get($target), $data);
                 }

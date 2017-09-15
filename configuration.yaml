@@ -150,6 +150,52 @@ menus:
         permission:
         path: '/'
         text: 全局
+        children:
+            -
+                icon: ios-cog
+                text: 全局设置
+            -
+                children:
+                    -
+                        path: /upload
+                        text: 上传设置
+                icon: ios-paper
+                text: 附件设置
+            -
+                childrend:
+                    -
+                        path: /module
+                        text: 模块配置
+                    -
+                        path: /extension
+                        text: 插件配置
+                    -
+                        path: /template
+                        text: 模板配置
+                    -
+                        path: /expand
+                        text: 拓展配置
+                icon: plus
+                text: 应用管理
+            -
+                icon: plus
+                text: 全局插件
+            -
+                childrend:
+                    -
+                        path: /menu
+                        text: 菜单管理
+                    -
+                        path: /seo
+                        text: SEO 管理
+                    -
+                        path: /mail
+                        text: 邮件设置
+                    -
+                        path: /debug
+                        text: 调试工具
+                icon: stats-bars
+                text: 系统插件
 pages:
     configurations:
         initialization:
