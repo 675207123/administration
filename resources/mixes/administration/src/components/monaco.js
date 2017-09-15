@@ -5,14 +5,6 @@ export default {
             self.editor.dispose();
         }
     },
-    created() {
-        const self = this;
-        if (window.require !== undefined) {
-            self.init();
-        } else {
-            self.load();
-        }
-    },
     data() {
         return {
             editorLoaded: false,
@@ -33,12 +25,7 @@ export default {
                 language: self.language,
                 ...self.options,
             };
-            window.require.config({
-                paths: {
-                    vs: window.monaco,
-                },
-            });
-            window.require(['vs/editor/editor.main'], () => {
+            const callback = () => {
                 self.editorLoaded = true;
                 self.editor = window.monaco.editor.create(self.$el, options);
                 self.$emit('editorMount', self.editor);
@@ -104,7 +91,17 @@ export default {
                 self.editor.onMouseUp(event => {
                     self.$emit('mouseUp', event);
                 });
-            });
+            };
+            if (window.monaco === undefined) {
+                window.require.config({
+                    paths: {
+                        vs: window.monacoPath,
+                    },
+                });
+                window.require(['vs/editor/editor.main'], callback);
+            } else {
+                callback();
+            }
         },
         load() {
             const self = this;
@@ -114,7 +111,7 @@ export default {
                 loading.push(new Promise((resolve, reject) => {
                     tag = document.createElement('script');
                     tag.type = 'text/javascript';
-                    tag.src = `${window.monaco}/loader.js`;
+                    tag.src = `${window.monacoPath}/loader.js`;
                     tag.id = 'monacoScriptTag';
                     if (tag.readyState) {
                         tag.onreadystatechange = () => {
@@ -140,6 +137,14 @@ export default {
                 }, 300);
             });
         },
+    },
+    mounted() {
+        const self = this;
+        if (window.require !== undefined) {
+            self.init();
+        } else {
+            self.load();
+        }
     },
     props: {
         value: String,

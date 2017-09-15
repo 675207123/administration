@@ -131,7 +131,6 @@ function install(Vue) {
             const scripts = response.data.data.scripts;
             injection.navigation = response.data.data.navigation;
             injection.pages = response.data.data.pages;
-            window.console.log(injection.navigation);
             Object.keys(scripts).forEach(index => {
                 const script = scripts[index];
                 imports.push(loadScript(index, script.link));
