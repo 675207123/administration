@@ -27,11 +27,11 @@
     window.csrf_token = "{{ csrf_token() }}";
     window.domain = "{{ url('') }}";
     window.local = {!! $translations !!};
-    window.monaco = "{{ asset('assets/monaco/vs') }}";
+    window.monaco = "https://cdn.bootcss.com/monaco-editor/0.10.0/min/vs";
     window.token = "{{ url('admin/token') }}";
     window.upload = "{{ url('editor') }}";
     window.url = "{{ url('') }}";
-    window.UEDITOR_HOME_URL = "{{ asset('assets/neditor') }}/";
+    window.UEDITOR_HOME_URL = "https://src.neditor.notadd.com/";
 </script>
 <script src="{{ asset('assets/admin/js/manifest.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/vendor.min.js') }}"></script>
