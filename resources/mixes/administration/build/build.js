@@ -28,7 +28,6 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
                 chunkModules: false
             }) + '\n\n');
         var assetsPath = path.join(__dirname, '../../../../../../statics/assets/admin');
-        var monacoPath = path.join(__dirname, '../../../../../../statics/assets/monaco');
 
         console.log(chalk.cyan('  Moving Dist files to path ' + assetsPath + '\n'));
 
@@ -41,9 +40,6 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
         shell.cp('-R', path.join(__dirname, '../dist/assets/admin/fonts'), assetsPath);
         shell.cp('-R', path.join(__dirname, '../dist/assets/admin/images'), assetsPath);
         shell.cp('-R', path.join(__dirname, '../dist/assets/admin/js'), assetsPath);
-
-        console.log(chalk.cyan('  Moving Monaco files to path ' + monacoPath + '\n'));
-        shell.cp('-R', path.join(__dirname, '../node_modules/monaco-editor/min/vs'), monacoPath);
         shell.config.silent = false;
 
         console.log(chalk.cyan('  Build complete.\n'));
