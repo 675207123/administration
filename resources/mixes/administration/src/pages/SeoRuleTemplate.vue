@@ -96,7 +96,7 @@
                 <card :bordered="false">
                     <div style="margin-bottom: 16px">
                         <i-select style="width: 200px;" @on-change="selectedChange">
-                            <i-option v-for="template in templates" :value="template.template">{{ template.name }}</i-option>
+                            <i-option :key="index" :value="template.template" v-for="(template, index) in templates">{{ template.name }}</i-option>
                         </i-select>
                         <div style="float: right;" v-if="changed">
                             <p style="color: #aa0000; display: inline-block; margin-right: 10px;">数据已修改！修改后请更新数据！</p>

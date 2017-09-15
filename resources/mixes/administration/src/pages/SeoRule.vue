@@ -27,6 +27,23 @@
                 list: [],
                 loading: false,
                 module: '',
+                rules: {
+                    order: [
+                        {
+                            message: '规则排序不能为空',
+                            required: true,
+                            trigger: 'blur',
+                            type: 'number',
+                        },
+                    ],
+                    path: [
+                        {
+                            required: true,
+                            message: '规则路由不能为空',
+                            trigger: 'change',
+                        },
+                    ],
+                },
             };
         },
         methods: {
@@ -195,7 +212,7 @@
                                                 <div class="ivu-table-cell">
                                                     <form-item label=""
                                                                :prop="index + '.order'"
-                                                               :rules="{required: true, message: '规则排序不能为空', trigger: 'change', type: 'number'}"
+                                                               :rules="rules.order"
                                                                style="margin-bottom: 0;">
                                                         <i-input :number="true" placeholder="请输入规则排序" v-model="item.order"></i-input>
                                                     </form-item>
@@ -205,7 +222,7 @@
                                                 <div class="ivu-table-cell">
                                                     <form-item label=""
                                                                :prop="index + '.path'"
-                                                               :rules="{required: true, message: '规则路由不能为空', trigger: 'change'}"
+                                                               :rules="rules.path"
                                                                style="margin-bottom: 0;">
                                                         <i-input placeholder="请输入规则路由" v-model="item.path"></i-input>
                                                     </form-item>
