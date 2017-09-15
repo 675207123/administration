@@ -31,7 +31,7 @@
     window.token = "{{ url('admin/token') }}";
     window.upload = "{{ url('editor') }}";
     window.url = "{{ url('') }}";
-    window.UEDITOR_HOME_URL = "https://src.neditor.notadd.com/";
+    window.UEDITOR_HOME_URL = "https://src.neditor.notadd.com/0.1.0/";
 </script>
 <script src="{{ asset('assets/admin/js/manifest.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/vendor.min.js') }}"></script>
