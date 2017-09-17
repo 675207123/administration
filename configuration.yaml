@@ -162,7 +162,7 @@ menus:
                 icon: ios-paper
                 text: 附件设置
             -
-                childrend:
+                children:
                     -
                         path: /module
                         text: 模块配置
@@ -181,7 +181,7 @@ menus:
                 icon: plus
                 text: 全局插件
             -
-                childrend:
+                children:
                     -
                         path: /menu
                         text: 菜单管理
