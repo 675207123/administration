@@ -90,7 +90,6 @@ class InfoHandler extends Handler
         });
         // Get data from modules.
         $this->module->getEnabledModules()->each(function (Module $module) use ($configurations, $navigation, $pages, $scripts, $stylesheets) {
-            $module->menus();
             collect((array)$module->get('menus', []))->each(function ($definition, $identification) use ($configurations, $navigation) {
                 $configuration = $configurations->get($identification);
                 $definition['identification'] = $identification;
@@ -121,7 +120,6 @@ class InfoHandler extends Handler
             }
         });
         $this->withCode(200)->withData([
-            'debug'       => boolval($this->setting->get('debug.enabled', false)),
             'navigation'  => $navigation->sortBy('order')->values()->toArray(),
             'pages'       => $pages->toArray(),
             'scripts'     => $scripts->toArray(),
