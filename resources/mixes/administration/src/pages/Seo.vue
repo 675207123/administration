@@ -22,8 +22,8 @@
                     {
                         key: 'order',
                         render(h, data) {
-                            const row = data.row;
-                            if (row.identification === 'global') {
+                            const store = data.row;
+                            if (store.identification === 'global') {
                                 return '/';
                             }
 
@@ -39,10 +39,10 @@
                                         return h('i-input', {
                                             on: {
                                                 'on-change': event => {
-                                                    row.order = event.target.value;
+                                                    store.order = event.target.value;
                                                 },
                                                 'on-enter': () => {
-                                                    self.list[data.index].order = row.order;
+                                                    self.list[data.index].order = store.order;
                                                     self.update(data.index);
                                                 },
                                             },

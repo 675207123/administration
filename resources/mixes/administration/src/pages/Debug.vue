@@ -8,9 +8,8 @@
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    const data = response.data.data;
-                    vm.form.enabled = data.debug === '1';
-                    vm.form.testing = data.testing === '1';
+                    vm.form.enabled = response.data.data.debug === '1';
+                    vm.form.testing = response.data.data.testing === '1';
                 });
             });
         },

@@ -9,15 +9,17 @@
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    const enabled = response.data.data.enabled;
-                    const extensions = response.data.data.extensions;
-                    const installed = response.data.data.installed;
-                    const notInstalled = response.data.data.notInstall;
+                    const {
+                        enabled,
+                        extensions,
+                        installed,
+                        notInstall,
+                    } = response.data.data.enabled;
                     vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                     vm.list.extensions = Object.keys(extensions).map(key => extensions[key]);
                     vm.list.installed = Object.keys(installed).map(key => installed[key]);
-                    vm.list.notInstalled = Object.keys(notInstalled).map(key => {
-                        const data = notInstalled[key];
+                    vm.list.notInstalled = Object.keys(notInstall).map(key => {
+                        const data = notInstall[key];
                         data.loading = false;
                         return data;
                     });
@@ -240,10 +242,12 @@
                 self.$loading.start();
                 self.$http.post(`${window.api}/administration/extension`).then(result => {
                     self.$loading.finish();
-                    const enabled = result.data.data.enabled;
-                    const extensions = result.data.data.extensions;
-                    const installed = result.data.data.installed;
-                    const notInstalled = result.data.data.notInstall;
+                    const {
+                        enabled,
+                        extensions,
+                        installed,
+                        notInstall,
+                    } = result.data.data.enabled;
                     self.$nextTick(() => {
                         self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                         self.list.extensions = Object.keys(extensions).map(key => extensions[key]);
@@ -252,8 +256,8 @@
                             data.loading = false;
                             return data;
                         });
-                        self.list.notInstalled = Object.keys(notInstalled).map(key => {
-                            const data = notInstalled[key];
+                        self.list.notInstalled = Object.keys(notInstall).map(key => {
+                            const data = notInstall[key];
                             data.loading = false;
                             return data;
                         });

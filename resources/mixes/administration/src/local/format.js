@@ -5,12 +5,9 @@ export default function (Vue) {
 
     function template(string, ...args) {
         let argument;
-
         if (args.length === 1 && typeof args[0] === 'object') {
-            argument = args[0];
-        }
-
-        if (!args || !args.hasOwnProperty) {
+            argument = string;
+        } else {
             argument = {};
         }
 

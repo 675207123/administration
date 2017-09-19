@@ -13,8 +13,7 @@
                 params.type = 'module';
             }
             injection.http.post(`${window.api}/administration/configuration`, params).then(response => {
-                const initialization = response.data.data.initialization;
-                const tabs = response.data.data.tabs;
+                const { initialization, tabs } = response.data.data.initialization;
                 next(vm => {
                     Object.keys(tabs).forEach(index => {
                         tabs[index].loading = false;
@@ -53,8 +52,7 @@
                 };
                 injection.loading.start();
                 self.$http.post(`${window.api}/administration/configuration`, params).then(response => {
-                    const initialization = response.data.data.initialization;
-                    const tabs = response.data.data.tabs;
+                    const { initialization, tabs } = response.data.data.initialization;
                     Object.keys(tabs).forEach(index => {
                         tabs[index].loading = false;
                     });

@@ -156,11 +156,10 @@ function install(Vue) {
         injection.http.post(`${window.api}/administration/info`).then(response => {
             const imports = [];
             const informations = [];
-            const scripts = response.data.data.scripts;
             injection.navigation = response.data.data.navigation;
             injection.pages = response.data.data.pages;
-            Object.keys(scripts).forEach(index => {
-                const script = scripts[index];
+            Object.keys(response.data.data.scripts).forEach(index => {
+                const script = response.data.data.scripts[index];
                 imports.push(loadScript(index, script.link));
                 informations.push(script);
             });

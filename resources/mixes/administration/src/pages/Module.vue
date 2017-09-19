@@ -9,13 +9,15 @@
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    const domains = response.data.data.domains;
-                    const enabled = response.data.data.enabled;
-                    const exports = response.data.data.exports;
-                    const installed = response.data.data.installed;
-                    const modules = response.data.data.modules;
-                    const multidomain = response.data.data.multidomain;
-                    const notInstalled = response.data.data.notInstall;
+                    const {
+                        domains,
+                        enabled,
+                        exports,
+                        installed,
+                        modules,
+                        multidomain,
+                        notInstall,
+                    } = response.data.data.domains;
                     vm.list.domains = Object.keys(domains).map(key => domains[key]);
                     vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                     vm.list.exports = Object.keys(exports).map(key => exports[key]);
@@ -25,8 +27,8 @@
                         return data;
                     });
                     vm.list.modules = Object.keys(modules).map(key => modules[key]);
-                    vm.list.notInstalled = Object.keys(notInstalled).map(key => {
-                        const data = notInstalled[key];
+                    vm.list.notInstalled = Object.keys(notInstall).map(key => {
+                        const data = notInstall[key];
                         data.loading = false;
                         return data;
                     });
@@ -50,7 +52,7 @@
                             key: 'host',
                             render(h, data) {
                                 let changed = false;
-                                const row = data.row;
+                                const store = data.row;
                                 return h('tooltip', {
                                     props: {
                                         placement: 'right-end',
@@ -68,14 +70,14 @@
                                                     'on-keydown': event => {
                                                         if (changed && event.keyCode === 13) {
                                                             changed = false;
-                                                            self.updateDomain(row);
+                                                            self.updateDomain(store);
                                                         }
                                                     },
                                                     'on-change': event => {
-                                                        if (row.host !== event.target.value) {
+                                                        if (store.host !== event.target.value) {
                                                             changed = true;
                                                         }
-                                                        row.host = event.target.value;
+                                                        store.host = event.target.value;
                                                     },
                                                 },
                                                 props: {
@@ -120,7 +122,7 @@
                                     return data.row.alias;
                                 }
                                 let changed = false;
-                                const row = data.row;
+                                const store = data.row;
                                 return h('tooltip', {
                                     props: {
                                         placement: 'right-end',
@@ -135,14 +137,14 @@
                                                     'on-keydown': event => {
                                                         if (changed && event.keyCode === 13) {
                                                             changed = false;
-                                                            self.updateDomain(row);
+                                                            self.updateDomain(store);
                                                         }
                                                     },
                                                     'on-change': event => {
-                                                        if (row.alias !== event.target.value) {
+                                                        if (store.alias !== event.target.value) {
                                                             changed = true;
                                                         }
-                                                        row.alias = event.target.value;
+                                                        store.alias = event.target.value;
                                                     },
                                                 },
                                                 props: {
@@ -402,13 +404,15 @@
                 injection.http.post(`${window.api}/administration/module`).then(result => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    const domains = result.data.data.domains;
-                    const enabled = result.data.data.enabled;
-                    const exports = result.data.data.exports;
-                    const installed = result.data.data.installed;
-                    const modules = result.data.data.modules;
-                    const multidomain = result.data.data.multidomain;
-                    const notInstalled = result.data.data.notInstall;
+                    const {
+                        domains,
+                        enabled,
+                        exports,
+                        installed,
+                        modules,
+                        multidomain,
+                        notInstall,
+                    } = result.data.data.domains;
                     self.$nextTick(() => {
                         self.list.domains = Object.keys(domains).map(key => domains[key]);
                         self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
@@ -419,8 +423,8 @@
                             return data;
                         });
                         self.list.modules = Object.keys(modules).map(key => modules[key]);
-                        self.list.notInstalled = Object.keys(notInstalled).map(key => {
-                            const data = notInstalled[key];
+                        self.list.notInstalled = Object.keys(notInstall).map(key => {
+                            const data = notInstall[key];
                             data.loading = false;
                             return data;
                         });

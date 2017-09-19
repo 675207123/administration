@@ -5,9 +5,8 @@
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
             injection.http.post(`${window.api}/administration/menu`).then(response => {
-                const data = response.data.data;
                 next(vm => {
-                    vm.list = Object.keys(data).map(index => data[index]);
+                    vm.list = Object.keys(response.data.data).map(index => response.data.data[index]);
                     injection.loading.finish();
                     injection.sidebar.active('setting');
                 });
@@ -32,8 +31,8 @@
                     {
                         key: 'order',
                         render(h, data) {
-                            const row = data.row;
-                            if (row.identification === 'global') {
+                            const store = data.row;
+                            if (store.identification === 'global') {
                                 return '0';
                             }
 
@@ -49,10 +48,10 @@
                                         return h('i-input', {
                                             on: {
                                                 'on-change': event => {
-                                                    row.order = event.target.value;
+                                                    store.order = event.target.value;
                                                 },
                                                 'on-enter': () => {
-                                                    self.list[data.index].order = row.order;
+                                                    self.list[data.index].order = store.order;
                                                     self.update();
                                                 },
                                             },

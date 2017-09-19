@@ -5,17 +5,16 @@
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
             injection.http.post(`${window.api}/mail/get`).then(response => {
-                const data = response.data.data;
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    vm.form.driver = data.driver;
-                    vm.form.encryption = data.encryption;
-                    vm.form.port = data.port;
-                    vm.form.host = data.host;
-                    vm.form.from = data.from;
-                    vm.form.username = data.username;
-                    vm.form.password = data.password;
+                    vm.form.driver = response.data.data.driver;
+                    vm.form.encryption = response.data.data.encryption;
+                    vm.form.port = response.data.data.port;
+                    vm.form.host = response.data.data.host;
+                    vm.form.from = response.data.data.from;
+                    vm.form.username = response.data.data.username;
+                    vm.form.password = response.data.data.password;
                 });
             });
         },

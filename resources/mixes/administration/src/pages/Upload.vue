@@ -5,20 +5,20 @@
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
             injection.http.post(`${window.api}/attachment/get`).then(response => {
-                const data = response.data.data;
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    vm.form.canManagementFileExtension = data.canManagementFileExtension;
-                    vm.form.canManagementImageExtension = data.canManagementImageExtension;
-                    vm.form.canUploadCatcherExtension = data.canUploadCatcherExtension;
-                    vm.form.canUploadFileExtension = data.canUploadFileExtension;
-                    vm.form.canUploadImageExtension = data.canUploadImageExtension;
-                    vm.form.canUploadVideoExtension = data.canUploadVideoExtension;
-                    vm.form.fileMaxSize = data.fileMaxSize.toString();
-                    vm.form.imageMaxSize = data.imageMaxSize.toString();
-                    vm.form.imageProcessingEngine = data.imageProcessingEngine;
-                    vm.form.videoMaxSize = data.videoMaxSize.toString();
+                    vm.form.canManagementFileExtension = response.data.data.canManagementFileExtension;
+                    vm.form.canManagementImageExtension =
+                        response.data.data.canManagementImageExtension;
+                    vm.form.canUploadCatcherExtension = response.data.data.canUploadCatcherExtension;
+                    vm.form.canUploadFileExtension = response.data.data.canUploadFileExtension;
+                    vm.form.canUploadImageExtension = response.data.data.canUploadImageExtension;
+                    vm.form.canUploadVideoExtension = response.data.data.canUploadVideoExtension;
+                    vm.form.fileMaxSize = response.data.data.fileMaxSize.toString();
+                    vm.form.imageMaxSize = response.data.data.imageMaxSize.toString();
+                    vm.form.imageProcessingEngine = response.data.data.imageProcessingEngine;
+                    vm.form.videoMaxSize = response.data.data.videoMaxSize.toString();
                 });
             });
         },

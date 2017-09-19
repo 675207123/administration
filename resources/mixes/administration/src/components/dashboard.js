@@ -159,9 +159,11 @@ function buildDraggable(Sortable) {
             },
             computeIndexes() {
                 this.$nextTick(() => {
-                    this.visibleIndexes = computeIndexes(this.getChildrenNodes(),
+                    this.visibleIndexes = computeIndexes(
+                        this.getChildrenNodes(),
                         this.rootContainer.children,
-                        this.transitionMode);
+                        this.transitionMode,
+                    );
                 });
             },
             getUnderlyingVm(htmlElt) {
@@ -205,9 +207,9 @@ function buildDraggable(Sortable) {
                 this.alterList(updatePosition);
             },
             getRelatedContextFromMoveEvent({
-                                               to,
-                                               related,
-                                           }) {
+                to,
+                related,
+            }) {
                 const component = this.getUnderlyingPotencialDraggableComponent(to);
                 if (!component) {
                     return {
