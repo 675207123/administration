@@ -62,6 +62,34 @@ function init(Vue) {
             }
         });
     }
+    const a = [];
+    a.push(new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        if (script.readyState) {
+            script.onreadystatechange = data => {
+                if (script.readyState === 'loaded' || script.readyState === 'complete') {
+                    script.onreadystatechange = null;
+                    resolve(data);
+                    script.remove();
+                }
+            };
+        } else {
+            script.onload = (...args) => {
+                window.console.log(args);
+                resolve(args);
+                script.remove();
+            };
+        }
+        script.onerror = () => {
+            reject(Error('What load error!'));
+        };
+        script.src = 'http://notadd.io/assets/extension.js';
+        document.body.appendChild(script);
+    }));
+    Promise.all(a).then((...args) => {
+        window.console.log(args);
+    });
     injection.vue = new Vue({
         el: '#app',
         router: injection.router,
