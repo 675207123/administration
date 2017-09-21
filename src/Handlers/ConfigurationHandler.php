@@ -84,7 +84,7 @@ class ConfigurationHandler extends Handler
                 });
                 break;
             case 'module':
-                $this->module->getEnabledModules()->map(function (Module $module) use ($pages) {
+                $this->module->modules()->enabled()->map(function (Module $module) use ($pages) {
                     collect((array)$module->get('pages', []))->map(function ($definition) {
                         return collect($definition)->map(function ($data, $key) {
                             if ($key == 'tabs') {

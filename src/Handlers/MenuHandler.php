@@ -52,7 +52,7 @@ class MenuHandler extends Handler
     {
         $configurations = collect((array)json_decode($this->setting->get('administration.menus', ''), true));
         $menus = collect();
-        $this->module->getEnabledModules()->map(function (Module $module) use ($configurations, $menus) {
+        $this->module->modules()->enabled()->map(function (Module $module) use ($configurations, $menus) {
             collect((array)$module->get('menus', []))->each(function ($definition, $identification) use ($configurations, $menus) {
                 $configuration = $configurations->get($identification);
                 $definition['identification'] = $identification;
