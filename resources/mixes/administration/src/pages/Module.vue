@@ -17,7 +17,7 @@
                         modules,
                         multidomain,
                         notInstall,
-                    } = response.data.data.domains;
+                    } = response.data.data;
                     vm.list.domains = Object.keys(domains).map(key => domains[key]);
                     vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                     vm.list.exports = Object.keys(exports).map(key => exports[key]);
@@ -412,7 +412,7 @@
                         modules,
                         multidomain,
                         notInstall,
-                    } = result.data.data.domains;
+                    } = result.data.data;
                     self.$nextTick(() => {
                         self.list.domains = Object.keys(domains).map(key => domains[key]);
                         self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
