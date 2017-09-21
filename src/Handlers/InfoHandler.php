@@ -89,7 +89,7 @@ class InfoHandler extends Handler
             }
         });
         // Get data from modules.
-        $this->module->modules()->enabled()->each(function (Module $module) use ($configurations, $navigation, $pages, $scripts, $stylesheets) {
+        $this->module->repository()->enabled()->each(function (Module $module) use ($configurations, $navigation, $pages, $scripts, $stylesheets) {
             collect((array)$module->get('menus', []))->each(function ($definition, $identification) use ($configurations, $navigation) {
                 $configuration = $configurations->get($identification);
                 $definition['identification'] = $identification;

@@ -51,10 +51,10 @@ class ModuleHandler extends Handler
      */
     protected function execute()
     {
-        $enabled = $this->manager->modules()->enabled();
-        $installed = $this->manager->modules()->installed();
-        $modules = $this->manager->modules();
-        $notInstalled = $this->manager->modules()->notInstalled();
+        $enabled = $this->manager->repository()->enabled();
+        $installed = $this->manager->repository()->installed();
+        $modules = $this->manager->repository();
+        $notInstalled = $this->manager->repository()->notInstalled();
         $domains = $enabled->map(function (Module $module) {
             $data = [];
             $alias = 'module.' . $module->identification() . '.domain.alias';
