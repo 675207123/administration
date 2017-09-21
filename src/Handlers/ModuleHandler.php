@@ -28,7 +28,7 @@ class ModuleHandler extends Handler
     /**
      * @var \Notadd\Foundation\Setting\Contracts\SettingsRepository
      */
-    private $setting;
+    protected $setting;
 
     /**
      * ModuleHandler constructor.
