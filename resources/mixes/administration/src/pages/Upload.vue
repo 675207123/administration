@@ -5,20 +5,31 @@
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
             injection.http.post(`${window.api}/attachment/get`).then(response => {
+                const {
+                    canManagementFileExtension,
+                    canManagementImageExtension,
+                    canUploadCatcherExtension,
+                    canUploadFileExtension,
+                    canUploadImageExtension,
+                    canUploadVideoExtension,
+                    fileMaxSize,
+                    imageMaxSize,
+                    imageProcessingEngine,
+                    videoMaxSize,
+                } = response.data.data;
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
-                    vm.form.canManagementFileExtension = response.data.data.canManagementFileExtension;
-                    vm.form.canManagementImageExtension =
-                        response.data.data.canManagementImageExtension;
-                    vm.form.canUploadCatcherExtension = response.data.data.canUploadCatcherExtension;
-                    vm.form.canUploadFileExtension = response.data.data.canUploadFileExtension;
-                    vm.form.canUploadImageExtension = response.data.data.canUploadImageExtension;
-                    vm.form.canUploadVideoExtension = response.data.data.canUploadVideoExtension;
-                    vm.form.fileMaxSize = response.data.data.fileMaxSize.toString();
-                    vm.form.imageMaxSize = response.data.data.imageMaxSize.toString();
-                    vm.form.imageProcessingEngine = response.data.data.imageProcessingEngine;
-                    vm.form.videoMaxSize = response.data.data.videoMaxSize.toString();
+                    vm.form.canManagementFileExtension = canManagementFileExtension;
+                    vm.form.canManagementImageExtension = canManagementImageExtension;
+                    vm.form.canUploadCatcherExtension = canUploadCatcherExtension;
+                    vm.form.canUploadFileExtension = canUploadFileExtension;
+                    vm.form.canUploadImageExtension = canUploadImageExtension;
+                    vm.form.canUploadVideoExtension = canUploadVideoExtension;
+                    vm.form.fileMaxSize = fileMaxSize.toString();
+                    vm.form.imageMaxSize = imageMaxSize.toString();
+                    vm.form.imageProcessingEngine = imageProcessingEngine;
+                    vm.form.videoMaxSize = videoMaxSize.toString();
                 });
             });
         },
