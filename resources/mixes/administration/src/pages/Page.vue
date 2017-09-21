@@ -13,7 +13,7 @@
                 params.type = 'module';
             }
             injection.http.post(`${window.api}/administration/configuration`, params).then(response => {
-                const { initialization, tabs } = response.data.data.initialization;
+                const { initialization, tabs } = response.data.data;
                 next(vm => {
                     Object.keys(tabs).forEach(index => {
                         tabs[index].loading = false;

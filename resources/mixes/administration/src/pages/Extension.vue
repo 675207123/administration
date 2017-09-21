@@ -14,7 +14,7 @@
                         extensions,
                         installed,
                         notInstall,
-                    } = response.data.data.enabled;
+                    } = response.data.data;
                     vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                     vm.list.extensions = Object.keys(extensions).map(key => extensions[key]);
                     vm.list.installed = Object.keys(installed).map(key => installed[key]);
@@ -247,7 +247,7 @@
                         extensions,
                         installed,
                         notInstall,
-                    } = result.data.data.enabled;
+                    } = result.data.data;
                     self.$nextTick(() => {
                         self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
                         self.list.extensions = Object.keys(extensions).map(key => extensions[key]);
