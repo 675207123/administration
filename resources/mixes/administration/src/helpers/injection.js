@@ -1,7 +1,6 @@
 import {
     mixinAxios,
     mixinComponent,
-    mixinDebug,
     mixinExtension,
     mixinLocal,
     mixinModule,
@@ -137,7 +136,6 @@ function loadStylesheet(url) {
 }
 
 function install(Vue) {
-    mixinDebug(injection);
     mixinLocal(injection);
     mixinComponent(Vue, injection);
     mixinAxios(injection, Vue);

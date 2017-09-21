@@ -3,12 +3,12 @@ import axios from 'axios';
 export default function (injection, Vue) {
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     axios.interceptors.request.use(configuration => configuration, error => {
-        injection.console.log(error);
+        window.console.log(error);
         return Promise.reject(error);
     });
     axios.interceptors.response.use(response => response, error => {
-        injection.console.log(error.response);
-        injection.console.log(error.response.data);
+        window.console.log(error.response);
+        window.console.log(error.response.data);
         if (error.response.status === 401) {
             injection.notice.error({
                 title: '请重新登录！',

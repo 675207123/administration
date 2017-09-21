@@ -385,8 +385,8 @@
                 injection.http.post(`${window.api}/module/install`, {
                     identification: item.identification,
                 }).then(response => {
-                    injection.console.log(response);
-                    injection.console.log(response.data.data);
+                    window.console.log(response);
+                    window.console.log(response.data.data);
                     self.$notice.open({
                         title: '安装模块成功！',
                     });
@@ -451,8 +451,8 @@
                     injection.http.post(`${window.api}/module/uninstall`, {
                         identification: module.identification,
                     }).then(response => {
-                        injection.console.log(response);
-                        injection.console.log(response.data.data);
+                        window.console.log(response);
+                        window.console.log(response.data.data);
                         const messages = response.data.message;
                         messages.forEach(message => {
                             self.$notice.open({
