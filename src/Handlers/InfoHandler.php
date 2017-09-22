@@ -9,8 +9,8 @@
 namespace Notadd\Administration\Handlers;
 
 use Illuminate\Container\Container;
-use Notadd\Foundation\Extension\Extension;
-use Notadd\Foundation\Extension\ExtensionManager;
+use Notadd\Foundation\Addon\Addon;
+use Notadd\Foundation\Addon\AddonManager;
 use Notadd\Foundation\Module\Module;
 use Notadd\Foundation\Module\ModuleManager;
 use Notadd\Foundation\Routing\Abstracts\Handler;
@@ -22,7 +22,7 @@ use Notadd\Foundation\Setting\Contracts\SettingsRepository;
 class InfoHandler extends Handler
 {
     /**
-     * @var \Notadd\Foundation\Extension\ExtensionManager
+     * @var \Notadd\Foundation\Addon\AddonManager
      */
     protected $extension;
 
@@ -40,11 +40,11 @@ class InfoHandler extends Handler
      * InfoHandler constructor.
      *
      * @param \Illuminate\Container\Container                         $container
-     * @param \Notadd\Foundation\Extension\ExtensionManager           $extension
+     * @param \Notadd\Foundation\Addon\AddonManager                   $extension
      * @param \Notadd\Foundation\Module\ModuleManager                 $module
      * @param \Notadd\Foundation\Setting\Contracts\SettingsRepository $setting
      */
-    public function __construct(Container $container, ExtensionManager $extension, ModuleManager $module, SettingsRepository $setting)
+    public function __construct(Container $container, AddonManager $extension, ModuleManager $module, SettingsRepository $setting)
     {
         parent::__construct($container);
         $this->extension = $extension;
@@ -65,7 +65,7 @@ class InfoHandler extends Handler
         $scripts = collect();
         $stylesheets = collect();
         // Get data from extensions.
-        $this->extension->getEnabledExtensions()->each(function (Extension $extension) use ($pages, $scripts, $stylesheets) {
+        $this->extension->getEnabledExtensions()->each(function (Addon $extension) use ($pages, $scripts, $stylesheets) {
             collect((array)$extension->get('pages', []))->map(function ($definition, $identification) {
                 $definition['initialization']['identification'] = $identification;
                 unset($definition['initialization']['tabs']);

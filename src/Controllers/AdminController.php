@@ -13,7 +13,7 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
 use League\OAuth2\Server\AuthorizationServer;
-use Notadd\Foundation\Extension\ExtensionManager;
+use Notadd\Foundation\Addon\AddonManager;
 use Notadd\Foundation\Module\ModuleManager;
 use Notadd\Foundation\Passport\Responses\ApiResponse;
 use Notadd\Foundation\Routing\Abstracts\Controller;
@@ -111,12 +111,12 @@ class AdminController extends Controller
     /**
      * Return index content.
      *
-     * @param \Notadd\Foundation\Extension\ExtensionManager $extension
-     * @param \Notadd\Foundation\Module\ModuleManager       $module
+     * @param \Notadd\Foundation\Addon\AddonManager   $extension
+     * @param \Notadd\Foundation\Module\ModuleManager $module
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function handle(ExtensionManager $extension, ModuleManager $module)
+    public function handle(AddonManager $extension, ModuleManager $module)
     {
         $this->share('extensions', $extension->getEnabledExtensions());
         $this->share('modules', $module->repository()->enabled());

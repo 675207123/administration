@@ -10,8 +10,8 @@ namespace Notadd\Administration\Handlers;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
-use Notadd\Foundation\Extension\Extension;
-use Notadd\Foundation\Extension\ExtensionManager;
+use Notadd\Foundation\Addon\Addon;
+use Notadd\Foundation\Addon\AddonManager;
 use Notadd\Foundation\Routing\Abstracts\Handler;
 
 /**
@@ -20,17 +20,17 @@ use Notadd\Foundation\Routing\Abstracts\Handler;
 class ExtensionHandler extends Handler
 {
     /**
-     * @var \Notadd\Foundation\Extension\ExtensionManager
+     * @var \Notadd\Foundation\Addon\AddonManager
      */
     protected $manager;
 
     /**
      * ExtensionHandler constructor.
      *
-     * @param \Illuminate\Container\Container               $container
-     * @param \Notadd\Foundation\Extension\ExtensionManager $manager
+     * @param \Illuminate\Container\Container       $container
+     * @param \Notadd\Foundation\Addon\AddonManager $manager
      */
-    public function __construct(Container $container, ExtensionManager $manager)
+    public function __construct(Container $container, AddonManager $manager)
     {
         parent::__construct($container);
         $this->manager = $manager;
@@ -65,7 +65,7 @@ class ExtensionHandler extends Handler
     protected function info(Collection $list)
     {
         $data = collect();
-        $list->each(function (Extension $extension) use ($data) {
+        $list->each(function (Addon $extension) use ($data) {
             $data->put($extension->identification(), [
                 'author'         => collect($extension->offsetGet('author'))->implode(','),
                 'enabled'        => $extension->isEnabled(),

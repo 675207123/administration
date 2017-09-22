@@ -10,8 +10,8 @@ namespace Notadd\Administration\Handlers;
 
 use Illuminate\Container\Container;
 use Illuminate\Routing\UrlGenerator;
-use Notadd\Foundation\Extension\Extension;
-use Notadd\Foundation\Extension\ExtensionManager;
+use Notadd\Foundation\Addon\Addon;
+use Notadd\Foundation\Addon\AddonManager;
 use Notadd\Foundation\Module\Module;
 use Notadd\Foundation\Module\ModuleManager;
 use Notadd\Foundation\Routing\Abstracts\Handler;
@@ -24,7 +24,7 @@ use Notadd\Foundation\Validation\Rule;
 class ConfigurationHandler extends Handler
 {
     /**
-     * @var \Notadd\Foundation\Extension\ExtensionManager
+     * @var \Notadd\Foundation\Addon\AddonManager
      */
     protected $extension;
 
@@ -42,11 +42,11 @@ class ConfigurationHandler extends Handler
      * ConfigurationHandler constructor.
      *
      * @param \Illuminate\Container\Container                         $container
-     * @param \Notadd\Foundation\Extension\ExtensionManager           $extension
+     * @param \Notadd\Foundation\Addon\AddonManager                   $extension
      * @param \Notadd\Foundation\Module\ModuleManager                 $module
      * @param \Notadd\Foundation\Setting\Contracts\SettingsRepository $setting
      */
-    public function __construct(Container $container, ExtensionManager $extension, ModuleManager $module, SettingsRepository $setting)
+    public function __construct(Container $container, AddonManager $extension, ModuleManager $module, SettingsRepository $setting)
     {
         parent::__construct($container);
         $this->extension = $extension;
@@ -78,7 +78,7 @@ class ConfigurationHandler extends Handler
         $pages = collect();
         switch ($this->request->input('type')) {
             case 'extension':
-                $this->extension->getEnabledExtensions()->map(function (Extension $extension) use ($pages) {
+                $this->extension->getEnabledExtensions()->map(function (Addon $extension) use ($pages) {
                     collect((array)$extension->get('pages', []))->map(function ($definition, $identification) {
                     });
                 });
