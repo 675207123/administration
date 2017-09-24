@@ -22,20 +22,16 @@ export default function (injection) {
                     {
                         children: [
                             {
+                                path: '/expand',
+                                title: injection.trans('administration.menu.sidebar.application.expand'),
+                            },
+                            {
                                 path: '/module',
                                 title: injection.trans('administration.menu.sidebar.application.module'),
                             },
                             {
-                                path: '/extension',
+                                path: '/addon',
                                 title: injection.trans('administration.menu.sidebar.application.extension'),
-                            },
-                            {
-                                path: '/template',
-                                title: injection.trans('administration.menu.sidebar.application.template'),
-                            },
-                            {
-                                path: '/expand',
-                                title: injection.trans('administration.menu.sidebar.application.expand'),
                             },
                         ],
                         icon: 'plus',

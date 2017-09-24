@@ -4,7 +4,7 @@ import Router from 'vue-router';
 import Debug from '../pages/Debug.vue';
 import Dashboard from '../pages/Dashboard.vue';
 import Expand from '../pages/Expand.vue';
-import Extension from '../pages/Extension.vue';
+import Addon from '../pages/Addon.vue';
 import Layout from '../layouts/Layout.vue';
 import Login from '../pages/Login.vue';
 import Mail from '../pages/Mail.vue';
@@ -24,6 +24,11 @@ Vue.use(Router);
 const configuration = [
     {
         beforeEnter: requireAuth,
+        component: Addon,
+        path: 'addon',
+    },
+    {
+        beforeEnter: requireAuth,
         component: Debug,
         path: 'debug',
     },
@@ -31,11 +36,6 @@ const configuration = [
         beforeEnter: requireAuth,
         component: Expand,
         path: 'expand',
-    },
-    {
-        beforeEnter: requireAuth,
-        component: Extension,
-        path: 'extension',
     },
     {
         beforeEnter: requireAuth,
