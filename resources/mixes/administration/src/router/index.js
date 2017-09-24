@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Addon from '../pages/Addon.vue';
 import Debug from '../pages/Debug.vue';
 import Dashboard from '../pages/Dashboard.vue';
-import Expand from '../pages/Expand.vue';
-import Addon from '../pages/Addon.vue';
+import Extension from '../pages/Extension.vue';
 import Layout from '../layouts/Layout.vue';
 import Login from '../pages/Login.vue';
 import Mail from '../pages/Mail.vue';
@@ -34,7 +34,7 @@ const configuration = [
     },
     {
         beforeEnter: requireAuth,
-        component: Expand,
+        component: Extension,
         path: 'expand',
     },
     {
