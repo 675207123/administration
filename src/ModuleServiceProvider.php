@@ -10,6 +10,7 @@ namespace Notadd\Administration;
 
 use Notadd\Administration\Controllers\AdminController;
 use Notadd\Foundation\Administration\Administration;
+use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\Abstracts\Module;
 use Notadd\Foundation\Module\ModuleManager;
 
@@ -30,6 +31,7 @@ class ModuleServiceProvider extends Module
         $administrator->registerHandler(AdminController::class . '@handle');
         $this->app->make(Administration::class)->setAdministrator($administrator);
         $this->app->make(ModuleManager::class)->pages();
+        $this->app->make(ExtensionManager::class)->repository();
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'administration');
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'admin');
     }
