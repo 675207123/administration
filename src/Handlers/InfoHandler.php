@@ -65,7 +65,7 @@ class InfoHandler extends Handler
         $scripts = collect();
         $stylesheets = collect();
         // Get data from extensions.
-        $this->extension->getEnabledExtensions()->each(function (Addon $extension) use ($pages, $scripts, $stylesheets) {
+        $this->extension->repository()->enabled()->each(function (Addon $extension) use ($pages, $scripts, $stylesheets) {
             collect((array)$extension->get('pages', []))->map(function ($definition, $identification) {
                 $definition['initialization']['identification'] = $identification;
                 unset($definition['initialization']['tabs']);

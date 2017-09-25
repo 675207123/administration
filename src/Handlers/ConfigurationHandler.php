@@ -78,7 +78,7 @@ class ConfigurationHandler extends Handler
         $pages = collect();
         switch ($this->request->input('type')) {
             case 'extension':
-                $this->extension->getEnabledExtensions()->map(function (Addon $extension) use ($pages) {
+                $this->extension->repository()->enabled()->map(function (Addon $extension) use ($pages) {
                     collect((array)$extension->get('pages', []))->map(function ($definition, $identification) {
                     });
                 });

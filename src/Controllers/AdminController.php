@@ -118,7 +118,7 @@ class AdminController extends Controller
      */
     public function handle(AddonManager $extension, ModuleManager $module)
     {
-        $this->share('extensions', $extension->getEnabledExtensions());
+        $this->share('extensions', $extension->repository()->enabled());
         $this->share('modules', $module->repository()->enabled());
         $this->share('translations', json_encode($this->translator->fetch('zh-cn')));
 

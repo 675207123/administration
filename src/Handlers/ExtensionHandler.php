@@ -43,10 +43,10 @@ class ExtensionHandler extends Handler
      */
     protected function execute()
     {
-        $enabled = $this->manager->getEnabledExtensions();
-        $extensions = $this->manager->getExtensions();
-        $installed = $this->manager->getInstalledExtensions();
-        $notInstalled = $this->manager->getNotInstalledExtensions();
+        $enabled = $this->manager->repository()->enabled();
+        $extensions = $this->manager->repository();
+        $installed = $this->manager->repository()->installed();
+        $notInstalled = $this->manager->repository()->notInstalled();
         $this->withCode(200)->withData([
             'enabled'    => $this->info($enabled),
             'extensions' => $this->info($extensions),
@@ -68,7 +68,7 @@ class ExtensionHandler extends Handler
         $list->each(function (Addon $extension) use ($data) {
             $data->put($extension->identification(), [
                 'author'         => collect($extension->offsetGet('author'))->implode(','),
-                'enabled'        => $extension->isEnabled(),
+                'enabled'        => $extension->enabled(),
                 'description'    => $extension->offsetGet('description'),
                 'identification' => $extension->identification(),
                 'name'           => $extension->offsetGet('name'),
