@@ -1,26 +1,27 @@
 <script>
     import file from '../helpers/export';
-    import injection, { trans } from '../helpers/injection';
+    import injection from '../helpers/injection';
 
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/administration/addon`).then(response => {
+            injection.http.get(`${window.api}/administration/addons`).then(response => {
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
                     const {
+                        addons,
                         enabled,
-                        extensions,
                         installed,
                         notInstall,
                     } = response.data.data;
                     vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
-                    vm.list.extensions = Object.keys(extensions).map(key => extensions[key]);
+                    vm.list.addons = Object.keys(addons).map(key => addons[key]);
                     vm.list.installed = Object.keys(installed).map(key => installed[key]);
                     vm.list.notInstalled = Object.keys(notInstall).map(key => {
                         const data = notInstall[key];
                         data.loading = false;
+
                         return data;
                     });
                 });
@@ -29,7 +30,7 @@
         data() {
             const self = this;
             return {
-                action: `${window.api}/extension/imports`,
+                action: `${window.api}/addons/imports`,
                 columns: {
                     exports: [
                         {
@@ -75,7 +76,7 @@
                                     on: {
                                         input(status) {
                                             self.$loading.start();
-                                            self.$http.post(`${window.api}/extension/enable`, {
+                                            self.$http.post(`${window.api}/addons/enable`, {
                                                 name: data.row.identification,
                                                 value: status,
                                             }).then(() => {
@@ -115,16 +116,16 @@
                                 return h('i-button', {
                                     on: {
                                         click() {
-                                            const extension = self.list.installed[data.index];
-                                            extension.loading = true;
-                                            if (extension.enabled) {
+                                            const addon = self.list.installed[data.index];
+                                            addon.loading = true;
+                                            if (addon.enabled) {
                                                 self.$notice.error({
-                                                    title: `必须先关闭插件${extension.name}，才能卸载！`,
+                                                    title: `必须先关闭插件${addon.name}，才能卸载！`,
                                                 });
-                                                extension.loading = false;
+                                                addon.loading = false;
                                             } else {
-                                                self.$http.post(`${window.api}/extension/uninstall`, {
-                                                    identification: extension.identification,
+                                                self.$http.delete(`${window.api}/administration/addons/${addon.identification.replace('/', '-')}`, {
+                                                    identification: addon.identification,
                                                 }).then(response => {
                                                     const messages = response.data.message;
                                                     messages.forEach(message => {
@@ -134,7 +135,7 @@
                                                     });
                                                     self.refresh();
                                                 }).finally(() => {
-                                                    extension.loading = false;
+                                                    addon.loading = false;
                                                 });
                                             }
                                         },
@@ -172,7 +173,7 @@
                                         click() {
                                             const item = self.list.notInstalled[data.index];
                                             item.loading = true;
-                                            self.$http.post(`${window.api}/extension/install`, {
+                                            self.$http.post(`${window.api}/administration/addons`, {
                                                 identification: item.identification,
                                             }).then(() => {
                                                 self.$notice.open({
@@ -186,6 +187,7 @@
                                     },
                                     props: {
                                         loading: self.list.notInstalled[data.index].loading,
+                                        size: 'small',
                                         type: 'primary',
                                     },
                                 }, '安装');
@@ -197,7 +199,7 @@
                 },
                 list: {
                     enabled: [],
-                    extensions: [],
+                    addons: [],
                     installed: [],
                     notInstalled: [],
                 },
@@ -221,8 +223,8 @@
                     });
                     self.loading.exports = true;
                     const data = self.selection.map(module => module.identification);
-                    self.$http.post(`${window.api}/extension/exports`, {
-                        extensions: data,
+                    self.$http.post(`${window.api}/addons/exports`, {
+                        addons: data,
                     }).then(response => {
                         file.download(response.data.data.file, response.data.data.content, 'yaml');
                     }).catch(() => {
@@ -240,25 +242,27 @@
                     title: '正在刷新数据……',
                 });
                 self.$loading.start();
-                self.$http.post(`${window.api}/administration/extension`).then(result => {
+                self.$http.post(`${window.api}/administration/addons`).then(result => {
                     self.$loading.finish();
                     const {
+                        addons,
                         enabled,
-                        extensions,
                         installed,
                         notInstall,
                     } = result.data.data;
                     self.$nextTick(() => {
                         self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
-                        self.list.extensions = Object.keys(extensions).map(key => extensions[key]);
+                        self.list.addons = Object.keys(addons).map(key => addons[key]);
                         self.list.installed = Object.keys(installed).map(key => {
                             const data = installed[key];
                             data.loading = false;
+
                             return data;
                         });
                         self.list.notInstalled = Object.keys(notInstall).map(key => {
                             const data = notInstall[key];
                             data.loading = false;
+
                             return data;
                         });
                         self.$notice.open({
@@ -292,7 +296,7 @@
             },
         },
         mounted() {
-            this.$store.commit('title', trans('administration.title.extension'));
+            this.$store.commit('title', '插件管理');
         },
     };
 </script>
@@ -330,7 +334,7 @@
                             <span v-else>正在导出…</span>
                         </i-button>
                     </div>
-                    <i-table :columns="columns.exports" :data="list.extensions"
+                    <i-table :columns="columns.exports" :data="list.addons"
                              @on-selection-change="selectionChanged"></i-table>
                 </card>
             </tab-pane>
