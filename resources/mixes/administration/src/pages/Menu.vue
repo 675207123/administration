@@ -4,9 +4,10 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/administration/menu`).then(response => {
+            injection.http.get(`${window.api}/administration/menus`).then(response => {
                 next(vm => {
-                    vm.list = Object.keys(response.data.data).map(index => response.data.data[index]);
+                    vm.items = Object.keys(response.data.data).map(index => response.data.data[index]);
+                    vm.originals = Object.keys(response.data.originals).map(index => response.data.originals[index]);
                     injection.loading.finish();
                     injection.sidebar.active('setting');
                 });
@@ -99,7 +100,8 @@
                         width: 200,
                     },
                 ],
-                list: [],
+                items: [],
+                originals: [],
             };
         },
         methods: {
@@ -128,7 +130,7 @@
         <tabs>
             <tab-pane label="菜单管理">
                 <card :bordered="false">
-                    <i-table :columns="columns" :data="list"></i-table>
+                    <i-table :columns="columns" :data="items"></i-table>
                 </card>
             </tab-pane>
         </tabs>
