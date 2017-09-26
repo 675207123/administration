@@ -151,7 +151,7 @@ function install(Vue) {
             title: '正在加载模块和插件...',
         });
         injection.loading.start();
-        injection.http.post(`${window.api}/administration/info`).then(response => {
+        injection.http.post(`${window.api}/administration/informations`).then(response => {
             const imports = [];
             const informations = [];
             injection.navigation = response.data.data.navigation;
