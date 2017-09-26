@@ -200,6 +200,7 @@ pages:
     configurations:
         initialization:
             name: 参数配置
+            path: configurations
             tabs: true
             target: global
         tabs:

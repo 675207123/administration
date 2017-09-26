@@ -4,24 +4,19 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            const params = {};
-            if (to.path.indexOf('/extension') !== -1) {
-                params.page = to.path.replace('/extension/', '');
-                params.type = 'extension';
-            } else {
-                params.page = to.path.replace('/', '');
-                params.type = 'module';
+            let path = to.path.replace('/', '-');
+            if (path.indexOf('-') === 0) {
+                path = path.substring(1, path.length);
             }
-            injection.http.post(`${window.api}/administration/configuration`, params).then(response => {
+            injection.http.get(`${window.api}/administration/configurations/${path}`).then(response => {
                 const { initialization, tabs } = response.data.data;
                 next(vm => {
                     Object.keys(tabs).forEach(index => {
                         tabs[index].loading = false;
                     });
                     vm.initialization = initialization;
-                    vm.page = params.page;
+                    vm.path = path;
                     vm.tabs = tabs;
-                    vm.type = params.type;
                     injection.loading.finish();
                     injection.sidebar.active('setting');
                 });
@@ -35,7 +30,7 @@
         data() {
             return {
                 initialization: {},
-                page: '',
+                path: '',
                 tabs: {},
                 type: '',
             };
@@ -46,12 +41,8 @@
                 self.$notice.open({
                     title: '正在刷新数据...',
                 });
-                const params = {
-                    page: self.page,
-                    type: self.type,
-                };
                 injection.loading.start();
-                self.$http.post(`${window.api}/administration/configuration`, params).then(response => {
+                self.$http.get(`${window.api}/administration/configurations/${self.path}`).then(response => {
                     const { initialization, tabs } = response.data.data.initialization;
                     Object.keys(tabs).forEach(index => {
                         tabs[index].loading = false;

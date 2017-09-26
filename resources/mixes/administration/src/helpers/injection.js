@@ -25,7 +25,8 @@ function init(Vue) {
     mixinModule(injection);
     if (typeof injection.pages === 'object') {
         Object.keys(injection.pages).forEach(index => {
-            switch (index) {
+            const definition = injection.pages[index];
+            switch (definition.initialization.target) {
                 case 'extension':
                     Object.keys(injection.pages[index]).forEach(node => {
                         injection.useExtensionRoute([
@@ -42,18 +43,16 @@ function init(Vue) {
                     });
                     break;
                 case 'global':
-                    Object.keys(injection.pages[index]).forEach(node => {
-                        injection.useGlobalRoute([
-                            {
-                                beforeEnter: injection.middleware.requireAuth,
-                                component: Page,
-                                path: `${injection.pages[index][node].identification}`,
-                            },
-                        ]);
-                        injection.useSidebarGlobal({
-                            path: injection.pages[index][node].identification,
-                            title: injection.pages[index][node].name,
-                        });
+                    injection.useGlobalRoute([
+                        {
+                            beforeEnter: injection.middleware.requireAuth,
+                            component: Page,
+                            path: definition.initialization.path,
+                        },
+                    ]);
+                    injection.useSidebarGlobal({
+                        path: definition.initialization.path,
+                        title: definition.initialization.name,
                     });
                     break;
                 default:
