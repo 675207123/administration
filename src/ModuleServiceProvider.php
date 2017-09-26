@@ -30,8 +30,6 @@ class ModuleServiceProvider extends Module
         $administrator->registerPath('admin');
         $administrator->registerHandler(AdminController::class . '@handle');
         $this->app->make(Administration::class)->setAdministrator($administrator);
-        $this->app->make(ModuleManager::class)->pages();
-        $this->app->make(ExtensionManager::class)->repository();
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'administration');
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'admin');
     }
