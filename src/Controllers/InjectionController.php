@@ -13,9 +13,6 @@ use Notadd\Administration\Handlers\ConfigurationHandler;
 use Notadd\Administration\Handlers\DashboardHandler;
 use Notadd\Administration\Handlers\ExtensionHandler;
 use Notadd\Administration\Handlers\InfoHandler;
-use Notadd\Administration\Handlers\MenuHandler;
-use Notadd\Administration\Handlers\ModuleHandler;
-use Notadd\Administration\Handlers\NavigationHandler;
 use Notadd\Administration\Handlers\SaveHandler;
 use Notadd\Administration\Handlers\TokenHandler;
 use Notadd\Foundation\Routing\Abstracts\Controller;
@@ -73,38 +70,6 @@ class InjectionController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function info(InfoHandler $handler)
-    {
-        return $handler->toResponse()->generateHttpResponse();
-    }
-
-    /**
-     * @param \Notadd\Administration\Handlers\MenuHandler $handler
-     *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
-     */
-    public function menu(MenuHandler $handler)
-    {
-        return $handler->toResponse()->generateHttpResponse();
-    }
-    
-    /**
-     * Module handler.
-     *
-     * @param \Notadd\Administration\Handlers\ModuleHandler $handler
-     *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
-     */
-    public function module(ModuleHandler $handler)
-    {
-        return $handler->toResponse()->generateHttpResponse();
-    }
-
-    /**
-     * @param \Notadd\Administration\Handlers\NavigationHandler $handler
-     *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
-     */
-    public function navigation(NavigationHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }

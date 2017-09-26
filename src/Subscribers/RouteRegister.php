@@ -29,8 +29,6 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('configuration', InjectionController::class . '@configuration');
             $this->router->post('dashboard', InjectionController::class . '@dashboard');
             $this->router->post('info', InjectionController::class . '@info');
-            $this->router->post('module', InjectionController::class . '@module');
-            $this->router->post('navigation', InjectionController::class . '@navigation');
             $this->router->post('save', InjectionController::class . '@save');
         });
     }
