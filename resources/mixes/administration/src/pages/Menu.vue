@@ -23,7 +23,10 @@
         },
         data() {
             return {
+                changed: false,
+                colspan: 5,
                 items: [],
+                loading: false,
                 originals: {},
                 rules: {
                     order: [
@@ -49,29 +52,64 @@
             expand(index) {
                 this.originals[index].expand = !this.originals[index].expand;
             },
-            update() {
+            refresh() {
                 const self = this;
+                self.$notice.open({
+                    title: '正在刷新数据...',
+                });
                 self.$loading.start();
-                self.$http.post(`${window.api}/administration/navigation`, {
-                    data: self.list,
-                }).then(() => {
+                self.$http.get(`${window.api}/administration/menus`).then(response => {
+                    self.items = Object.keys(response.data.data)
+                        .map(index => response.data.data[index]);
+                    Object.keys(response.data.originals).forEach(index => {
+                        response.data.originals[index].expand = false;
+                    });
+                    self.originals = response.data.originals;
                     self.$loading.finish();
                     self.$notice.open({
-                        title: '更新菜单成功！',
+                        title: '刷新数据成功！',
                     });
                 }).catch(() => {
                     self.$loading.error();
                     self.$notice.error({
-                        title: '更新菜单失败！',
+                        title: '刷新数据失败！',
                     });
+                });
+            },
+            update() {
+                const self = this;
+                self.loading = true;
+                self.$refs.form.validate(valid => {
+                    if (valid) {
+                        self.$http.post(`${window.api}/administration/menus`, {
+                            data: self.originals,
+                        }).then(() => {
+                            self.$notice.open({
+                                title: '数据批量更新成功！',
+                            });
+                            self.refresh();
+                        }).catch(() => {
+                            self.$notice.error({
+                                title: '数据批量更新失败！',
+                            });
+                        }).finally(() => {
+                            self.loading = false;
+                        });
+                    } else {
+                        self.$notice.error({
+                            title: '请正确填写完整的数据',
+                        });
+                    }
                 });
             },
         },
         watch: {
             originals: {
                 deep: true,
-                handler(val) {
-                    window.console.log(val);
+                handler(val, old) {
+                    if (Object.keys(old).length > 0) {
+                        this.changed = true;
+                    }
                 },
             },
         },
@@ -82,6 +120,15 @@
         <tabs>
             <tab-pane label="菜单管理">
                 <card :bordered="false">
+                    <div style="margin-bottom: 16px" v-if="changed">
+                        <p style="color: #aa0000; display: inline-block; height: 32px; line-height: 32px; margin-right: 10px;">数据已修改！修改后请批量更新数据！</p>
+                        <div style="float: right;">
+                            <i-button :loading="loading" type="primary" @click.native="update">
+                                <span v-if="loading">批量更新中...</span>
+                                <span v-else>批量更新</span>
+                            </i-button>
+                        </div>
+                    </div>
                     <i-form :model="originals" ref="form">
                         <div class="ivu-table-wrapper">
                             <div class="ivu-table">
@@ -90,6 +137,7 @@
                                         <colgroup>
                                             <col width="60">
                                             <col width="200">
+                                            <col width="400">
                                             <col>
                                             <col width="200">
                                         </colgroup>
@@ -102,6 +150,7 @@
                                             <th>
                                                 <div class="ivu-table-cell"><span>菜单名称</span></div>
                                             </th>
+                                            <th></th>
                                             <th>
                                                 <div class="ivu-table-cell"><span>是否开启</span></div>
                                             </th>
@@ -114,8 +163,9 @@
                                         <colgroup>
                                             <col width="60">
                                             <col width="200">
+                                            <col width="400">
                                             <col>
-                                            <col width="300">
+                                            <col width="200">
                                         </colgroup>
                                         <tbody class="ivu-table-tbody">
                                         <template v-for="(item, index) in items">
@@ -146,7 +196,9 @@
                                                                    :prop="item.index + '.order'"
                                                                    :rules="rules.order"
                                                                    style="margin-bottom: 0;">
-                                                            <i-input :number="true" placeholder="请输入规则排序" v-model="originals[item.index].order"></i-input>
+                                                            <i-input :number="true"
+                                                                     placeholder="请输入规则排序"
+                                                                     v-model="originals[item.index].order"></i-input>
                                                         </form-item>
                                                     </div>
                                                 </td>
@@ -156,10 +208,12 @@
                                                                    :prop="item.index + '.text'"
                                                                    :rules="rules.text"
                                                                    style="margin-bottom: 0;">
-                                                            <i-input placeholder="请输入菜单名称" v-model="originals[item.index].text"></i-input>
+                                                            <i-input placeholder="请输入菜单名称"
+                                                                     v-model="originals[item.index].text"></i-input>
                                                         </form-item>
                                                     </div>
                                                 </td>
+                                                <td></td>
                                                 <td>
                                                     <div class="ivu-table-cell">
                                                         <form-item label=""
@@ -171,10 +225,11 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <menu-children :items="item.children"
+                                            <menu-children :colspan="colspan"
+                                                           :items="item.children"
                                                            :originals="originals"
                                                            :rules="rules"
-                                                           v-if="Object.keys(item.children).length > 0"></menu-children>
+                                                           v-if="Object.keys(item.children).length > 0 && originals[item.index].expand"></menu-children>
                                         </template>
                                         </tbody>
                                     </table>

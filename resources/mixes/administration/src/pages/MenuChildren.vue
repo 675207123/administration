@@ -1,7 +1,16 @@
 <script>
     export default {
+        methods: {
+            expand(index) {
+                this.originals[index].expand = !this.originals[index].expand;
+            },
+        },
         name: 'menu-children',
         props: {
+            colspan: {
+                default: 0,
+                type: Number,
+            },
             items: {
                 default: {},
                 type: Object,
@@ -19,7 +28,7 @@
 </script>
 <template>
     <tr v-if="Object.keys(items).length > 0">
-        <td colspan="4">
+        <td :colspan="colspan">
             <div style="margin-left: 100px; margin-top: -1px; margin-bottom: -1px;">
                 <div class="ivu-table-wrapper">
                     <div class="ivu-table">
@@ -28,8 +37,9 @@
                                 <colgroup>
                                     <col width="60">
                                     <col width="200">
+                                    <col width="400">
                                     <col>
-                                    <col width="300">
+                                    <col width="200">
                                 </colgroup>
                                 <tbody class="ivu-table-tbody">
                                 <template v-for="(item, index) in items">
@@ -74,6 +84,7 @@
                                                 </form-item>
                                             </div>
                                         </td>
+                                        <td></td>
                                         <td>
                                             <div class="ivu-table-cell">
                                                 <form-item label=""
@@ -85,10 +96,11 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <menu-children :items="item.children"
+                                    <menu-children :colspan="colspan"
+                                                   :items="item.children"
                                                    :originals="originals"
                                                    :rules="rules"
-                                                   v-if="Object.keys(item.children).length > 0"></menu-children>
+                                                   v-if="Object.keys(item.children).length > 0 && originals[item.index].expand"></menu-children>
                                 </template>
                                 </tbody>
                             </table>
