@@ -9,7 +9,6 @@
 namespace Notadd\Administration\Subscribers;
 
 use Notadd\Administration\Controllers\InjectionController;
-use Notadd\Administration\Controllers\MenuController;
 use Notadd\Foundation\Routing\Abstracts\RouteRegister as AbstractRouteRegister;
 
 /**
@@ -26,22 +25,10 @@ class RouteRegister extends AbstractRouteRegister
             $this->router->post('token', InjectionController::class . '@token');
         });
         $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'api/administration'], function () {
-            $this->router->resource('menus', MenuController::class)->methods([
-                'index' => 'list',
-                'store' => 'update',
-            ])->names([
-                'index' => 'menus.list',
-                'store' => 'menus.update',
-            ])->only([
-                'index',
-                'store',
-            ]);
             $this->router->post('access', InjectionController::class . '@access');
             $this->router->post('configuration', InjectionController::class . '@configuration');
             $this->router->post('dashboard', InjectionController::class . '@dashboard');
-            $this->router->post('extension', InjectionController::class . '@extension');
             $this->router->post('info', InjectionController::class . '@info');
-            $this->router->post('menu', InjectionController::class . '@menu');
             $this->router->post('module', InjectionController::class . '@module');
             $this->router->post('navigation', InjectionController::class . '@navigation');
             $this->router->post('save', InjectionController::class . '@save');
