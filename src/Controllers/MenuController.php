@@ -37,12 +37,31 @@ class MenuController extends Controller
                 $collection->put($identification, $definition);
             });
         });
-        $a = $this->module->menus()->structures();
 
         return $this->response->json([
             'data'      => $this->module->menus()->structures()->toArray(),
             'message'   => '获取菜单数据成功！',
             'originals' => $this->module->menus()->toArray(),
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update()
+    {
+        $data = $this->request->input('data');
+        foreach ($data as $key=>$value) {
+            unset($data[$key]['icon']);
+            unset($data[$key]['parent']);
+            unset($data[$key]['expand']);
+            unset($data[$key]['path']);
+            unset($data[$key]['permission']);
+        }
+        $this->setting->set('administration.menus', json_encode($data));
+
+        return $this->response->json([
+            'message' => '批量更新数据成功！',
         ]);
     }
 }

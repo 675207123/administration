@@ -28,10 +28,13 @@ class RouteRegister extends AbstractRouteRegister
         $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'api/administration'], function () {
             $this->router->resource('menus', MenuController::class)->methods([
                 'index' => 'list',
+                'store' => 'update',
             ])->names([
                 'index' => 'menus.list',
+                'store' => 'menus.update',
             ])->only([
                 'index',
+                'store',
             ]);
             $this->router->post('access', InjectionController::class . '@access');
             $this->router->post('configuration', InjectionController::class . '@configuration');
