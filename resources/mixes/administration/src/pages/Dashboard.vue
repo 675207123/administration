@@ -4,7 +4,7 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/administration/dashboard`).then(response => {
+            injection.http.post(`${window.api}/administration/dashboards`).then(response => {
                 next(vm => {
                     vm.dashboards.hidden = response.data.data.hidden;
                     vm.dashboards.left = response.data.data.left;
