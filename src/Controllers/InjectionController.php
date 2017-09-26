@@ -11,7 +11,6 @@ namespace Notadd\Administration\Controllers;
 use Notadd\Administration\Handlers\AccessHandler;
 use Notadd\Administration\Handlers\ConfigurationHandler;
 use Notadd\Administration\Handlers\DashboardHandler;
-use Notadd\Administration\Handlers\ExtensionHandler;
 use Notadd\Administration\Handlers\InfoHandler;
 use Notadd\Administration\Handlers\SaveHandler;
 use Notadd\Administration\Handlers\TokenHandler;
@@ -48,18 +47,6 @@ class InjectionController extends Controller
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function dashboard(DashboardHandler $handler)
-    {
-        return $handler->toResponse()->generateHttpResponse();
-    }
-
-    /**
-     * Extension handler.
-     *
-     * @param \Notadd\Administration\Handlers\ExtensionHandler $handler
-     *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
-     */
-    public function extension(ExtensionHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
