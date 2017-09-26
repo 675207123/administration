@@ -305,7 +305,7 @@
         <tabs value="installed">
             <tab-pane label="开启插件" name="installed">
                 <card :bordered="false">
-                    <i-table :columns="columns.installed" :context="self" :data="list.installed"></i-table>
+                    <i-table :columns="columns.installed" :data="list.installed"></i-table>
                 </card>
             </tab-pane>
             <tab-pane label="导入/导出" name="exchange">

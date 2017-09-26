@@ -5,7 +5,7 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/administration/module`).then(response => {
+            injection.http.get(`${window.api}/administration/modules`).then(response => {
                 next(vm => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
@@ -401,7 +401,7 @@
                     title: '正在刷新数据……',
                 });
                 injection.loading.start();
-                injection.http.post(`${window.api}/administration/module`).then(result => {
+                injection.http.get(`${window.api}/administration/modules`).then(result => {
                     injection.loading.finish();
                     injection.sidebar.active('setting');
                     const {
