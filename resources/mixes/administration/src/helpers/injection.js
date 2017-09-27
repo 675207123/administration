@@ -60,34 +60,6 @@ function init(Vue) {
             }
         });
     }
-    const a = [];
-    a.push(new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        if (script.readyState) {
-            script.onreadystatechange = data => {
-                if (script.readyState === 'loaded' || script.readyState === 'complete') {
-                    script.onreadystatechange = null;
-                    resolve(data);
-                    script.remove();
-                }
-            };
-        } else {
-            script.onload = (...args) => {
-                window.console.log(args);
-                resolve(args);
-                script.remove();
-            };
-        }
-        script.onerror = () => {
-            reject(Error('What load error!'));
-        };
-        script.src = 'http://notadd.io/assets/extension.js';
-        document.body.appendChild(script);
-    }));
-    Promise.all(a).then((...args) => {
-        window.console.log(args);
-    });
     injection.vue = new Vue({
         el: '#app',
         router: injection.router,
@@ -153,34 +125,40 @@ function install(Vue) {
         injection.http.post(`${window.api}/administration/informations`).then(response => {
             const imports = [];
             const informations = [];
-            injection.navigation = response.data.data.navigation;
-            injection.pages = response.data.data.pages;
-            Object.keys(response.data.data.scripts).forEach(index => {
-                const script = response.data.data.scripts[index];
-                imports.push(loadScript(index, script.link));
+            const {
+                navigation,
+                pages,
+                scripts,
+                stylesheets,
+            } = response.data.data;
+            injection.navigation = navigation;
+            injection.pages = pages;
+            Object.keys(scripts).forEach(index => {
+                const script = scripts[index];
+                imports.push(loadScript(script.identification, script.file));
                 informations.push(script);
             });
-            Object.keys(response.data.data.stylesheets).forEach(index => {
-                const stylesheet = response.data.data.stylesheets[index];
+            Object.keys(stylesheets).forEach(index => {
+                const stylesheet = stylesheets[index];
                 loadStylesheet(stylesheet);
             });
             Promise.all(imports).then(data => {
                 Object.keys(data).forEach(index => {
-                    switch (informations[index].type) {
+                    switch (informations[index].for) {
                         case 'extension':
                             if (data[index] && data[index].default) {
                                 injection.extensions.push(data[index].default);
-                                window.console.log(`插件[${informations[index].name}]加载成功！`);
+                                window.console.log(`插件[${informations[index].identification}]加载成功！`);
                             } else {
-                                window.console.warn(`插件[${informations[index].name}]加载失败！`);
+                                window.console.warn(`插件[${informations[index].identification}]加载失败！`);
                             }
                             break;
                         case 'module':
                             if (data[index] && data[index].default) {
                                 injection.modules.push(data[index].default);
-                                window.console.log(`模块[${informations[index].name}]加载成功！`);
+                                window.console.log(`模块[${informations[index].identification}]加载成功！`);
                             } else {
-                                window.console.warn(`模块[${informations[index].name}]加载失败！`);
+                                window.console.warn(`模块[${informations[index].identification}]加载失败！`);
                             }
                             break;
                         default:
