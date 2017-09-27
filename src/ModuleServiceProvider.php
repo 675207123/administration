@@ -9,7 +9,6 @@
 namespace Notadd\Administration;
 
 use Notadd\Administration\Controllers\AdminController;
-use Notadd\Foundation\Administration\Administration;
 use Notadd\Foundation\Module\Abstracts\Module;
 
 /**
@@ -27,7 +26,7 @@ class ModuleServiceProvider extends Module
         $administrator = new Administrator($this->app['events'], $this->app['router']);
         $administrator->registerPath('admin');
         $administrator->registerHandler(AdminController::class . '@handle');
-        $this->app->make(Administration::class)->setAdministrator($administrator);
+        $this->app->make('administration')->setAdministrator($administrator);
         $this->loadTranslationsFrom(realpath(__DIR__ . '/../resources/translations'), 'administration');
         $this->loadViewsFrom(realpath(__DIR__ . '/../resources/views'), 'admin');
     }
