@@ -55,13 +55,19 @@ class SystemInformation
             [
                 'tag'=> 'p',
                 'content' => [
-                    '系统版本：' . php_uname(),
+                    '系统版本：' . php_uname('s') . ' ' . php_uname('r'),
                 ],
             ],
             [
                 'tag'=> 'p',
                 'content' => [
                     '数据库版本：' . $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ' . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
+                ],
+            ],
+            [
+                'tag'=> 'p',
+                'content' => [
+                    'Redis 版本：' . $this->container->make('redis')->connection()->getProfile()->getVersion(),
                 ],
             ],
         ];
