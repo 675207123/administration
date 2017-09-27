@@ -9,12 +9,9 @@
 namespace Notadd\Administration\Controllers;
 
 use Exception;
-use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
 use League\OAuth2\Server\AuthorizationServer;
-use Notadd\Foundation\Addon\AddonManager;
-use Notadd\Foundation\Module\ModuleManager;
 use Notadd\Foundation\Passport\Responses\ApiResponse;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 use Notadd\Foundation\Translation\Translator;
@@ -71,15 +68,14 @@ class AdminController extends Controller
     /**
      * Get access token.
      *
-     * @param \Illuminate\Auth\AuthManager                      $auth
      * @param \Notadd\Foundation\Passport\Responses\ApiResponse $response
      *
      * @return \Notadd\Foundation\Passport\Responses\ApiResponse
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function access(AuthManager $auth, ApiResponse $response)
+    public function access(ApiResponse $response)
     {
-        if ($auth->guard('api')->user()) {
+        if ($this->auth->guard('api')->user()) {
             try {
                 $this->request->offsetSet('grant_type', 'client_credentials');
                 $this->request->offsetSet('client_id', $this->client_id);
@@ -111,15 +107,12 @@ class AdminController extends Controller
     /**
      * Return index content.
      *
-     * @param \Notadd\Foundation\Addon\AddonManager   $extension
-     * @param \Notadd\Foundation\Module\ModuleManager $module
-     *
      * @return \Illuminate\Contracts\View\View
      */
-    public function handle(AddonManager $extension, ModuleManager $module)
+    public function handle()
     {
-        $this->share('extensions', $extension->repository()->enabled());
-        $this->share('modules', $module->repository()->enabled());
+        $this->share('extensions', $this->addon->repository()->enabled());
+        $this->share('modules', $this->module->repository()->enabled());
         $this->share('translations', json_encode($this->translator->fetch('zh-cn')));
 
         return $this->view('admin::layout');
