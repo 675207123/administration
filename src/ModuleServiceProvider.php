@@ -10,9 +10,7 @@ namespace Notadd\Administration;
 
 use Notadd\Administration\Controllers\AdminController;
 use Notadd\Foundation\Administration\Administration;
-use Notadd\Foundation\Extension\ExtensionManager;
 use Notadd\Foundation\Module\Abstracts\Module;
-use Notadd\Foundation\Module\ModuleManager;
 
 /**
  * Class Extension.
