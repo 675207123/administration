@@ -145,7 +145,7 @@ function install(Vue) {
             Promise.all(imports).then(data => {
                 Object.keys(data).forEach(index => {
                     switch (informations[index].for) {
-                        case 'extension':
+                        case 'addon':
                             if (data[index] && data[index].default) {
                                 injection.extensions.push(data[index].default);
                                 window.console.log(`插件[${informations[index].identification}]加载成功！`);
