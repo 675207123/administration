@@ -74,15 +74,15 @@
                             render(h, data) {
                                 return h('i-switch', {
                                     on: {
-                                        input(status) {
+                                        input(value) {
                                             self.$loading.start();
-                                            self.$http.post(`${window.api}/addons/enable`, {
-                                                name: data.row.identification,
-                                                value: status,
+                                            self.$http.put(`${window.api}/administration/addons/${data.row.identification.replace('/', '-')}`, {
+                                                identification: data.row.identification,
+                                                status: value,
                                             }).then(() => {
                                                 self.$loading.finish();
                                                 self.$notice.open({
-                                                    title: status ? `开启插件${data.row.name}成功！` : `关闭插件${data.row.name}成功！`,
+                                                    title: value ? `开启插件${data.row.name}成功！` : `关闭插件${data.row.name}成功！`,
                                                 });
                                                 self.$notice.warning({
                                                     title: '将在3秒后重载网页！',
@@ -142,6 +142,7 @@
                                     },
                                     props: {
                                         loading: self.list.installed[data.index].loading,
+                                        size: 'small',
                                         type: 'error',
                                     },
                                 }, '卸载');
@@ -242,7 +243,7 @@
                     title: '正在刷新数据……',
                 });
                 self.$loading.start();
-                self.$http.post(`${window.api}/administration/addons`).then(result => {
+                self.$http.get(`${window.api}/administration/addons`).then(result => {
                     self.$loading.finish();
                     const {
                         addons,
@@ -340,7 +341,7 @@
             </tab-pane>
             <tab-pane label="本地安装" name="no-installed">
                 <card :bordered="false">
-                    <i-table :columns="columns.notInstalled" :context="self" :data="list.notInstalled"></i-table>
+                    <i-table :columns="columns.notInstalled" :data="list.notInstalled"></i-table>
                 </card>
             </tab-pane>
         </tabs>

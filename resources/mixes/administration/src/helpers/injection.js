@@ -140,7 +140,7 @@ function install(Vue) {
             });
             Object.keys(stylesheets).forEach(index => {
                 const stylesheet = stylesheets[index];
-                loadStylesheet(stylesheet);
+                loadStylesheet(stylesheet.file);
             });
             Promise.all(imports).then(data => {
                 Object.keys(data).forEach(index => {
