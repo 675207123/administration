@@ -43,6 +43,11 @@
             switchMode() {
                 this.design = !this.design;
             },
+            switchSidebar(navigation) {
+                if (navigation.children) {
+                    this.$store.commit('sidebar', navigation.children);
+                }
+            },
             toggleClick() {
                 this.hideSidebar = !this.hideSidebar;
             },
@@ -99,7 +104,7 @@
                 <icon size="32" type="navicon"></icon>
             </i-button>
             <i-menu mode="horizontal" theme="light">
-                <menu-item :name="'nav-' + key" v-for="(nav, key) in navigation" :key="key">
+                <menu-item :name="'nav-' + key" v-for="(nav, key) in navigation" :key="key" @click.native="switchSidebar(nav)">
                     <router-link :to="nav.path">
                         <icon :type="nav.icon"></icon>
                         {{ nav.text }}
