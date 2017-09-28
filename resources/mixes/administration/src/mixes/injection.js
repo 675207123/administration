@@ -6,7 +6,6 @@ import mixinExtension from './extension';
 import mixinLocal from './local';
 import mixinModule from './module';
 import mixinRouter from './router';
-import mixinSidebar from './sidebar';
 import mixinUse from './use';
 
 promiseFinally.shim();
@@ -18,6 +17,5 @@ export {
     mixinLocal,
     mixinModule,
     mixinRouter,
-    mixinSidebar,
     mixinUse,
 };

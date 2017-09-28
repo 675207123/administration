@@ -38,19 +38,6 @@ export default function (injection) {
                 injection.routes.other.push(value);
             });
         },
-        useSidebar(key, sidebar) {
-            Object.defineProperty(injection.sidebar.lists, key, {
-                get() {
-                    return sidebar;
-                },
-            });
-        },
-        useSidebarExtension(sidebar) {
-            injection.sidebar.lists.setting[3].children.push(sidebar);
-        },
-        useSidebarGlobal(sidebar) {
-            injection.sidebar.lists.setting[0].children.push(sidebar);
-        },
     };
 
     Object.assign(injection, methods);

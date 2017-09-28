@@ -5,7 +5,6 @@ import {
     mixinLocal,
     mixinModule,
     mixinRouter,
-    mixinSidebar,
     mixinUse,
 } from '../mixes/injection';
 import App from '../App.vue';
@@ -19,7 +18,6 @@ const injection = {
 
 function init(Vue) {
     mixinRouter(injection);
-    mixinSidebar(injection);
     mixinUse(injection);
     mixinExtension(injection);
     mixinModule(injection);
@@ -36,10 +34,6 @@ function init(Vue) {
                                 path: `extension/${injection.pages[index][node].identification}`,
                             },
                         ]);
-                        injection.useSidebarExtension({
-                            path: `extension/${injection.pages[index][node].identification}`,
-                            title: injection.pages[index][node].name,
-                        });
                     });
                     break;
                 case 'global':
@@ -50,10 +44,6 @@ function init(Vue) {
                             path: definition.initialization.path,
                         },
                     ]);
-                    injection.useSidebarGlobal({
-                        path: definition.initialization.path,
-                        title: definition.initialization.name,
-                    });
                     break;
                 default:
                     break;
