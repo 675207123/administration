@@ -35,7 +35,7 @@ const configuration = [
     {
         beforeEnter: requireAuth,
         component: Extension,
-        path: 'expand',
+        path: 'extension',
     },
     {
         beforeEnter: requireAuth,

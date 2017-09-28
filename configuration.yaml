@@ -164,17 +164,14 @@ menus:
             -
                 children:
                     -
+                        path: /extension
+                        text: 拓展配置
+                    -
                         path: /module
                         text: 模块配置
                     -
-                        path: /extension
+                        path: /addon
                         text: 插件配置
-                    -
-                        path: /template
-                        text: 模板配置
-                    -
-                        path: /expand
-                        text: 拓展配置
                 icon: plus
                 text: 应用管理
             -
