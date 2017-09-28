@@ -7,7 +7,6 @@
             injection.http.post(`${window.api}/debug/get`).then(response => {
                 next(vm => {
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                     vm.form.enabled = response.data.data.debug === '1';
                     vm.form.testing = response.data.data.testing === '1';
                 });

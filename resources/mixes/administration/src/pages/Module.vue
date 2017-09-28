@@ -7,8 +7,6 @@
             injection.loading.start();
             injection.http.get(`${window.api}/administration/modules`).then(response => {
                 next(vm => {
-                    injection.loading.finish();
-                    injection.sidebar.active('setting');
                     const {
                         domains,
                         enabled,
@@ -33,6 +31,7 @@
                         return data;
                     });
                     vm.multidomain = multidomain;
+                    injection.loading.finish();
                 });
             });
         },
@@ -403,7 +402,6 @@
                 injection.loading.start();
                 injection.http.get(`${window.api}/administration/modules`).then(result => {
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                     const {
                         domains,
                         enabled,

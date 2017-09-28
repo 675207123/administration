@@ -18,8 +18,6 @@
                     videoMaxSize,
                 } = response.data.data;
                 next(vm => {
-                    injection.loading.finish();
-                    injection.sidebar.active('setting');
                     vm.form.canManagementFileExtension = canManagementFileExtension;
                     vm.form.canManagementImageExtension = canManagementImageExtension;
                     vm.form.canUploadCatcherExtension = canUploadCatcherExtension;
@@ -30,6 +28,7 @@
                     vm.form.imageMaxSize = imageMaxSize.toString();
                     vm.form.imageProcessingEngine = imageProcessingEngine;
                     vm.form.videoMaxSize = videoMaxSize.toString();
+                    injection.loading.finish();
                 });
             });
         },

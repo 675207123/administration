@@ -10,7 +10,6 @@
                     vm.dashboards.left = response.data.data.left;
                     vm.dashboards.right = response.data.data.right;
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                 });
             }).catch(() => {
                 injection.loading.error();

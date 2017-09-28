@@ -14,7 +14,6 @@
                     window.console.log(response.data.originals);
                     vm.originals = response.data.originals;
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                 });
             });
         },

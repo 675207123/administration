@@ -8,7 +8,6 @@
             injection.http.get(`${window.api}/administration/addons`).then(response => {
                 next(vm => {
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                     const {
                         addons,
                         enabled,

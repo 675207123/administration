@@ -1,6 +1,4 @@
 <script>
-    import injection from '../helpers/injection';
-
     export default {
         computed: {
             design: {
@@ -14,26 +12,23 @@
             name() {
                 return this.$store.state.token.name;
             },
+            navigation() {
+                return this.$store.state.navigation;
+            },
+            sidebar() {
+                return this.$store.state.sidebar;
+            },
         },
         created() {
-            Object.assign(injection.sidebar, {
-                active: this.active,
-            });
+            this.$store.dispatch('information');
         },
         data() {
             return {
                 hideSidebar: false,
-                navigation: injection.navigation,
-                sidebar: [],
                 url: window.url,
             };
         },
         methods: {
-            active(key) {
-                if (injection.sidebar.lists[key]) {
-                    this.sidebar = injection.sidebar.lists[key];
-                }
-            },
             logout() {
                 window.localStorage.clear();
                 this.$router.push('/login');
@@ -58,6 +53,20 @@
                 window.console.log('登录状态正常！');
             });
         },
+        watch: {
+            navigation: {
+                deep: true,
+                handler(val) {
+                    window.console.log(val);
+                },
+            },
+            sidebar: {
+                deep: true,
+                handler(val) {
+                    window.console.log(val);
+                },
+            },
+        },
     };
 </script>
 <template>
@@ -69,17 +78,17 @@
                     <submenu :name="'sidebar-' + key" v-if="item.children">
                         <template slot="title">
                             <icon :type="item.icon"></icon>
-                            {{ item.title }}
+                            {{ item.text }}
                         </template>
                         <menu-item :name="'sidebar-' + key + '-' + index" v-for="(sub, index) in item.children"
                                    :key="index">
-                            <router-link :to="sub.path">{{ sub.title }}</router-link>
+                            <router-link :to="sub.path">{{ sub.text }}</router-link>
                         </menu-item>
                     </submenu>
                     <menu-item :name="'sidebar-' + key" v-else>
                         <router-link :to="item.path">
                             <icon :type="item.icon"></icon>
-                            {{ item.title }}
+                            {{ item.text }}
                         </router-link>
                     </menu-item>
                 </template>

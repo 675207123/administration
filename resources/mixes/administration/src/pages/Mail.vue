@@ -6,8 +6,6 @@
             injection.loading.start();
             injection.http.post(`${window.api}/mail/get`).then(response => {
                 next(vm => {
-                    injection.loading.finish();
-                    injection.sidebar.active('setting');
                     vm.form.driver = response.data.data.driver;
                     vm.form.encryption = response.data.data.encryption;
                     vm.form.port = response.data.data.port;
@@ -15,6 +13,7 @@
                     vm.form.from = response.data.data.from;
                     vm.form.username = response.data.data.username;
                     vm.form.password = response.data.data.password;
+                    injection.loading.finish();
                 });
             });
         },

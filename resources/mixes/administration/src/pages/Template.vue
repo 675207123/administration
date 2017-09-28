@@ -1,10 +1,9 @@
 <script>
-    import injection, { trans } from '../helpers/injection';
+    import { trans } from '../helpers/injection';
 
     export default {
         beforeRouteEnter(to, from, next) {
             next(() => {
-                injection.sidebar.active('setting');
             });
         },
         mounted() {

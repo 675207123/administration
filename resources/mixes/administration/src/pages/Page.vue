@@ -18,7 +18,6 @@
                     vm.path = path;
                     vm.tabs = tabs;
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                 });
             }).catch(() => {
                 injection.loading.error();

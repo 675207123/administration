@@ -13,7 +13,6 @@
                     vm.module = response.data.module;
                     vm.templates = response.data.templates;
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                 });
             });
         },

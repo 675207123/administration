@@ -113,7 +113,7 @@ function install(Vue) {
     const token = JSON.parse(window.localStorage.getItem('token'));
     injection.extensions = [];
     injection.modules = [];
-    injection.navigation = [];
+    // injection.navigation = [];
     injection.pages = [];
     if (token && token.access_token) {
         Vue.http.defaults.headers.common.Accept = 'application/json';
@@ -126,12 +126,12 @@ function install(Vue) {
             const imports = [];
             const informations = [];
             const {
-                navigation,
+                // navigation,
                 pages,
                 scripts,
                 stylesheets,
             } = response.data.data;
-            injection.navigation = navigation;
+            // injection.navigation = navigation;
             injection.pages = pages;
             Object.keys(scripts).forEach(index => {
                 const script = scripts[index];

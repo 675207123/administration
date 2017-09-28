@@ -17,7 +17,6 @@
                     });
                     vm.module = response.data.module;
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                 });
             });
         },

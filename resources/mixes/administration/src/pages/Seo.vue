@@ -9,7 +9,6 @@
                 next(vm => {
                     vm.list = Object.keys(list).map(index => list[index]);
                     injection.loading.finish();
-                    injection.sidebar.active('setting');
                 });
             });
         },
