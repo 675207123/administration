@@ -50,7 +50,7 @@ function init(Vue) {
             }
         });
     }
-    injection.vue = new Vue({
+    injection.instance = new Vue({
         el: '#app',
         router: injection.router,
         store,
@@ -97,6 +97,7 @@ function loadStylesheet(url) {
 }
 
 function install(Vue) {
+    injection.Vue = Vue;
     mixinLocal(injection);
     mixinComponent(Vue, injection);
     mixinAxios(injection, Vue);
