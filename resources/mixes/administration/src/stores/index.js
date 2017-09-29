@@ -10,7 +10,9 @@ Vue.use(Vuex);
 const state = {
     debug: false,
     design: false,
+    loading: false,
     navigation: {},
+    page: [],
     setting: {},
     sidebar: {},
     title: 'Notadd Administration',

@@ -16,8 +16,16 @@ export const design = (state, payload) => {
     state.design = payload;
 };
 
+export const loading = (state, payload) => {
+    state.loading = payload;
+};
+
 export const navigation = (state, payload) => {
     state.navigation = payload;
+};
+
+export const page = (state, payload) => {
+    state.page = payload;
 };
 
 export const setting = (state, payload) => {

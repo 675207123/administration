@@ -6,15 +6,19 @@
  * @datetime 2017-01-17 14:16
  */
 
+export const accessToken = state => state.token.access_token;
+
 export const debug = state => state.debug;
 
 export const design = state => state.design;
 
+export const loading = state => state.loading;
+
+export const page = state => state.page;
+
 export const setting = state => state.setting;
 
 export const token = state => state.token;
-
-export const accessToken = state => state.token.access_token;
 
 export const tokenExpiresIn = state => state.token.expires_in;
 
