@@ -6,9 +6,13 @@ export const information = ({ commit }) => {
         const {
             navigation,
             pages,
+            scripts,
+            stylesheets,
         } = response.data.data;
         commit('navigation', navigation);
         commit('page', pages);
+        commit('script', scripts);
+        commit('stylesheet', stylesheets);
         const keys = Object.keys(navigation);
         if (keys.length > 0 && navigation[keys[0]].children) {
             commit('sidebar', navigation[keys[0]].children);

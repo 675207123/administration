@@ -129,7 +129,7 @@ export default {
                     next({
                         path: refresh,
                     });
-                }, 100);
+                }, 10);
             } else if (to.matched.length !== 0) {
                 next();
             } else {

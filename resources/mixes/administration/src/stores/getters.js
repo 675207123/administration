@@ -18,7 +18,11 @@ export const page = state => state.page;
 
 export const refresh = state => state.refresh;
 
+export const script = state => state.script;
+
 export const setting = state => state.setting;
+
+export const stylesheet = state => state.stylesheet;
 
 export const token = state => state.token;
 

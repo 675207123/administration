@@ -14,8 +14,10 @@ const state = {
     navigation: {},
     page: [],
     refresh: '',
+    script: [],
     setting: {},
     sidebar: {},
+    stylesheet: [],
     title: 'Notadd Administration',
     token: {},
     user: {

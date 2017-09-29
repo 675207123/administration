@@ -21,13 +21,20 @@
             pages() {
                 return this.$store.state.page;
             },
+            scripts() {
+                return this.$store.state.script;
+            },
             sidebar() {
                 return this.$store.state.sidebar;
+            },
+            stylesheets() {
+                return this.$store.state.stylesheet;
             },
         },
         data() {
             return {
                 hideSidebar: false,
+                imports: [],
                 url: window.url,
             };
         },
@@ -35,6 +42,20 @@
             logout() {
                 window.localStorage.clear();
                 this.$router.push('/login');
+            },
+            loadScripts() {
+                const self = this;
+                Object.keys(self.scripts).forEach(index => {
+                    const script = self.scripts[index];
+                    self.imports.push(injection.loadScript(script.identification, script.file));
+                });
+            },
+            loadStylesheets() {
+                const self = this;
+                Object.keys(self.stylesheets).forEach(index => {
+                    const stylesheet = self.stylesheets[index];
+                    injection.loadStylesheet(stylesheet.file);
+                });
             },
             mappingPages(pages) {
                 const self = this;
@@ -89,14 +110,33 @@
             self.$http.post(`${window.api}/administration/access`).then(() => {
                 window.console.log('登录状态正常！');
             });
+            self.loadScripts();
+            self.loadStylesheets();
             self.mappingPages(self.pages);
-            if (self.$store.state.refresh.length) {
-                self.$notice.open({
-                    title: '即将跳转...',
+            Promise.all(self.imports).then(data => {
+                Object.keys(data).forEach(index => {
+                    const instance = data[index];
+                    if (instance.install) {
+                        instance.install(injection);
+                    }
                 });
-                self.$router.push(self.$store.state.refresh);
-                self.$store.commit('refresh', '');
-            }
+                self.$router.addRoutes([
+                    {
+                        children: [
+                            ...injection.routers,
+                        ],
+                        component: injection.layout,
+                        path: '/',
+                    },
+                ]);
+                if (self.$store.state.refresh.length) {
+                    self.$notice.open({
+                        title: '即将跳转...',
+                    });
+                    self.$router.push(self.$store.state.refresh);
+                    self.$store.commit('refresh', '');
+                }
+            });
         },
         watch: {
             pages(pages) {

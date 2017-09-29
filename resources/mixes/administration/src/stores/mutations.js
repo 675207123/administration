@@ -32,6 +32,10 @@ export const refresh = (state, payload) => {
     state.refresh = payload;
 };
 
+export const script = (state, payload) => {
+    state.script = payload;
+};
+
 export const setting = (state, payload) => {
     state.setting = payload;
 };
@@ -42,6 +46,10 @@ export const sidebar = (state, payload) => {
 
 export const single = (state, payload) => {
     Vue.set(state.setting, payload.key, payload.value);
+};
+
+export const stylesheet = (state, payload) => {
+    state.stylesheet = payload;
 };
 
 export const title = (state, payload) => {
