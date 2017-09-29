@@ -18,6 +18,7 @@ import Template from '../pages/Template.vue';
 import Upload from '../pages/Upload.vue';
 
 import requireAuth from '../middlewares/auth';
+import store from '../stores';
 
 Vue.use(Router);
 
@@ -86,6 +87,7 @@ const configuration = [
 
 export default {
     init(injection) {
+        injection.layout = Layout;
         const routes = [
             {
                 children: [
@@ -100,7 +102,7 @@ export default {
                     ...injection.routes.module,
                     ...injection.routes.other,
                 ],
-                component: Layout,
+                component: injection.layout,
                 path: '/',
             },
             {
@@ -112,7 +114,16 @@ export default {
             routes,
         });
         router.beforeEach((to, from, next) => {
-            if (to.matched.length === 0) {
+            if (store.state.loading === true) {
+                injection.notice.open({
+                    title: '应用初始化中，请稍等...',
+                });
+                setTimeout(() => {
+                    next({
+                        path: to.path,
+                    });
+                }, 100);
+            } else if (to.matched.length === 0) {
                 injection.notice.error({
                     title: '所访问的页面不存在，即将跳转...',
                 });

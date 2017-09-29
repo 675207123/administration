@@ -1,4 +1,7 @@
 <script>
+    import injection from '../helpers/injection';
+    import Page from '../pages/Page.vue';
+
     export default {
         computed: {
             design: {
@@ -15,12 +18,12 @@
             navigation() {
                 return this.$store.state.navigation;
             },
+            pages() {
+                return this.$store.state.page;
+            },
             sidebar() {
                 return this.$store.state.sidebar;
             },
-        },
-        created() {
-            this.$store.dispatch('information');
         },
         data() {
             return {
@@ -32,6 +35,35 @@
             logout() {
                 window.localStorage.clear();
                 this.$router.push('/login');
+            },
+            mappingPages(pages) {
+                const self = this;
+                if (typeof pages === 'object') {
+                    Object.keys(pages).forEach(index => {
+                        const definition = pages[index];
+                        switch (definition.initialization.target) {
+                            case 'extension':
+                                break;
+                            case 'global':
+                                self.$router.addRoutes([
+                                    {
+                                        children: [
+                                            {
+                                                beforeEnter: injection.middleware.requireAuth,
+                                                component: Page,
+                                                path: definition.initialization.path,
+                                            },
+                                        ],
+                                        component: injection.layout,
+                                        path: '/',
+                                    },
+                                ]);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                }
             },
             saveDashboard() {
                 this.$children.filter(item => item.$options.name === 'Administration-Dashboard').forEach(item => {
@@ -57,19 +89,11 @@
             self.$http.post(`${window.api}/administration/access`).then(() => {
                 window.console.log('登录状态正常！');
             });
+            self.mappingPages(self.pages);
         },
         watch: {
-            navigation: {
-                deep: true,
-                handler(val) {
-                    window.console.log(val);
-                },
-            },
-            sidebar: {
-                deep: true,
-                handler(val) {
-                    window.console.log(val);
-                },
+            pages(pages) {
+                this.mappingPages(pages);
             },
         },
     };
