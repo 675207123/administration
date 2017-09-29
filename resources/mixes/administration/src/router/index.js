@@ -115,23 +115,30 @@ export default {
         });
         router.beforeEach((to, from, next) => {
             if (store.state.loading === true) {
+                let refresh;
+                if (to.matched.length === 0) {
+                    store.commit('refresh', to.path);
+                    refresh = '/';
+                } else {
+                    refresh = to.path;
+                }
                 injection.notice.open({
                     title: '应用初始化中，请稍等...',
                 });
                 setTimeout(() => {
                     next({
-                        path: to.path,
+                        path: refresh,
                     });
                 }, 100);
-            } else if (to.matched.length === 0) {
+            } else if (to.matched.length !== 0) {
+                next();
+            } else {
                 injection.notice.error({
                     title: '所访问的页面不存在，即将跳转...',
                 });
                 next({
                     path: '/',
                 });
-            } else {
-                next();
             }
         });
         return router;

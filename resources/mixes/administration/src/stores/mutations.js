@@ -28,6 +28,10 @@ export const page = (state, payload) => {
     state.page = payload;
 };
 
+export const refresh = (state, payload) => {
+    state.refresh = payload;
+};
+
 export const setting = (state, payload) => {
     state.setting = payload;
 };

@@ -13,6 +13,7 @@ const state = {
     loading: false,
     navigation: {},
     page: [],
+    refresh: '',
     setting: {},
     sidebar: {},
     title: 'Notadd Administration',

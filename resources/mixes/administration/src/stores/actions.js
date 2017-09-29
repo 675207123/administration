@@ -14,6 +14,8 @@ export const information = ({ commit }) => {
             commit('sidebar', navigation[keys[0]].children);
         }
         commit('loading', false);
+    }).catch(() => {
+        commit('loading', false);
     });
 };
 

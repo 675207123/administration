@@ -90,6 +90,13 @@
                 window.console.log('登录状态正常！');
             });
             self.mappingPages(self.pages);
+            if (self.$store.state.refresh.length) {
+                self.$notice.open({
+                    title: '即将跳转...',
+                });
+                self.$router.push(self.$store.state.refresh);
+                self.$store.commit('refresh', '');
+            }
         },
         watch: {
             pages(pages) {

@@ -16,6 +16,8 @@ export const loading = state => state.loading;
 
 export const page = state => state.page;
 
+export const refresh = state => state.refresh;
+
 export const setting = state => state.setting;
 
 export const token = state => state.token;
