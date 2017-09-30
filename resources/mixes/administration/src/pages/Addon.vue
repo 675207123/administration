@@ -83,12 +83,8 @@
                                                 self.$notice.open({
                                                     title: value ? `开启插件${data.row.name}成功！` : `关闭插件${data.row.name}成功！`,
                                                 });
-                                                self.$notice.warning({
-                                                    title: '将在3秒后重载网页！',
-                                                });
-                                                window.setTimeout(() => {
-                                                    window.location.reload();
-                                                }, 3000);
+                                                self.refresh();
+                                                self.$store.dispatch('information');
                                             });
                                         },
                                     },
