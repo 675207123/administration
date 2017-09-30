@@ -65,6 +65,7 @@
                                                     desc: '请前往控制器执行命令 php notadd extension install，以执行拓展的安装！',
                                                     title: '添加到待安装列表成功！',
                                                 });
+                                                self.refresh();
                                             }).catch(() => {
                                                 self.$notice.error({
                                                     title: '添加到待安装列表失败！',
@@ -90,7 +91,13 @@
                                             self.extensions[data.index].loading.uninstall = true;
                                             self.$http.delete(`${window.api}/administration/extensions`, {
                                                 identification: data.row.identification,
-                                            }).then().catch(() => {
+                                            }).then(() => {
+                                                self.$notice.open({
+                                                    desc: '请前往控制器执行命令 php notadd extension uninstall，以执行拓展的卸载！',
+                                                    title: '添加到待卸载列表成功！',
+                                                });
+                                                self.refresh();
+                                            }).catch(() => {
                                                 self.$notice.error({
                                                     title: '添加到待卸载列表失败！',
                                                 });
@@ -114,6 +121,35 @@
                 ],
                 extensions: [],
             };
+        },
+        methods: {
+            refresh() {
+                const self = this;
+                self.$notice.open({
+                    title: '正在刷新数据...',
+                });
+                self.$http.get(`${window.api}/administration/extensions`).then(response => {
+                    const extensions = response.data.data;
+                    self.extensions = Object.keys(extensions).map(index => {
+                        const extension = extensions[index];
+                        extension.loading = {
+                            install: false,
+                            uninstall: false,
+                        };
+
+                        return extension;
+                    });
+                    self.$notice.open({
+                        title: '属性数据成功！',
+                    });
+                    self.$loading.finish();
+                }).catch(() => {
+                    self.$notice.error({
+                        title: '刷新数据失败！',
+                    });
+                    self.$loading.error();
+                });
+            },
         },
         mounted() {
             this.$store.commit('title', trans('administration.title.expand'));
