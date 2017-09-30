@@ -43,6 +43,34 @@
                 window.localStorage.clear();
                 this.$router.push('/login');
             },
+            loadImports() {
+                const self = this;
+                Promise.all(self.imports).then(data => {
+                    Object.keys(data).forEach(index => {
+                        const instance = data[index];
+                        if (instance.install) {
+                            instance.install(injection);
+                        }
+                    });
+                    self.$router.addRoutes([
+                        {
+                            children: [
+                                ...injection.routers,
+                            ],
+                            component: injection.layout,
+                            path: '/',
+                        },
+                    ]);
+                    self.imports = [];
+                    if (self.$store.state.refresh.length) {
+                        self.$notice.open({
+                            title: '即将跳转...',
+                        });
+                        self.$router.push(self.$store.state.refresh);
+                        self.$store.commit('refresh', '');
+                    }
+                });
+            },
             loadScripts() {
                 const self = this;
                 Object.keys(self.scripts).forEach(index => {
@@ -110,37 +138,25 @@
             self.$http.post(`${window.api}/administration/access`).then(() => {
                 window.console.log('登录状态正常！');
             });
+            self.mappingPages(self.pages);
             self.loadScripts();
             self.loadStylesheets();
-            self.mappingPages(self.pages);
-            Promise.all(self.imports).then(data => {
-                Object.keys(data).forEach(index => {
-                    const instance = data[index];
-                    if (instance.install) {
-                        instance.install(injection);
-                    }
-                });
-                self.$router.addRoutes([
-                    {
-                        children: [
-                            ...injection.routers,
-                        ],
-                        component: injection.layout,
-                        path: '/',
-                    },
-                ]);
-                if (self.$store.state.refresh.length) {
-                    self.$notice.open({
-                        title: '即将跳转...',
-                    });
-                    self.$router.push(self.$store.state.refresh);
-                    self.$store.commit('refresh', '');
-                }
-            });
+            self.loadImports();
         },
         watch: {
+            imports(val) {
+                if (val.length) {
+                    this.loadImports();
+                }
+            },
             pages(pages) {
                 this.mappingPages(pages);
+            },
+            scripts() {
+                this.loadScripts();
+            },
+            stylesheets() {
+                this.loadStylesheets();
             },
         },
     };
