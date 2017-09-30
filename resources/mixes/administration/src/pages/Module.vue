@@ -382,7 +382,7 @@
 </script>
 <template>
     <div class="module-wrap">
-        <tabs :model="list.domains" value="installed">
+        <tabs value="installed">
             <tab-pane label="开启模块" name="installed">
                 <card :bordered="false">
                     <i-table :columns="columns.installed" :data="list.installed"></i-table>
