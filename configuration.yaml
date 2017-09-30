@@ -153,6 +153,7 @@ menus:
         children:
             -
                 icon: ios-cog
+                injection: global
                 text: 全局设置
             -
                 children:
@@ -176,6 +177,7 @@ menus:
                 text: 应用管理
             -
                 icon: plus
+                injection: addon
                 text: 全局插件
             -
                 children:
