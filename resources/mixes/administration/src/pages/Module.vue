@@ -39,163 +39,8 @@
             const self = this;
             return {
                 action: `${window.api}/module/imports`,
+                changed: false,
                 columns: {
-                    domains: [
-                        {
-                            alias: 'right',
-                            key: 'name',
-                            title: '模块名称',
-                            width: 200,
-                        },
-                        {
-                            key: 'host',
-                            render(h, data) {
-                                let changed = false;
-                                const store = data.row;
-                                return h('tooltip', {
-                                    props: {
-                                        placement: 'right-end',
-                                    },
-                                    scopedSlots: {
-                                        content() {
-                                            if (self.multidomain) {
-                                                return '回车更新数据';
-                                            }
-                                            return '多域名功能未开启';
-                                        },
-                                        default() {
-                                            return h('i-input', {
-                                                on: {
-                                                    'on-keydown': event => {
-                                                        if (changed && event.keyCode === 13) {
-                                                            changed = false;
-                                                            self.updateDomain(store);
-                                                        }
-                                                    },
-                                                    'on-change': event => {
-                                                        if (store.host !== event.target.value) {
-                                                            changed = true;
-                                                        }
-                                                        store.host = event.target.value;
-                                                    },
-                                                },
-                                                props: {
-                                                    disabled: !self.multidomain,
-                                                    placeholder: '请填写不带 http:// 或 https:// 的域名',
-                                                    value: self.list.domains[data.index].host,
-                                                },
-                                            });
-                                        },
-                                    },
-                                });
-                            },
-                            title: '域名',
-                            width: 300,
-                        },
-                        {
-                            alias: 'center',
-                            key: 'default',
-                            render(h, data) {
-                                if (data.row.identification === 'notadd/api') {
-                                    return '';
-                                }
-                                return h('checkbox', {
-                                    on: {
-                                        'on-change': value => {
-                                            data.row.default = value;
-                                            self.updateDomain(data.row);
-                                        },
-                                    },
-                                    props: {
-                                        value: self.list.domains[data.index].default,
-                                    },
-                                });
-                            },
-                            title: '默认',
-                            width: 60,
-                        },
-                        {
-                            key: 'alias',
-                            render(h, data) {
-                                if (data.row.identification === 'notadd/notadd') {
-                                    return data.row.alias;
-                                }
-                                let changed = false;
-                                const store = data.row;
-                                return h('tooltip', {
-                                    props: {
-                                        placement: 'right-end',
-                                    },
-                                    scopedSlots: {
-                                        content() {
-                                            return '回车更新数据';
-                                        },
-                                        default() {
-                                            return h('i-input', {
-                                                on: {
-                                                    'on-keydown': event => {
-                                                        if (changed && event.keyCode === 13) {
-                                                            changed = false;
-                                                            self.updateDomain(store);
-                                                        }
-                                                    },
-                                                    'on-change': event => {
-                                                        if (store.alias !== event.target.value) {
-                                                            changed = true;
-                                                        }
-                                                        store.alias = event.target.value;
-                                                    },
-                                                },
-                                                props: {
-                                                    value: self.list.domains[data.index].alias,
-                                                },
-                                            });
-                                        },
-                                    },
-                                });
-                            },
-                            title: '别名',
-                            width: 300,
-                        },
-                        {
-                            key: 'extra',
-                            title: ' ',
-                        },
-                        {
-                            key: 'using',
-                            render(h, data) {
-                                return h('i-switch', {
-                                    on: {
-                                        input(status) {
-                                            if (self.list.domains[data.index].host === '') {
-                                                self.$notice.error({
-                                                    title: '请先填写正确的域名，再提交开启！',
-                                                });
-                                            } else {
-                                                data.row.enabled = status;
-                                                self.updateDomain(data.row);
-                                            }
-                                        },
-                                    },
-                                    props: {
-                                        disabled: !self.multidomain,
-                                        size: 'large',
-                                        value: self.list.domains[data.index].enabled,
-                                    },
-                                    scopedSlots: {
-                                        close() {
-                                            return '关闭';
-                                        },
-                                        open() {
-                                            return '开启';
-                                        },
-                                    },
-                                });
-                            },
-                            title: '使用域名',
-                            width: 160,
-                        },
-                    ],
                     exports: [
                         {
                             align: 'center',
@@ -334,6 +179,7 @@
                     notInstalled: [],
                 },
                 loading: {
+                    domains: false,
                     exports: false,
                     imports: false,
                 },
@@ -347,6 +193,26 @@
                 self.$notice.open({
                     title: '开始导入...',
                 });
+            },
+            domainDefaultChanged(index) {
+                const self = this;
+                if (self.list.domains[index].default === true) {
+                    Object.keys(self.list.domains).forEach(i => {
+                        if (index !== parseInt(i, 0)) {
+                            self.$nextTick(() => {
+                                self.list.domains[i].default = false;
+                            });
+                        }
+                    });
+                } else {
+                    Object.keys(self.list.domains).forEach(i => {
+                        if (self.list.domains[i].identification === 'notadd/notadd') {
+                            self.$nextTick(() => {
+                                self.list.domains[i].default = true;
+                            });
+                        }
+                    });
+                }
             },
             exports() {
                 const self = this;
@@ -459,10 +325,12 @@
                     });
                 }
             },
-            updateDomain(data) {
+            updateDomain() {
                 const self = this;
                 self.$loading.start();
-                self.$http.post(`${window.api}/module/domain`, data).then(() => {
+                self.$http.post(`${window.api}/administration/modules/domains`, {
+                    data: self.list.domains,
+                }).then(() => {
                     self.$loading.finish();
                     self.$notice.open({
                         title: '更新模块域名信息成功！',
@@ -499,11 +367,22 @@
         mounted() {
             this.$store.commit('title', trans('administration.title.module'));
         },
+        watch: {
+            'list.domains': {
+                deep: true,
+                handler(val, old) {
+                    console.log(val);
+                    if (old.length > 0) {
+                        this.changed = true;
+                    }
+                },
+            },
+        },
     };
 </script>
 <template>
     <div class="module-wrap">
-        <tabs value="installed">
+        <tabs :model="list.domains" value="installed">
             <tab-pane label="开启模块" name="installed">
                 <card :bordered="false">
                     <i-table :columns="columns.installed" :data="list.installed"></i-table>
@@ -511,7 +390,99 @@
             </tab-pane>
             <tab-pane label="域名配置" name="domain">
                 <card :bordered="false">
-                    <i-table :columns="columns.domains" :data="list.domains"></i-table>
+                    <div style="margin-bottom: 16px" v-if="changed">
+                        <p style="color: #aa0000; display: inline-block; height: 32px; line-height: 32px; margin-right: 10px;">数据已修改！修改后请批量更新数据！</p>
+                        <div style="float: right;">
+                            <i-button :loading="loading.domains" type="primary" @click.native="updateDomain">
+                                <span v-if="loading.domains">批量更新中...</span>
+                                <span v-else>批量更新</span>
+                            </i-button>
+                        </div>
+                    </div>
+                    <i-form ref="form">
+                        <div class="ivu-table-wrapper">
+                            <div class="ivu-table">
+                                <div class="ivu-table-header">
+                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                        <colgroup>
+                                            <col width="200">
+                                            <col width="300">
+                                            <col width="60">
+                                            <col width="300">
+                                            <col>
+                                            <col width="160">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th><div class="ivu-table-cell"><span>模块名称</span></div></th>
+                                            <th><div class="ivu-table-cell"><span>域名</span></div></th>
+                                            <th><div class="ivu-table-cell"><span>默认</span></div></th>
+                                            <th><div class="ivu-table-cell"><span>别名</span></div></th>
+                                            <th></th>
+                                            <th><div class="ivu-table-cell"><span>使用域名</span></div></th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="ivu-table-body" v-if="list.domains.length">
+                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                        <colgroup>
+                                            <col width="200">
+                                            <col width="300">
+                                            <col width="60">
+                                            <col width="300">
+                                            <col>
+                                            <col width="160">
+                                        </colgroup>
+                                        <tbody class="ivu-table-tbody">
+                                            <tr class="ivu-table-row" v-for="(domain, index) in list.domains">
+                                                <td><div class="ivu-table-cell">{{ domain.name }}</div></td>
+                                                <td>
+                                                    <div class="ivu-table-cell">
+                                                        <template v-if="multidomain">
+                                                            <i-input placeholder="请填写不带 http:// 或 https:// 的域名"
+                                                                     v-model="list.domains[index].host"></i-input>
+                                                        </template>
+                                                        <template v-else>
+                                                            <tooltip content="多域名功能未开启" placement="right-end">
+                                                                <i-input :disabled="true"
+                                                                         placeholder="请填写不带 http:// 或 https:// 的域名"
+                                                                         v-model="list.domains[index].host"></i-input>
+                                                            </tooltip>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="ivu-table-cell">
+                                                        <template v-if="domain.identification !== 'notadd/api'">
+                                                            <checkbox v-model="list.domains[index].default" @on-change="domainDefaultChanged(index)"></checkbox>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="ivu-table-cell">
+                                                        <template v-if="domain.identification === 'notadd/notadd'">/</template>
+                                                        <template v-else>
+                                                            <i-input v-model="list.domains[index].alias"></i-input>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <td><div class="ivu-table-cell"></div></td>
+                                                <td>
+                                                    <div class="ivu-table-cell">
+                                                        <i-switch :disabled="!multidomain" size="large" v-model="list.domains[index].enabled">
+                                                            <span slot="close">关闭</span>
+                                                            <span slot="open">开启</span>
+                                                        </i-switch>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </i-form>
                 </card>
             </tab-pane>
             <tab-pane label="导入/导出" name="exchange">
