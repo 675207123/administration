@@ -248,12 +248,8 @@
                                                 injection.notice.open({
                                                     title: status ? `开启模块${data.row.name}成功！` : `关闭模块${data.row.name}成功！`,
                                                 });
-                                                injection.notice.warning({
-                                                    title: '将在3秒后重载网页！',
-                                                });
-                                                window.setTimeout(() => {
-                                                    window.location.reload();
-                                                }, 3000);
+                                                self.refresh();
+                                                self.$store.dispatch('information');
                                             });
                                         },
                                     },
