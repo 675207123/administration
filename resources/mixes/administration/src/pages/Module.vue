@@ -238,15 +238,15 @@
                             render(h, data) {
                                 return h('i-switch', {
                                     on: {
-                                        input(status) {
+                                        input(value) {
                                             injection.loading.start();
-                                            injection.http.post(`${window.api}/module/enable`, {
-                                                name: data.row.identification,
-                                                value: status,
+                                            injection.http.put(`${window.api}/administration/modules/${data.row.identification.replace('/', '-')}`, {
+                                                identification: data.row.identification,
+                                                status: value,
                                             }).then(() => {
                                                 injection.loading.finish();
                                                 injection.notice.open({
-                                                    title: status ? `开启模块${data.row.name}成功！` : `关闭模块${data.row.name}成功！`,
+                                                    title: value ? `开启模块${data.row.name}成功！` : `关闭模块${data.row.name}成功！`,
                                                 });
                                                 self.refresh();
                                                 self.$store.dispatch('information');
