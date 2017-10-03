@@ -371,7 +371,6 @@
             'list.domains': {
                 deep: true,
                 handler(val, old) {
-                    console.log(val);
                     if (old.length > 0) {
                         this.changed = true;
                     }
