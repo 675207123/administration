@@ -62,7 +62,7 @@
                                                 identification: data.row.identification,
                                             }).then(() => {
                                                 self.$notice.open({
-                                                    desc: '请前往控制器执行命令 php notadd extension install，以执行拓展的安装！',
+                                                    desc: '请前往控制器执行命令 php notadd extension:install，以执行拓展的安装！',
                                                     title: '添加到待安装列表成功！',
                                                 });
                                                 self.refresh();
