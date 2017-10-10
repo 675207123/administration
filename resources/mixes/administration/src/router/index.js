@@ -122,9 +122,6 @@ export default {
                 } else {
                     refresh = to.path;
                 }
-                injection.notice.open({
-                    title: '应用初始化中，请稍等...',
-                });
                 setTimeout(() => {
                     next({
                         path: refresh,

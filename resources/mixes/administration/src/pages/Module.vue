@@ -22,12 +22,14 @@
                     vm.list.installed = Object.keys(installed).map(key => {
                         const data = installed[key];
                         data.loading = false;
+
                         return data;
                     });
                     vm.list.modules = Object.keys(modules).map(key => modules[key]);
                     vm.list.notInstalled = Object.keys(notInstall).map(key => {
                         const data = notInstall[key];
                         data.loading = false;
+
                         return data;
                     });
                     vm.multidomain = multidomain;
@@ -243,7 +245,7 @@
                 const self = this;
                 const item = self.list.notInstalled[index];
                 item.loading = true;
-                injection.http.post(`${window.api}/module/install`, {
+                injection.http.post(`${window.api}/administration/modules`, {
                     identification: item.identification,
                 }).then(response => {
                     window.console.log(response);
