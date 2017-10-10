@@ -13,7 +13,7 @@ export default function (injection, Vue) {
             injection.notice.error({
                 title: '请重新登录！',
             });
-            injection.vue.$router.push('/login');
+            injection.router.push('/login');
         }
         if (error.response.status > 401 && error.response.status <= 500) {
             if (typeof error.response.data.message === 'object') {
