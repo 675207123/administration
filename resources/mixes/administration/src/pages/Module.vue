@@ -282,12 +282,14 @@
                         self.list.installed = Object.keys(installed).map(key => {
                             const data = installed[key];
                             data.loading = false;
+
                             return data;
                         });
                         self.list.modules = Object.keys(modules).map(key => modules[key]);
                         self.list.notInstalled = Object.keys(notInstall).map(key => {
                             const data = notInstall[key];
                             data.loading = false;
+
                             return data;
                         });
                         self.multidomain = multidomain;
@@ -310,18 +312,16 @@
                     });
                     module.loading = false;
                 } else {
-                    injection.http.post(`${window.api}/module/uninstall`, {
-                        identification: module.identification,
-                    }).then(response => {
-                        window.console.log(response);
-                        window.console.log(response.data.data);
-                        const messages = response.data.message;
-                        messages.forEach(message => {
-                            self.$notice.open({
-                                title: message,
-                            });
+                    const identification = module.identification.replace('/', '-');
+                    self.$http.delete(`${window.api}/administration/modules/${identification}`).then(() => {
+                        self.$notice.open({
+                            title: '卸载模块成功！',
                         });
                         self.refresh();
+                    }).catch(() => {
+                        self.$notice.error({
+                            title: '卸载模块失败！',
+                        });
                     }).finally(() => {
                         module.loading = false;
                     });
@@ -426,7 +426,7 @@
                                     </table>
                                 </div>
                                 <div class="ivu-table-body" v-if="list.domains.length">
-                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <table cellpadding="0" border="0" width="100%">
                                         <colgroup>
                                             <col width="200">
                                             <col width="300">
@@ -493,8 +493,8 @@
                                 :before-upload="uploadBefore"
                                 :format="['yaml']"
                                 :headers="{
-                                Authorization: `Bearer ${$store.state.token.access_token}`
-                            }"
+                                    Authorization: `Bearer ${$store.state.token.access_token}`
+                                }"
                                 :on-error="uploadError"
                                 :on-format-error="uploadFormatError"
                                 :on-success="uploadSuccess"

@@ -3,7 +3,6 @@ import axios from 'axios';
 export default function (injection, Vue) {
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     axios.interceptors.request.use(configuration => configuration, error => {
-        window.console.log(error);
         return Promise.reject(error);
     });
     axios.interceptors.response.use(response => response, error => {
