@@ -119,16 +119,16 @@
                                                 });
                                                 addon.loading = false;
                                             } else {
-                                                self.$http.delete(`${window.api}/administration/addons/${addon.identification.replace('/', '-')}`, {
-                                                    identification: addon.identification,
-                                                }).then(response => {
-                                                    const messages = response.data.message;
-                                                    messages.forEach(message => {
-                                                        self.$notice.open({
-                                                            title: message,
-                                                        });
+                                                const identification = addon.identification.replace('/', '-');
+                                                self.$http.delete(`${window.api}/administration/addons/${identification}`).then(() => {
+                                                    self.$notice.open({
+                                                        title: '插件卸载成功！',
                                                     });
                                                     self.refresh();
+                                                }).catch(() => {
+                                                    self.$notice.error({
+                                                        title: '插件卸载失败！',
+                                                    });
                                                 }).finally(() => {
                                                     addon.loading = false;
                                                 });
