@@ -4,7 +4,7 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/attachment/get`).then(response => {
+            injection.http.get(`${window.api}/administration/attachment/configurations`).then(response => {
                 const {
                     canManagementFileExtension,
                     canManagementImageExtension,
@@ -129,7 +129,7 @@
                 self.loading = true;
                 self.$refs.form.validate(valid => {
                     if (valid) {
-                        self.$http.post(`${window.api}/attachment/set`, self.form).then(() => {
+                        self.$http.post(`${window.api}/administration/attachment/configurations`, self.form).then(() => {
                             self.$notice.open({
                                 title: '更新上传配置信息成功！',
                             });
