@@ -4,11 +4,11 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/debug/get`).then(response => {
+            injection.http.get(`${window.api}/administration/debug/configurations`).then(response => {
                 next(vm => {
+                    vm.form.enabled = response.data.data.debug;
+                    vm.form.testing = response.data.data.testing;
                     injection.loading.finish();
-                    vm.form.enabled = response.data.data.debug === '1';
-                    vm.form.testing = response.data.data.testing === '1';
                 });
             });
         },
@@ -25,7 +25,7 @@
             change() {
                 const self = this;
                 injection.loading.start();
-                injection.http.post(`${window.api}/debug/set`, self.form).then(() => {
+                injection.http.post(`${window.api}/administration/debug/configurations`, self.form).then(() => {
                     injection.loading.finish();
                     self.$notice.success({
                         title: '模式切换成功！',
