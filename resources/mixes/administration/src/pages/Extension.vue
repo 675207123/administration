@@ -48,6 +48,20 @@
                     },
                     {
                         key: 'installed',
+                        render(h, data) {
+                            if (data.row.installed === true) {
+                                if (data.row.require.uninstall === true) {
+                                    return '待卸载';
+                                }
+
+                                return '已安装';
+                            }
+                            if (data.row.require.install === true) {
+                                return '待安装';
+                            }
+
+                            return '未安装';
+                        },
                         title: '安装状态',
                     },
                     {
@@ -76,7 +90,7 @@
                                         },
                                     },
                                     props: {
-                                        disabled: data.row.installed,
+                                        disabled: data.row.installed || data.row.require.install,
                                         loading: self.extensions[data.index].loading.install,
                                         size: 'small',
                                         type: 'primary',
@@ -88,10 +102,9 @@
                                 h('i-button', {
                                     on: {
                                         click() {
+                                            const identification = data.row.identification.replace('/', '-');
                                             self.extensions[data.index].loading.uninstall = true;
-                                            self.$http.delete(`${window.api}/administration/extensions`, {
-                                                identification: data.row.identification,
-                                            }).then(() => {
+                                            self.$http.delete(`${window.api}/administration/extensions/${identification}`).then(() => {
                                                 self.$notice.open({
                                                     desc: '请前往控制器执行命令 php notadd extension uninstall，以执行拓展的卸载！',
                                                     title: '添加到待卸载列表成功！',
@@ -107,7 +120,7 @@
                                         },
                                     },
                                     props: {
-                                        disabled: !data.row.installed,
+                                        disabled: !data.row.installed || data.row.require.uninstall,
                                         loading: self.extensions[data.index].loading.uninstall,
                                         size: 'small',
                                         type: 'error',
