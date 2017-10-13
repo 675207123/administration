@@ -10,6 +10,8 @@
                     vm.form.testing = response.data.data.testing;
                     injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
@@ -24,12 +26,14 @@
         methods: {
             change() {
                 const self = this;
-                injection.loading.start();
-                injection.http.post(`${window.api}/administration/debug/configurations`, self.form).then(() => {
-                    injection.loading.finish();
+                self.$loading.start();
+                self.$http.post(`${window.api}/administration/debug/configurations`, self.form).then(() => {
+                    self.$loading.finish();
                     self.$notice.success({
                         title: '模式切换成功！',
                     });
+                }).catch(() => {
+                    self.$loading.error();
                 });
             },
             clearRedisCache() {

@@ -35,6 +35,8 @@
                     vm.multidomain = multidomain;
                     injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
@@ -86,13 +88,13 @@
                                 return h('i-switch', {
                                     on: {
                                         input(value) {
-                                            injection.loading.start();
-                                            injection.http.put(`${window.api}/administration/modules/${data.row.identification.replace('/', '-')}`, {
+                                            self.$loading.start();
+                                            self.$http.put(`${window.api}/administration/modules/${data.row.identification.replace('/', '-')}`, {
                                                 identification: data.row.identification,
                                                 status: value,
                                             }).then(() => {
-                                                injection.loading.finish();
-                                                injection.notice.open({
+                                                self.$loading.finish();
+                                                self.$notice.open({
                                                     title: value ? `开启模块${data.row.name}成功！` : `关闭模块${data.row.name}成功！`,
                                                 });
                                                 self.refresh();
@@ -263,9 +265,9 @@
                 self.$notice.open({
                     title: '正在刷新数据……',
                 });
-                injection.loading.start();
-                injection.http.get(`${window.api}/administration/modules`).then(result => {
-                    injection.loading.finish();
+                self.$loading.start();
+                self.$http.get(`${window.api}/administration/modules`).then(result => {
+                    self.$loading.finish();
                     const {
                         domains,
                         enabled,

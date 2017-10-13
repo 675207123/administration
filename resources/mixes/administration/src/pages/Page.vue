@@ -40,7 +40,7 @@
                 self.$notice.open({
                     title: '正在刷新数据...',
                 });
-                injection.loading.start();
+                self.$loading.start();
                 self.$http.get(`${window.api}/administration/configurations/${self.path}`).then(response => {
                     const { initialization, tabs } = response.data.data.initialization;
                     Object.keys(tabs).forEach(index => {
@@ -48,13 +48,13 @@
                     });
                     self.initialization = initialization;
                     self.tabs = tabs;
-                    injection.loading.finish();
+                    self.$loading.finish();
                     self.$notice.open({
                         title: '刷新数据成功！',
                     });
                 }).catch(() => {
-                    injection.loading.error();
-                    injection.notice.error({
+                    self.$loading.error();
+                    self.$notice.error({
                         title: '刷新数据失败！',
                     });
                 });

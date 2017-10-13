@@ -7,7 +7,6 @@
             injection.loading.start();
             injection.http.get(`${window.api}/administration/addons`).then(response => {
                 next(vm => {
-                    injection.loading.finish();
                     const {
                         addons,
                         enabled,
@@ -23,7 +22,10 @@
 
                         return data;
                     });
+                    injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {

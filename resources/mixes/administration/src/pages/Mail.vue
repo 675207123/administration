@@ -15,6 +15,8 @@
                     vm.form.password = response.data.data.password;
                     injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {

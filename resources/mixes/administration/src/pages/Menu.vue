@@ -15,6 +15,8 @@
                     vm.originals = response.data.originals;
                     injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         components: {

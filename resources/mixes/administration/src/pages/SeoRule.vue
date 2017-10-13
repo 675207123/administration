@@ -18,6 +18,8 @@
                     vm.module = response.data.module;
                     injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {

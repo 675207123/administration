@@ -30,6 +30,8 @@
                     vm.form.videoMaxSize = videoMaxSize.toString();
                     injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {

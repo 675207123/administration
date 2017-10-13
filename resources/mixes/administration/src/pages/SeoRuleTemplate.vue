@@ -14,6 +14,8 @@
                     vm.templates = response.data.templates;
                     injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {

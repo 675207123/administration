@@ -10,6 +10,8 @@
                     vm.list = Object.keys(list).map(index => list[index]);
                     injection.loading.finish();
                 });
+            }).catch(() => {
+                injection.loading.error();
             });
         },
         data() {
