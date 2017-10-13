@@ -145,7 +145,6 @@
                 deep: true,
                 handler(value, old) {
                     const self = this;
-                    window.console.log(value);
                     if (old.length > 0) {
                         self.changed = true;
                     }

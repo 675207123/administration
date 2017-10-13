@@ -249,9 +249,7 @@
                 item.loading = true;
                 injection.http.post(`${window.api}/administration/modules`, {
                     identification: item.identification,
-                }).then(response => {
-                    window.console.log(response);
-                    window.console.log(response.data.data);
+                }).then(() => {
                     self.$notice.open({
                         title: '安装模块成功！',
                     });

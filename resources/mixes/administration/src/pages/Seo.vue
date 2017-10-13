@@ -16,7 +16,6 @@
         },
         data() {
             const self = this;
-            window.console.log(self);
 
             return {
                 columns: [

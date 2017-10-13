@@ -52,7 +52,6 @@
             },
             saveDashboard() {
                 const self = this;
-                window.console.log(self.dashboards);
                 injection.http.post(`${window.api}/administration/save`, self.dashboards).then(() => {
                     self.$notice.open({
                         title: '保存仪表盘页面布局成功！',

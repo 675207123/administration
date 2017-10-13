@@ -11,7 +11,6 @@
                     Object.keys(response.data.originals).forEach(index => {
                         response.data.originals[index].expand = false;
                     });
-                    window.console.log(response.data.originals);
                     vm.originals = response.data.originals;
                     injection.loading.finish();
                 });
