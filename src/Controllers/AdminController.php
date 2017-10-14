@@ -12,7 +12,7 @@ use Exception;
 use Illuminate\Routing\UrlGenerator;
 use Laravel\Passport\Client as PassportClient;
 use League\OAuth2\Server\AuthorizationServer;
-use Notadd\Foundation\Passport\Responses\ApiResponse;
+use Notadd\Foundation\Routing\Responses\ApiResponse;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 use Notadd\Foundation\Translation\Translator;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
@@ -68,9 +68,9 @@ class AdminController extends Controller
     /**
      * Get access token.
      *
-     * @param \Notadd\Foundation\Passport\Responses\ApiResponse $response
+     * @param \Notadd\Foundation\Routing\Responses\ApiResponse $response
      *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse
+     * @return \Notadd\Foundation\Routing\Responses\ApiResponse
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function access(ApiResponse $response)

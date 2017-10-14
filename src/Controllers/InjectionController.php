@@ -23,7 +23,7 @@ class InjectionController extends Controller
     /**
      * @param \Notadd\Administration\Handlers\AccessHandler $handler
      *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     * @return \Notadd\Foundation\Routing\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function access(AccessHandler $handler)
     {
@@ -33,7 +33,7 @@ class InjectionController extends Controller
     /**
      * @param \Notadd\Administration\Handlers\ConfigurationHandler $handler
      *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     * @return \Notadd\Foundation\Routing\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function configuration(ConfigurationHandler $handler)
     {
@@ -43,7 +43,7 @@ class InjectionController extends Controller
     /**
      * @param \Notadd\Administration\Handlers\InfoHandler $handler
      *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     * @return \Notadd\Foundation\Routing\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function info(InfoHandler $handler)
     {
@@ -53,7 +53,7 @@ class InjectionController extends Controller
     /**
      * @param \Notadd\Administration\Handlers\TokenHandler $handler
      *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     * @return \Notadd\Foundation\Routing\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function token(TokenHandler $handler)
     {
@@ -63,7 +63,7 @@ class InjectionController extends Controller
     /**
      * @param \Notadd\Administration\Handlers\SaveHandler $handler
      *
-     * @return \Notadd\Foundation\Passport\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
+     * @return \Notadd\Foundation\Routing\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function save(SaveHandler $handler)
     {
