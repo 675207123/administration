@@ -12,7 +12,6 @@ use Notadd\Administration\Handlers\AccessHandler;
 use Notadd\Administration\Handlers\ConfigurationHandler;
 use Notadd\Administration\Handlers\InfoHandler;
 use Notadd\Administration\Handlers\SaveHandler;
-use Notadd\Administration\Handlers\TokenHandler;
 use Notadd\Foundation\Routing\Abstracts\Controller;
 
 /**
@@ -46,16 +45,6 @@ class InjectionController extends Controller
      * @return \Notadd\Foundation\Routing\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
      */
     public function info(InfoHandler $handler)
-    {
-        return $handler->toResponse()->generateHttpResponse();
-    }
-
-    /**
-     * @param \Notadd\Administration\Handlers\TokenHandler $handler
-     *
-     * @return \Notadd\Foundation\Routing\Responses\ApiResponse|\Psr\Http\Message\ResponseInterface|\Zend\Diactoros\Response
-     */
-    public function token(TokenHandler $handler)
     {
         return $handler->toResponse()->generateHttpResponse();
     }
