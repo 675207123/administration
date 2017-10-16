@@ -21,12 +21,7 @@ class RouteRegister extends AbstractRouteRegister
      */
     public function handle()
     {
-//        $this->router->group(['middleware' => ['cross', 'web'], 'prefix' => 'api/administration'], function () {
-//            $this->router->post('token', InjectionController::class . '@token');
-//        });
         $this->router->group(['middleware' => ['auth:api', 'cross', 'web'], 'prefix' => 'api/administration'], function () {
-            $this->router->post('access', InjectionController::class . '@access');
-            $this->router->post('configuration', InjectionController::class . '@configuration');
             $this->router->post('dashboard', InjectionController::class . '@dashboard');
             $this->router->post('info', InjectionController::class . '@info');
             $this->router->post('save', InjectionController::class . '@save');
