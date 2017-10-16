@@ -13,7 +13,7 @@
                 },
             },
             name() {
-                return this.$store.state.token.name;
+                return this.$store.state.username;
             },
             navigation() {
                 return this.$store.state.navigation;
@@ -135,8 +135,8 @@
         },
         mounted() {
             const self = this;
-            self.$http.post(`${window.api}/administration/access`).then(() => {
-                window.console.log('登录状态正常！');
+            self.$http.post(`${window.api}/administration/access`).then(response => {
+                self.$store.commit('username', response.data.data.name);
             });
             self.mappingPages(self.pages);
             self.loadScripts();

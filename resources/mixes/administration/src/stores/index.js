@@ -19,11 +19,12 @@ const state = {
     sidebar: {},
     stylesheet: [],
     title: 'Notadd Administration',
-    token: {},
+    token: '',
     user: {
         avatar: 'https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg',
         name: 'Admin',
     },
+    username: '',
 };
 
 export default new Vuex.Store({

@@ -26,6 +26,4 @@ export const stylesheet = state => state.stylesheet;
 
 export const token = state => state.token;
 
-export const tokenExpiresIn = state => state.token.expires_in;
-
-export const refreshToken = state => state.token.refresh_token;
+export const username = state => state.username;

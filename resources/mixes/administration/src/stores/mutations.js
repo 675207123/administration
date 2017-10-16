@@ -61,3 +61,7 @@ export const token = (state, payload) => {
     window.localStorage.setItem('token', payload);
     state.token = payload;
 };
+
+export const username = (state, payload) => {
+    state.username = payload;
+};
