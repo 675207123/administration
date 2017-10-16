@@ -23,7 +23,8 @@ function loadScript(identification, url) {
                 if (script.readyState === 'loaded' || script.readyState === 'complete') {
                     script.onreadystatechange = null;
                     const instance = window[identification];
-                    if (instance.default) {
+                    if (instance && instance.default) {
+                        delete window[identification];
                         resolve(instance.default);
                     } else {
                         reject(Error(`Do not support for [${url}]!`));
@@ -34,7 +35,8 @@ function loadScript(identification, url) {
         } else {
             script.onload = () => {
                 const instance = window[identification];
-                if (instance.default) {
+                if (instance && instance.default) {
+                    delete window[identification];
                     resolve(instance.default);
                 } else {
                     reject(Error(`Do not support for [${url}]!`));
@@ -66,10 +68,10 @@ function install(Vue) {
     mixinLocal(injection);
     mixinComponent(Vue, injection);
     mixinAxios(injection, Vue);
-    const token = JSON.parse(window.localStorage.getItem('token'));
-    if (token && token.access_token) {
+    const token = window.localStorage.getItem('token');
+    if (token && token.length) {
         Vue.http.defaults.headers.common.Accept = 'application/json';
-        Vue.http.defaults.headers.common.Authorization = `Bearer ${token.access_token}`;
+        Vue.http.defaults.headers.common.Authorization = `Bearer ${token}`;
     }
     mixinRouter(injection);
     mixinUse(injection);

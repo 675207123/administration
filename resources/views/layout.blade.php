@@ -33,7 +33,5 @@
     window.url = "{{ url('') }}";
     window.UEDITOR_HOME_URL = "https://src.neditor.notadd.com/0.1.0/";
 </script>
-{{--<script src="{{ asset('assets/admin/js/manifest.min.js') }}"></script>--}}
-{{--<script src="{{ asset('assets/admin/js/vendor.min.js') }}"></script>--}}
 <script src="{{ asset('assets/admin/js/app.min.js') }}"></script>
 </body>

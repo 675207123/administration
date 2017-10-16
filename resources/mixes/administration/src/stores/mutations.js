@@ -58,6 +58,6 @@ export const title = (state, payload) => {
 };
 
 export const token = (state, payload) => {
-    window.localStorage.setItem('token', JSON.stringify(payload));
+    window.localStorage.setItem('token', payload);
     state.token = payload;
 };
