@@ -4,7 +4,7 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.post(`${window.api}/administration/dashboards`).then(response => {
+            injection.http.get(`${window.api}/administration/dashboards`).then(response => {
                 next(vm => {
                     vm.dashboards.hidden = response.data.data.hidden;
                     vm.dashboards.left = response.data.data.left;
@@ -52,7 +52,7 @@
             },
             saveDashboard() {
                 const self = this;
-                injection.http.post(`${window.api}/administration/save`, self.dashboards).then(() => {
+                injection.http.post(`${window.api}/administration/dashboards`, self.dashboards).then(() => {
                     self.$notice.open({
                         title: '保存仪表盘页面布局成功！',
                     });
