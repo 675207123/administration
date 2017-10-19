@@ -36,16 +36,16 @@
                     self.$loading.error();
                 });
             },
-            clearRedisCache() {
+            clearCache() {
                 const self = this;
                 self.loading = true;
-                self.$http.post(`${window.api}/redis/clear`).then(() => {
+                self.$http.post(`${window.api}/administration/cache/clear`).then(() => {
                     self.$notice.open({
-                        title: 'Redis 缓存清除成功！',
+                        title: '缓存清除成功！',
                     });
                 }).catch(() => {
                     self.$notice.error({
-                        title: 'Redis 缓存清除失败！',
+                        title: '缓存清除失败！',
                     });
                 }).finally(() => {
                     self.loading = false;
@@ -63,8 +63,8 @@
         <i-form :label-width="200" :form="form">
             <row>
                 <i-col span="12">
-                    <form-item label="Redis 缓存清除">
-                        <i-button :loading="loading" type="primary" @click.native="clearRedisCache">
+                    <form-item label="缓存清除">
+                        <i-button :loading="loading" type="primary" @click.native="clearCache">
                             <span v-if="loading">正在清除...</span>
                             <span v-else>清除</span>
                         </i-button>
