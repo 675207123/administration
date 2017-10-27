@@ -2,6 +2,15 @@ import injection from '../helpers/injection';
 
 export const information = ({ commit }) => {
     commit('loading', true);
+    injection.http.post(`${window.api}/administration`, {
+        query: 'query {settings{key,value}}',
+    }).then(response => {
+        const settings = [];
+        Object.keys(response.data.data.settings).forEach(key => {
+            settings[response.data.data.settings[key].key] = response.data.data.settings[key].value;
+        });
+        commit('setting', settings);
+    });
     injection.http.post(`${window.api}/administration/informations`).then(response => {
         const {
             navigation,
@@ -23,5 +32,17 @@ export const information = ({ commit }) => {
     });
 };
 
-export const other = () => {
-};
+export const setting = ({ commit }) => (new Promise((resolve, reject) => {
+    injection.http.post(`${window.api}/administration`, {
+        query: 'query {settings{key,value}}',
+    }).then(response => {
+        const settings = [];
+        Object.keys(response.data.data.settings).forEach(key => {
+            settings[response.data.data.settings[key].key] = response.data.data.settings[key].value;
+        });
+        commit('setting', settings);
+        resolve();
+    }).catch(() => {
+        reject();
+    });
+}));

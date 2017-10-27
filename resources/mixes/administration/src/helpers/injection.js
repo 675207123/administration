@@ -65,6 +65,7 @@ function install(Vue) {
     injection.loadScript = loadScript;
     injection.loadStylesheet = loadStylesheet;
     injection.Vue = Vue;
+    injection.store = store;
     mixinLocal(injection);
     mixinComponent(Vue, injection);
     mixinAxios(injection, Vue);

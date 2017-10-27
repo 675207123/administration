@@ -4,22 +4,24 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.get(`${window.api}/administration/debug/configurations`).then(response => {
-                next(vm => {
-                    vm.form.enabled = response.data.data.debug;
-                    vm.form.testing = response.data.data.testing;
+            injection.store.dispatch('setting').then(() => {
+                next(() => {
                     injection.loading.finish();
                 });
             }).catch(() => {
                 injection.loading.error();
             });
         },
+        computed: {
+            enabled() {
+                return this.$store.state.setting['debug.enabled'] === '1';
+            },
+            testing() {
+                return this.$store.state.setting['debug.testing'] === '1';
+            },
+        },
         data() {
             return {
-                form: {
-                    enabled: false,
-                    testing: false,
-                },
                 loading: false,
             };
         },
@@ -27,7 +29,7 @@
             change() {
                 const self = this;
                 self.$loading.start();
-                self.$http.post(`${window.api}/administration/debug/configurations`, self.form).then(() => {
+                self.$http.post(`${window.api}/administration/debug/configurations`, {}).then(() => {
                     self.$loading.finish();
                     self.$notice.success({
                         title: '模式切换成功！',
@@ -74,7 +76,7 @@
             <row>
                 <i-col span="12">
                     <form-item label="Debug 模式">
-                        <i-switch v-model="form.enabled" size="large" @on-change="change">
+                        <i-switch :value="enabled" size="large" @on-change="change">
                             <span slot="open">开启</span>
                             <span slot="close">关闭</span>
                         </i-switch>
@@ -84,7 +86,7 @@
             <row>
                 <i-col span="12">
                     <form-item label="测试模式">
-                        <i-switch v-model="form.testing" size="large" @on-change="change">
+                        <i-switch :value="testing" size="large" @on-change="change">
                             <span slot="open">开启</span>
                             <span slot="close">关闭</span>
                         </i-switch>
