@@ -26,18 +26,6 @@
             };
         },
         methods: {
-            change() {
-                const self = this;
-                self.$loading.start();
-                self.$http.post(`${window.api}/administration/debug/configurations`, {}).then(() => {
-                    self.$loading.finish();
-                    self.$notice.success({
-                        title: '模式切换成功！',
-                    });
-                }).catch(() => {
-                    self.$loading.error();
-                });
-            },
             clearCache() {
                 const self = this;
                 self.loading = true;
@@ -53,6 +41,42 @@
                     self.loading = false;
                 });
             },
+            enableDebug(status) {
+                const self = this;
+                self.$loading.start();
+                self.$http.post(`${window.api}/administration`, {
+                    query: `mutation {settings(key:"debug.enabled",value:"${status === true ? '1' : '0'}"){key,value}}`,
+                }).then(() => {
+                    self.$loading.finish();
+                    self.$notice.success({
+                        title: '模式切换成功！',
+                    });
+                    self.$store.dispatch('setting');
+                }).catch(() => {
+                    self.$loading.error();
+                    self.$notice.error({
+                        title: '模式切换失败！',
+                    });
+                });
+            },
+            enableTesting(status) {
+                const self = this;
+                self.$loading.start();
+                self.$http.post(`${window.api}/administration`, {
+                    query: `mutation {settings(key:"debug.testing",value:"${status === true ? '1' : '0'}"){key,value}}`,
+                }).then(() => {
+                    self.$loading.finish();
+                    self.$notice.success({
+                        title: '模式切换成功！',
+                    });
+                    self.$store.dispatch('setting');
+                }).catch(() => {
+                    self.$loading.error();
+                    self.$notice.error({
+                        title: '模式切换失败！',
+                    });
+                });
+            },
         },
         mounted() {
             this.$store.commit('title', trans('administration.title.debug'));
@@ -62,7 +86,7 @@
 <template>
     <card :bordered="false">
         <p slot="title">调试工具</p>
-        <i-form :label-width="200" :form="form">
+        <i-form :label-width="200">
             <row>
                 <i-col span="12">
                     <form-item label="缓存清除">
@@ -76,7 +100,7 @@
             <row>
                 <i-col span="12">
                     <form-item label="Debug 模式">
-                        <i-switch :value="enabled" size="large" @on-change="change">
+                        <i-switch :value="enabled" size="large" @on-change="enableDebug">
                             <span slot="open">开启</span>
                             <span slot="close">关闭</span>
                         </i-switch>
@@ -86,7 +110,7 @@
             <row>
                 <i-col span="12">
                     <form-item label="测试模式">
-                        <i-switch :value="testing" size="large" @on-change="change">
+                        <i-switch :value="testing" size="large" @on-change="enableTesting">
                             <span slot="open">开启</span>
                             <span slot="close">关闭</span>
                         </i-switch>
