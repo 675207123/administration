@@ -69,6 +69,7 @@
                     self.$notice.open({
                         title: '刷新数据成功！',
                     });
+                    self.$store.dispatch('information');
                 }).catch(() => {
                     self.$loading.error();
                     self.$notice.error({
