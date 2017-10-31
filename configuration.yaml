@@ -344,3 +344,146 @@ permissions:
         name: 全局
 publishes:
     assets/admin: resources/mixes/administration/dist/assets/admin
+settings:
+    attachment.manager.image:
+        type: string
+        defualt:
+            - .png
+            - .jpg
+            - .jpeg
+            - .gif
+            - .bmp
+    attachment.manager.file:
+        type: string
+        defualt:
+            - .png
+            - .jpg
+            - .jpeg
+            - .gif
+            - .bmp
+            - .flv
+            - .swf
+            - .mkv
+            - .avi
+            - .rm
+            - .rmvb
+            - .mpeg
+            - .mpg
+            - .ogg
+            - .ogv
+            - .mov
+            - .wmv
+            - .mp4
+            - .webm
+            - .mp3
+            - .wav
+            - .mid
+            - .rar
+            - .zip
+            - .tar
+            - .gz
+            - .7z
+            - .bz2
+            - .cab
+            - .iso
+            - .doc
+            - .docx
+            - .xls
+            - .xlsx
+            - .ppt
+            - .pptx
+            - .pdf
+            - .txt
+            - .md
+            - .xml
+    attachment.format.image:
+        type: string
+        defualt:
+            - .png
+            - .jpg
+            - .jpeg
+            - .gif
+            - .bmp
+    attachment.format.catcher:
+        type: string
+        defualt:
+            - .png
+            - .jpg
+            - .jpeg
+            - .gif
+            - .bmp
+    attachment.format.video:
+        type: string
+        defualt:
+            - .flv
+            - .swf
+            - .mkv
+            - .avi
+            - .rm
+            - .rmvb
+            - .mpeg
+            - .mpg
+            - .ogg
+            - .ogv
+            - .mov
+            - .wmv
+            - .mp4
+            - .webm
+            - .mp3
+            - .wav
+            - .mid
+    attachment.format.file:
+        type: string
+        defualt:
+            - .png
+            - .jpg
+            - .jpeg
+            - .gif
+            - .bmp
+            - .flv
+            - .swf
+            - .mkv
+            - .avi
+            - .rm
+            - .rmvb
+            - .mpeg
+            - .mpg
+            - .ogg
+            - .ogv
+            - .mov
+            - .wmv
+            - .mp4
+            - .webm
+            - .mp3
+            - .wav
+            - .mid
+            - .rar
+            - .zip
+            - .tar
+            - .gz
+            - .7z
+            - .bz2
+            - .cab
+            - .iso
+            - .doc
+            - .docx
+            - .xls
+            - .xlsx
+            - .ppt
+            - .pptx
+            - .pdf
+            - .txt
+            - .md
+            - .xml
+    attachment.limit.file:
+        type: integer
+        defualt: 2048
+    attachment.limit.image:
+        type: integer
+        defualt: 2048
+    attachment.engine:
+        type: string
+        defualt: gd
+    attachment.limit.video:
+        type: integer
+        defualt: 2048
