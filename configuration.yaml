@@ -347,7 +347,7 @@ publishes:
 settings:
     attachment.manager.image:
         type: string
-        defualt:
+        default:
             - .png
             - .jpg
             - .jpeg
@@ -355,7 +355,7 @@ settings:
             - .bmp
     attachment.manager.file:
         type: string
-        defualt:
+        default:
             - .png
             - .jpg
             - .jpeg
@@ -398,7 +398,7 @@ settings:
             - .xml
     attachment.format.image:
         type: string
-        defualt:
+        default:
             - .png
             - .jpg
             - .jpeg
@@ -406,7 +406,7 @@ settings:
             - .bmp
     attachment.format.catcher:
         type: string
-        defualt:
+        default:
             - .png
             - .jpg
             - .jpeg
@@ -414,7 +414,7 @@ settings:
             - .bmp
     attachment.format.video:
         type: string
-        defualt:
+        default:
             - .flv
             - .swf
             - .mkv
@@ -434,7 +434,7 @@ settings:
             - .mid
     attachment.format.file:
         type: string
-        defualt:
+        default:
             - .png
             - .jpg
             - .jpeg
@@ -477,13 +477,13 @@ settings:
             - .xml
     attachment.limit.file:
         type: integer
-        defualt: 2048
+        default: 2048
     attachment.limit.image:
         type: integer
-        defualt: 2048
+        default: 2048
     attachment.engine:
         type: string
-        defualt: gd
+        default: gd
     attachment.limit.video:
         type: integer
-        defualt: 2048
+        default: 2048
