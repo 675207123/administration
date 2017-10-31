@@ -1,10 +1,25 @@
 <script>
+    import { mapState } from 'vuex';
     import injection, { trans } from '../helpers/injection';
 
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.get(`${window.api}/administration/attachment/configurations`).then(response => {
+            injection.loading.start();
+            injection.http.post(`${window.api}/administration`, {
+                query: 'query {' +
+                    'canManagementFileExtension:setting(key:"attachment.manager.image"),' +
+                    'canManagementImageExtension:setting(key:"attachment.manager.image"),' +
+                    'canUploadCatcherExtension:setting(key:"attachment.manager.image"),' +
+                    'canUploadFileExtension:setting(key:"attachment.manager.image"),' +
+                    'canUploadImageExtension:setting(key:"attachment.manager.image"),' +
+                    'canUploadVideoExtension:setting(key:"attachment.manager.image"),' +
+                    'fileMaxSize:setting(key:"attachment.manager.image"),' +
+                    'imageMaxSize:setting(key:"attachment.manager.image"),' +
+                    'imageProcessingEngine:setting(key:"attachment.manager.image"),' +
+                    'videoMaxSize:setting(key:"attachment.manager.image"),' +
+                '}',
+            }).then(response => {
                 const {
                     canManagementFileExtension,
                     canManagementImageExtension,
@@ -24,15 +39,29 @@
                     vm.form.canUploadFileExtension = canUploadFileExtension;
                     vm.form.canUploadImageExtension = canUploadImageExtension;
                     vm.form.canUploadVideoExtension = canUploadVideoExtension;
-                    vm.form.fileMaxSize = fileMaxSize.toString();
-                    vm.form.imageMaxSize = imageMaxSize.toString();
+                    vm.form.fileMaxSize = fileMaxSize;
+                    vm.form.imageMaxSize = imageMaxSize;
                     vm.form.imageProcessingEngine = imageProcessingEngine;
-                    vm.form.videoMaxSize = videoMaxSize.toString();
+                    vm.form.videoMaxSize = videoMaxSize;
                     injection.loading.finish();
                 });
             }).catch(() => {
                 injection.loading.error();
             });
+        },
+        computed: {
+            ...mapState({
+                canManagementFileExtension: state => state.setting['attachment.manager.image'],
+                canManagementImageExtension: state => state.setting['attachment.manager.file'],
+                canUploadCatcherExtension: state => state.setting['attachment.format.image'],
+                canUploadFileExtension: state => state.setting['attachment.format.catcher'],
+                canUploadImageExtension: state => state.setting['attachment.format.video'],
+                canUploadVideoExtension: state => state.setting['attachment.format.file'],
+                fileMaxSize: state => state.setting['attachment.limit.file'],
+                imageMaxSize: state => state.setting['attachment.limit.image'],
+                imageProcessingEngine: state => state.setting['attachment.engine'],
+                videoMaxSize: state => state.setting['attachment.limit.video'],
+            }),
         },
         data() {
             return {
