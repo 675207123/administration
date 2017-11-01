@@ -1,5 +1,4 @@
 <script>
-    import { mapState } from 'vuex';
     import injection, { trans } from '../helpers/injection';
 
     export default {
@@ -8,16 +7,16 @@
             injection.loading.start();
             injection.http.post(`${window.api}/administration`, {
                 query: 'query {' +
-                    'canManagementFileExtension:setting(key:"attachment.manager.image"),' +
+                    'canManagementFileExtension:setting(key:"attachment.manager.file"),' +
                     'canManagementImageExtension:setting(key:"attachment.manager.image"),' +
-                    'canUploadCatcherExtension:setting(key:"attachment.manager.image"),' +
-                    'canUploadFileExtension:setting(key:"attachment.manager.image"),' +
-                    'canUploadImageExtension:setting(key:"attachment.manager.image"),' +
-                    'canUploadVideoExtension:setting(key:"attachment.manager.image"),' +
-                    'fileMaxSize:setting(key:"attachment.manager.image"),' +
-                    'imageMaxSize:setting(key:"attachment.manager.image"),' +
-                    'imageProcessingEngine:setting(key:"attachment.manager.image"),' +
-                    'videoMaxSize:setting(key:"attachment.manager.image"),' +
+                    'canUploadCatcherExtension:setting(key:"attachment.format.catcher"),' +
+                    'canUploadFileExtension:setting(key:"attachment.format.file"),' +
+                    'canUploadImageExtension:setting(key:"attachment.format.image"),' +
+                    'canUploadVideoExtension:setting(key:"attachment.format.video"),' +
+                    'fileMaxSize:setting(key:"attachment.limit.file"),' +
+                    'imageMaxSize:setting(key:"attachment.limit.image"),' +
+                    'imageProcessingEngine:setting(key:"attachment.engine"),' +
+                    'videoMaxSize:setting(key:"attachment.limit.video"),' +
                 '}',
             }).then(response => {
                 const {
@@ -33,35 +32,21 @@
                     videoMaxSize,
                 } = response.data.data;
                 next(vm => {
-                    vm.form.canManagementFileExtension = canManagementFileExtension;
-                    vm.form.canManagementImageExtension = canManagementImageExtension;
-                    vm.form.canUploadCatcherExtension = canUploadCatcherExtension;
-                    vm.form.canUploadFileExtension = canUploadFileExtension;
-                    vm.form.canUploadImageExtension = canUploadImageExtension;
-                    vm.form.canUploadVideoExtension = canUploadVideoExtension;
-                    vm.form.fileMaxSize = fileMaxSize;
-                    vm.form.imageMaxSize = imageMaxSize;
-                    vm.form.imageProcessingEngine = imageProcessingEngine;
-                    vm.form.videoMaxSize = videoMaxSize;
+                    vm.form.canManagementFileExtension = canManagementFileExtension.join(',');
+                    vm.form.canManagementImageExtension = canManagementImageExtension.join(',');
+                    vm.form.canUploadCatcherExtension = canUploadCatcherExtension.join(',');
+                    vm.form.canUploadFileExtension = canUploadFileExtension.join(',');
+                    vm.form.canUploadImageExtension = canUploadImageExtension.join(',');
+                    vm.form.canUploadVideoExtension = canUploadVideoExtension.join(',');
+                    vm.form.fileMaxSize = parseInt(fileMaxSize.join(''), 10);
+                    vm.form.imageMaxSize = parseInt(imageMaxSize.join(''), 10);
+                    vm.form.imageProcessingEngine = imageProcessingEngine.join('');
+                    vm.form.videoMaxSize = parseInt(videoMaxSize.join(''), 10);
                     injection.loading.finish();
                 });
             }).catch(() => {
                 injection.loading.error();
             });
-        },
-        computed: {
-            ...mapState({
-                canManagementFileExtension: state => state.setting['attachment.manager.image'],
-                canManagementImageExtension: state => state.setting['attachment.manager.file'],
-                canUploadCatcherExtension: state => state.setting['attachment.format.image'],
-                canUploadFileExtension: state => state.setting['attachment.format.catcher'],
-                canUploadImageExtension: state => state.setting['attachment.format.video'],
-                canUploadVideoExtension: state => state.setting['attachment.format.file'],
-                fileMaxSize: state => state.setting['attachment.limit.file'],
-                imageMaxSize: state => state.setting['attachment.limit.image'],
-                imageProcessingEngine: state => state.setting['attachment.engine'],
-                videoMaxSize: state => state.setting['attachment.limit.video'],
-            }),
         },
         data() {
             return {
@@ -130,7 +115,7 @@
                     fileMaxSize: [
                         {
                             required: true,
-                            type: 'string',
+                            type: 'integer',
                             message: '请输入附件大小',
                             trigger: 'change',
                         },
@@ -138,7 +123,7 @@
                     imageMaxSize: [
                         {
                             required: true,
-                            type: 'string',
+                            type: 'integer',
                             message: '请输入图片大小',
                             trigger: 'change',
                         },
@@ -146,7 +131,7 @@
                     videoMaxSize: [
                         {
                             required: true,
-                            type: 'string',
+                            type: 'integer',
                             message: '请输入视频大小',
                             trigger: 'change',
                         },
@@ -197,7 +182,7 @@
             <row>
                 <i-col span="12">
                     <form-item label="附件大小" prop="fileMaxSize">
-                        <i-input placeholder="请输入附件大小" v-model="form.fileMaxSize">
+                        <i-input :number="true" placeholder="请输入附件大小" v-model="form.fileMaxSize">
                             <span slot="append">KB</span>
                         </i-input>
                     </form-item>
@@ -206,7 +191,7 @@
             <row>
                 <i-col span="12">
                     <form-item label="图片大小" prop="imageMaxSize">
-                        <i-input placeholder="请输入图片大小" v-model="form.imageMaxSize">
+                        <i-input :number="true" placeholder="请输入图片大小" v-model="form.imageMaxSize">
                             <span slot="append">KB</span>
                         </i-input>
                     </form-item>
@@ -215,7 +200,7 @@
             <row>
                 <i-col span="12">
                     <form-item label="视频大小" prop="videoMaxSize">
-                        <i-input placeholder="请输入视频大小" v-model="form.videoMaxSize">
+                        <i-input :number="true" placeholder="请输入视频大小" v-model="form.videoMaxSize">
                             <span slot="append">KB</span>
                         </i-input>
                     </form-item>
