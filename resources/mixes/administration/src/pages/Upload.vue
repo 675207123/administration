@@ -145,10 +145,54 @@
                 self.loading = true;
                 self.$refs.form.validate(valid => {
                     if (valid) {
-                        self.$http.post(`${window.api}/administration/attachment/configurations`, self.form).then(() => {
+                        self.$http.post(`${window.api}/administration`, {
+                            query: `mutation {
+                                canManagementFileExtension: setting(
+                                    key:"attachment.manager.file",
+                                    value:"${self.form.canManagementFileExtension}"
+                                ),
+                                canManagementImageExtension: setting(
+                                    key:"attachment.manager.image",
+                                    value:"${self.form.canManagementImageExtension}"
+                                ),
+                                canUploadCatcherExtension: setting(
+                                    key:"attachment.format.catcher",
+                                    value:"${self.form.canUploadCatcherExtension}"
+                                ),
+                                canUploadFileExtension: setting(
+                                    key:"attachment.format.file",
+                                    value:"${self.form.canUploadFileExtension}"
+                                ),
+                                canUploadImageExtension: setting(
+                                    key:"attachment.format.image",
+                                    value:"${self.form.canUploadImageExtension}"
+                                ),
+                                canUploadVideoExtension: setting(
+                                    key:"attachment.format.video",
+                                    value:"${self.form.canUploadVideoExtension}"
+                                ),
+                                fileMaxSize: setting(
+                                    key:"attachment.limit.file",
+                                    value:"${self.form.fileMaxSize}"
+                                ),
+                                imageMaxSize: setting(
+                                    key:"attachment.limit.image",
+                                    value:"${self.form.imageMaxSize}"
+                                ),
+                                imageProcessingEngine: setting(
+                                    key:"attachment.engine",
+                                    value:"${self.form.imageProcessingEngine}"
+                                ),
+                                videoMaxSize: setting(
+                                    key:"attachment.limit.video",
+                                    value:"${self.form.videoMaxSize}"
+                                ),
+                            }`,
+                        }).then(() => {
                             self.$notice.open({
                                 title: '更新上传配置信息成功！',
                             });
+                            self.$store.dispatch('setting');
                         }).finally(() => {
                             self.loading = false;
                         });
