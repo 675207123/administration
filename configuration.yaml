@@ -173,10 +173,10 @@ menus:
                     -
                         path: /addon
                         text: 插件配置
-                icon: plus
+                icon: cube
                 text: 应用管理
             -
-                icon: plus
+                icon: shuffle
                 injection: addon
                 text: 全局插件
             -
