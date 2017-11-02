@@ -1,6 +1,3 @@
-![Packagist](https://img.shields.io/packagist/v/notadd/administration.svg) 
-![Downloads](https://img.shields.io/packagist/dt/notadd/administration.svg)
-
 # Notadd Administration
 
 [![Build Status](https://travis-ci.org/notadd/administration.svg?branch=master)](https://travis-ci.org/notadd/administration)
@@ -25,11 +22,13 @@ Notadd Framework 的后台管理模块，用于实现独立的后台管理框架
 ![设置](https://ww1.sinaimg.cn/large/0060lm7Tly1fl3lwfw9fhj31400jsana.jpg)
 
 
-
-
 ## 安装
 
 本模块随 **[Notadd](https://github.com/notadd/notadd)** 一起安装，无需独立再手动安装。
+
+## 说明
+
+我们正计划将此项目从 Notadd 剥离，完全开源，如果您有兴趣，欢迎通过 Issues 与我们联系
 
 ## 文档
 
