@@ -5,7 +5,14 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.get(`${window.api}/administration/addons`).then(response => {
+            injection.http.post(`${window.api}/administration`, {
+                query: 'query {' +
+                    'addons{description,enabled,identification,name,version}' +
+                    'enabled:addons(enabled:true){description,enabled,identification,name,version}' +
+                    'installed:addons(installed:true){description,enabled,identification,name,version}' +
+                    'notInstall:addons(installed:false){description,enabled,identification,name,version}' +
+                '}',
+            }).then(response => {
                 next(vm => {
                     const {
                         addons,
@@ -13,9 +20,9 @@
                         installed,
                         notInstall,
                     } = response.data.data;
-                    vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
-                    vm.list.addons = Object.keys(addons).map(key => addons[key]);
-                    vm.list.installed = Object.keys(installed).map(key => installed[key]);
+                    vm.list.enabled = enabled;
+                    vm.list.addons = addons;
+                    vm.list.installed = installed;
                     vm.list.notInstalled = Object.keys(notInstall).map(key => {
                         const data = notInstall[key];
                         data.loading = false;
