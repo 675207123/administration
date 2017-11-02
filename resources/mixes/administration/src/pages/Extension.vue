@@ -18,6 +18,7 @@
 
                         return extension;
                     });
+                    window.console.log(vm.extensions);
                     injection.loading.finish();
                 });
             }).catch(() => {
@@ -43,13 +44,13 @@
                         key: 'installed',
                         render(h, data) {
                             if (data.row.installed === true) {
-                                if (data.row.require.uninstall === true) {
+                                if (data.row.requireUninstall === true) {
                                     return '待卸载';
                                 }
 
                                 return '已安装';
                             }
-                            if (data.row.require.install === true) {
+                            if (data.row.requireInstall === true) {
                                 return '待安装';
                             }
 
@@ -83,7 +84,7 @@
                                         },
                                     },
                                     props: {
-                                        disabled: data.row.installed || data.row.require.install,
+                                        disabled: data.row.installed || data.row.requireInstall,
                                         loading: self.extensions[data.index].loading.install,
                                         size: 'small',
                                         type: 'primary',
@@ -113,7 +114,7 @@
                                         },
                                     },
                                     props: {
-                                        disabled: !data.row.installed || data.row.require.uninstall,
+                                        disabled: !data.row.installed || data.row.requireUninstall,
                                         loading: self.extensions[data.index].loading.uninstall,
                                         size: 'small',
                                         type: 'error',
