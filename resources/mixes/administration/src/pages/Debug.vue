@@ -90,7 +90,7 @@
             <row>
                 <i-col span="12">
                     <form-item label="缓存清除">
-                        <i-button :loading="loading" type="primary" @click.native="clearCache">
+                        <i-button icon="ios-trash" :loading="loading" size="small" type="primary" @click.native="clearCache">
                             <span v-if="loading">正在清除...</span>
                             <span v-else>清除</span>
                         </i-button>
