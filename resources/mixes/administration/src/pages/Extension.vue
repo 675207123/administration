@@ -4,8 +4,10 @@
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.get(`${window.api}/administration/extensions`).then(response => {
-                const extensions = response.data.data;
+            injection.http.post(`${window.api}/administration`, {
+                query: 'query {extensions{authors,description,enabled,identification,initialized,installed}}',
+            }).then(response => {
+                const { extensions } = response.data.data;
                 next(vm => {
                     vm.extensions = Object.keys(extensions).map(index => {
                         const extension = extensions[index];
@@ -34,15 +36,6 @@
                     },
                     {
                         key: 'authors',
-                        render(h, data) {
-                            const authors = [];
-                            Object.keys(data.row.authors).forEach(index => {
-                                const author = data.row.authors[index];
-                                authors.push(h('p', `${author.name}<${author.email}>`));
-                            });
-
-                            return h('div', authors);
-                        },
                         title: '作者',
                         width: 300,
                     },
