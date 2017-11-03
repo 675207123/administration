@@ -2,41 +2,54 @@
     import file from '../helpers/export';
     import injection, { trans } from '../helpers/injection';
 
+    const fields = [
+        'author',
+        'description',
+        'enabled',
+        'identification',
+        'name',
+        'version',
+    ];
+
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
-            injection.http.get(`${window.api}/administration/modules`).then(response => {
+            injection.http.post(`${window.api}/administration`, {
+                query: `query {
+                    modules{${fields.join(',')}},
+                    enabled:modules(enabled:true){${fields.join(',')}},
+                    installed:modules(installed:true){${fields.join(',')}},
+                    notInstalled:modules(installed:false){${fields.join(',')}},
+                }`,
+            }).then(response => {
                 next(vm => {
                     const {
-                        domains,
                         enabled,
-                        exports,
                         installed,
                         modules,
-                        multidomain,
-                        notInstall,
+                        notInstalled,
                     } = response.data.data;
-                    vm.list.domains = Object.keys(domains).map(key => domains[key]);
-                    vm.list.enabled = Object.keys(enabled).map(key => enabled[key]);
-                    vm.list.exports = Object.keys(exports).map(key => exports[key]);
+                    vm.list.enabled = enabled;
                     vm.list.installed = Object.keys(installed).map(key => {
                         const data = installed[key];
                         data.loading = false;
 
                         return data;
                     });
-                    vm.list.modules = Object.keys(modules).map(key => modules[key]);
-                    vm.list.notInstalled = Object.keys(notInstall).map(key => {
-                        const data = notInstall[key];
+                    vm.list.modules = modules;
+                    vm.list.notInstalled = Object.keys(notInstalled).map(key => {
+                        const data = notInstalled[key];
                         data.loading = false;
 
                         return data;
                     });
-                    vm.multidomain = multidomain;
                     injection.loading.finish();
                 });
             }).catch(() => {
                 injection.loading.error();
+            });
+            injection.http.get(`${window.api}/administration/modules`).then(response => {
+                window.console.log(response);
             });
         },
         data() {
@@ -264,35 +277,36 @@
                     title: '正在刷新数据……',
                 });
                 self.$loading.start();
-                self.$http.get(`${window.api}/administration/modules`).then(result => {
+                injection.http.post(`${window.api}/administration`, {
+                    query: `query {
+                    modules{${fields.join(',')}},
+                    enabled:modules(enabled:true){${fields.join(',')}},
+                    installed:modules(installed:true){${fields.join(',')}},
+                    notInstalled:modules(installed:false){${fields.join(',')}},
+                }`,
+                }).then(result => {
                     self.$loading.finish();
                     const {
-                        domains,
                         enabled,
-                        exports,
                         installed,
                         modules,
-                        multidomain,
-                        notInstall,
+                        notInstalled,
                     } = result.data.data;
                     self.$nextTick(() => {
-                        self.list.domains = Object.keys(domains).map(key => domains[key]);
-                        self.list.enabled = Object.keys(enabled).map(key => enabled[key]);
-                        self.list.exports = Object.keys(exports).map(key => exports[key]);
+                        self.list.enabled = enabled;
                         self.list.installed = Object.keys(installed).map(key => {
                             const data = installed[key];
                             data.loading = false;
 
                             return data;
                         });
-                        self.list.modules = Object.keys(modules).map(key => modules[key]);
-                        self.list.notInstalled = Object.keys(notInstall).map(key => {
-                            const data = notInstall[key];
+                        self.list.modules = modules;
+                        self.list.notInstalled = Object.keys(notInstalled).map(key => {
+                            const data = notInstalled[key];
                             data.loading = false;
 
                             return data;
                         });
-                        self.multidomain = multidomain;
                         self.$notice.open({
                             title: '刷新数据完成！',
                         });
@@ -392,7 +406,8 @@
             <tab-pane label="域名配置" name="domain">
                 <card :bordered="false">
                     <div style="margin-bottom: 16px" v-if="changed">
-                        <p style="color: #aa0000; display: inline-block; height: 32px; line-height: 32px; margin-right: 10px;">数据已修改！修改后请批量更新数据！</p>
+                        <p style="color: #aa0000; display: inline-block; height: 32px; line-height: 32px; margin-right: 10px;">
+                            数据已修改！修改后请批量更新数据！</p>
                         <div style="float: right;">
                             <i-button :loading="loading.domains" type="primary" @click.native="updateDomain">
                                 <span v-if="loading.domains">批量更新中...</span>
@@ -415,12 +430,22 @@
                                         </colgroup>
                                         <thead>
                                         <tr>
-                                            <th><div class="ivu-table-cell"><span>模块名称</span></div></th>
-                                            <th><div class="ivu-table-cell"><span>域名</span></div></th>
-                                            <th><div class="ivu-table-cell"><span>默认</span></div></th>
-                                            <th><div class="ivu-table-cell"><span>别名</span></div></th>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>模块名称</span></div>
+                                            </th>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>域名</span></div>
+                                            </th>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>默认</span></div>
+                                            </th>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>别名</span></div>
+                                            </th>
                                             <th></th>
-                                            <th><div class="ivu-table-cell"><span>使用域名</span></div></th>
+                                            <th>
+                                                <div class="ivu-table-cell"><span>使用域名</span></div>
+                                            </th>
                                         </tr>
                                         </thead>
                                     </table>
@@ -436,48 +461,55 @@
                                             <col width="160">
                                         </colgroup>
                                         <tbody class="ivu-table-tbody">
-                                            <tr class="ivu-table-row" v-for="(domain, index) in list.domains">
-                                                <td><div class="ivu-table-cell">{{ domain.name }}</div></td>
-                                                <td>
-                                                    <div class="ivu-table-cell">
-                                                        <template v-if="multidomain">
-                                                            <i-input placeholder="请填写不带 http:// 或 https:// 的域名"
+                                        <tr class="ivu-table-row" v-for="(domain, index) in list.domains">
+                                            <td>
+                                                <div class="ivu-table-cell">{{ domain.name }}</div>
+                                            </td>
+                                            <td>
+                                                <div class="ivu-table-cell">
+                                                    <template v-if="multidomain">
+                                                        <i-input placeholder="请填写不带 http:// 或 https:// 的域名"
+                                                                 v-model="list.domains[index].host"></i-input>
+                                                    </template>
+                                                    <template v-else>
+                                                        <tooltip content="多域名功能未开启" placement="right-end">
+                                                            <i-input :disabled="true"
+                                                                     placeholder="请填写不带 http:// 或 https:// 的域名"
                                                                      v-model="list.domains[index].host"></i-input>
-                                                        </template>
-                                                        <template v-else>
-                                                            <tooltip content="多域名功能未开启" placement="right-end">
-                                                                <i-input :disabled="true"
-                                                                         placeholder="请填写不带 http:// 或 https:// 的域名"
-                                                                         v-model="list.domains[index].host"></i-input>
-                                                            </tooltip>
-                                                        </template>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="ivu-table-cell">
-                                                        <template v-if="domain.identification !== 'notadd/api'">
-                                                            <checkbox v-model="list.domains[index].default" @on-change="domainDefaultChanged(index)"></checkbox>
-                                                        </template>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="ivu-table-cell">
-                                                        <template v-if="domain.identification === 'notadd/notadd'">/</template>
-                                                        <template v-else>
-                                                            <i-input v-model="list.domains[index].alias"></i-input>
-                                                        </template>
-                                                    </div>
-                                                </td>
-                                                <td><div class="ivu-table-cell"></div></td>
-                                                <td>
-                                                    <div class="ivu-table-cell">
-                                                        <i-switch :disabled="!multidomain" size="large" v-model="list.domains[index].enabled">
-                                                            <span slot="close">关闭</span>
-                                                            <span slot="open">开启</span>
-                                                        </i-switch>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                        </tooltip>
+                                                    </template>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="ivu-table-cell">
+                                                    <template v-if="domain.identification !== 'notadd/api'">
+                                                        <checkbox v-model="list.domains[index].default"
+                                                                  @on-change="domainDefaultChanged(index)"></checkbox>
+                                                    </template>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="ivu-table-cell">
+                                                    <template v-if="domain.identification === 'notadd/notadd'">/
+                                                    </template>
+                                                    <template v-else>
+                                                        <i-input v-model="list.domains[index].alias"></i-input>
+                                                    </template>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="ivu-table-cell"></div>
+                                            </td>
+                                            <td>
+                                                <div class="ivu-table-cell">
+                                                    <i-switch :disabled="!multidomain" size="large"
+                                                              v-model="list.domains[index].enabled">
+                                                        <span slot="close">关闭</span>
+                                                        <span slot="open">开启</span>
+                                                    </i-switch>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
