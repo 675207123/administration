@@ -1,0 +1,142 @@
+attachment.manager.image:
+    type: string
+    default:
+        - .png
+        - .jpg
+        - .jpeg
+        - .gif
+        - .bmp
+attachment.manager.file:
+    type: string
+    default:
+        - .png
+        - .jpg
+        - .jpeg
+        - .gif
+        - .bmp
+        - .flv
+        - .swf
+        - .mkv
+        - .avi
+        - .rm
+        - .rmvb
+        - .mpeg
+        - .mpg
+        - .ogg
+        - .ogv
+        - .mov
+        - .wmv
+        - .mp4
+        - .webm
+        - .mp3
+        - .wav
+        - .mid
+        - .rar
+        - .zip
+        - .tar
+        - .gz
+        - .7z
+        - .bz2
+        - .cab
+        - .iso
+        - .doc
+        - .docx
+        - .xls
+        - .xlsx
+        - .ppt
+        - .pptx
+        - .pdf
+        - .txt
+        - .md
+        - .xml
+attachment.format.image:
+    type: string
+    default:
+        - .png
+        - .jpg
+        - .jpeg
+        - .gif
+        - .bmp
+attachment.format.catcher:
+    type: string
+    default:
+        - .png
+        - .jpg
+        - .jpeg
+        - .gif
+        - .bmp
+attachment.format.video:
+    type: string
+    default:
+        - .flv
+        - .swf
+        - .mkv
+        - .avi
+        - .rm
+        - .rmvb
+        - .mpeg
+        - .mpg
+        - .ogg
+        - .ogv
+        - .mov
+        - .wmv
+        - .mp4
+        - .webm
+        - .mp3
+        - .wav
+        - .mid
+attachment.format.file:
+    type: string
+    default:
+        - .png
+        - .jpg
+        - .jpeg
+        - .gif
+        - .bmp
+        - .flv
+        - .swf
+        - .mkv
+        - .avi
+        - .rm
+        - .rmvb
+        - .mpeg
+        - .mpg
+        - .ogg
+        - .ogv
+        - .mov
+        - .wmv
+        - .mp4
+        - .webm
+        - .mp3
+        - .wav
+        - .mid
+        - .rar
+        - .zip
+        - .tar
+        - .gz
+        - .7z
+        - .bz2
+        - .cab
+        - .iso
+        - .doc
+        - .docx
+        - .xls
+        - .xlsx
+        - .ppt
+        - .pptx
+        - .pdf
+        - .txt
+        - .md
+        - .xml
+attachment.limit.file:
+    type: integer
+    default: 2048
+attachment.limit.image:
+    type: integer
+    default: 2048
+attachment.engine:
+    type: string
+    default: gd
+attachment.limit.video:
+    type: integer
+    default: 2048

@@ -1,0 +1,134 @@
+-
+    identification: systeminfo
+    title: 系统信息
+    template: Notadd\Administration\SystemInformation@handler
+-
+    identification: development
+    title: 开发团队
+    template:
+        -
+            tag: p
+            content:
+                -
+                    tag: strong
+                    content:
+                        - 开发团队：
+                -
+                    attrs:
+                        href: https://github.com/twilroad
+                        target: _blank
+                    tag: a
+                    content:
+                        - 寻风
+                - ，
+                -
+                    attrs:
+                        href: https://www.zuohuadong.cn
+                        target: _blank
+                    tag: a
+                    content:
+                        - 依剑听雨
+                - ，
+                -
+                    attrs:
+                        href: https://github.com/medz
+                        target: _blank
+                    tag: a
+                    content:
+                        - Seven Du
+                - ，
+                -
+                    attrs:
+                        href: https://github.com/QiyueShiyi
+                        target: _blank
+                    tag: a
+                    content:
+                        - Luff
+                - ，
+                -
+                    attrs:
+                        href: https://weibo.com/u/2181906365
+                        target: _blank
+                    tag: a
+                    content:
+                        - 小莫
+                - ，
+                -
+                    attrs:
+                        href: https://weibo.com/u/3189357545
+                        target: _blank
+                    tag: a
+                    content:
+                        - 睡不醒的酸柠檬
+                - ，
+                -
+                    attrs:
+                        href: http://weibo.com/u/3854583077
+                        target: _blank
+                    tag: a
+                    content:
+                        - 浅殤
+                - ，
+                -
+                    attrs:
+                        href: https://weibo.cn/u/3258236872
+                        target: _blank
+                    tag: a
+                    content:
+                        - 马镝清同学
+                - ，
+                -
+                    attrs:
+                        href: http://weibo.com/u/5592753739
+                        target: _blank
+                    tag: a
+                    content:
+                        - 未央花事结
+                - 。
+        -
+            tag: p
+            content:
+                -
+                    tag: strong
+                    content:
+                        - 鸣　　谢：
+                -
+                    attrs:
+                        href: https://github.com/LitoMore
+                        target: _blank
+                    tag: a
+                    content:
+                        - LitoMore
+                - ，
+                -
+                    attrs:
+                        href: https://github.com/ganlanshu0211
+                        target: _blank
+                    tag: a
+                    content:
+                        - 半缕阳光
+                - ，
+                -
+                    attrs:
+                        href: https://github.com/ToxinSting
+                        target: _blank
+                    tag: a
+                    content:
+                        - Rayle
+                - ，
+                -
+                    attrs:
+                        href: https://github.com/cloudsher
+                        target: _blank
+                    tag: a
+                    content:
+                        - cloudSher
+                - ，
+                -
+                    attrs:
+                        href: http://www.lovetd.cn
+                        target: _blank
+                    tag: a
+                    content:
+                        - 怒杀一只鸡
+                - 。
