@@ -2,16 +2,24 @@
     import file from '../helpers/export';
     import injection from '../helpers/injection';
 
+    const fields = [
+        'description',
+        'enabled',
+        'identification',
+        'name',
+        'version',
+    ];
+
     export default {
         beforeRouteEnter(to, from, next) {
             injection.loading.start();
             injection.http.post(`${window.api}/administration`, {
-                query: 'query {' +
-                    'addons{description,enabled,identification,name,version}' +
-                    'enabled:addons(enabled:true){description,enabled,identification,name,version}' +
-                    'installed:addons(installed:true){description,enabled,identification,name,version}' +
-                    'notInstall:addons(installed:false){description,enabled,identification,name,version}' +
-                '}',
+                query: `query {
+                    addons{${fields.join(',')}},
+                    enabled:addons(enabled:true){${fields.join(',')}},
+                    installed:addons(installed:true){${fields.join(',')}},
+                    notInstall:addons(installed:false){${fields.join(',')}},
+                }`,
             }).then(response => {
                 next(vm => {
                     const {
@@ -247,7 +255,14 @@
                     title: '正在刷新数据……',
                 });
                 self.$loading.start();
-                self.$http.get(`${window.api}/administration/addons`).then(result => {
+                self.$http.post(`${window.api}/administration`, {
+                    query: `query {
+                    addons{${fields.join(',')}},
+                    enabled:addons(enabled:true){${fields.join(',')}},
+                    installed:addons(installed:true){${fields.join(',')}},
+                    notInstall:addons(installed:false){${fields.join(',')}},
+                    }`,
+                }).then(result => {
                     self.$loading.finish();
                     const {
                         addons,
