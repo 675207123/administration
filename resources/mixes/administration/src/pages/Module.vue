@@ -2,6 +2,15 @@
     import file from '../helpers/export';
     import injection, { trans } from '../helpers/injection';
 
+    const domainFields = [
+        'alias',
+        'default',
+        'enabled',
+        'host',
+        'identification',
+        'name',
+    ];
+
     const fields = [
         'authors',
         'description',
@@ -16,19 +25,23 @@
             injection.loading.start();
             injection.http.post(`${window.api}/administration`, {
                 query: `query {
-                    modules{${fields.join(',')}},
+                    domains:moduleDomains{${domainFields.join(',')}},
                     enabled:modules(enabled:true){${fields.join(',')}},
                     installed:modules(installed:true){${fields.join(',')}},
+                    modules{${fields.join(',')}},
                     notInstalled:modules(installed:false){${fields.join(',')}},
                 }`,
             }).then(response => {
                 next(vm => {
                     const {
+                        domains,
                         enabled,
                         installed,
                         modules,
                         notInstalled,
                     } = response.data.data;
+                    vm.list.domains = domains;
+                    vm.list.enabled = enabled;
                     vm.list.enabled = enabled;
                     vm.list.installed = Object.keys(installed).map(key => {
                         const data = installed[key];
@@ -47,9 +60,6 @@
                 });
             }).catch(() => {
                 injection.loading.error();
-            });
-            injection.http.get(`${window.api}/administration/modules`).then(response => {
-                window.console.log(response);
             });
         },
         data() {
@@ -87,7 +97,7 @@
                             width: 200,
                         },
                         {
-                            key: 'author',
+                            key: 'authors',
                             title: '作者',
                             width: 200,
                         },
@@ -159,7 +169,7 @@
                             width: 200,
                         },
                         {
-                            key: 'author',
+                            key: 'authors',
                             title: '作者',
                             width: 200,
                         },
@@ -279,11 +289,12 @@
                 self.$loading.start();
                 injection.http.post(`${window.api}/administration`, {
                     query: `query {
-                    modules{${fields.join(',')}},
-                    enabled:modules(enabled:true){${fields.join(',')}},
-                    installed:modules(installed:true){${fields.join(',')}},
-                    notInstalled:modules(installed:false){${fields.join(',')}},
-                }`,
+                        domains:moduleDomains{${domainFields.join(',')}},
+                        enabled:modules(enabled:true){${fields.join(',')}},
+                        installed:modules(installed:true){${fields.join(',')}},
+                        modules{${fields.join(',')}},
+                        notInstalled:modules(installed:false){${fields.join(',')}},
+                    }`,
                 }).then(result => {
                     self.$loading.finish();
                     const {
