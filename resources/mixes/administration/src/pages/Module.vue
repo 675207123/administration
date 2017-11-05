@@ -3,7 +3,7 @@
     import injection, { trans } from '../helpers/injection';
 
     const fields = [
-        'author',
+        'authors',
         'description',
         'enabled',
         'identification',
