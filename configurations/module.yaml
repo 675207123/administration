@@ -1,9 +1,10 @@
 name: 后台管理
 identification: notadd/administration
 description: 'Notadd 后台管理模块'
-author:
-    - twilroad
-    - 269044570@qq.com
+authors:
+    -
+        name: Notadd
+        email: notadd@ibenchu.com
 version: 2.0.0
 csrf:
     - 'admin*'
