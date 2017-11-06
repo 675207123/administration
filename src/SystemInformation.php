@@ -2,9 +2,9 @@
 /**
  * This file is part of Notadd.
  *
- * @author TwilRoad <269044570@qq.com>
+ * @author        TwilRoad <269044570@qq.com>
  * @copyright (c) 2017, notadd.com
- * @datetime 2017-08-26 13:55
+ * @datetime      2017-08-26 13:55
  */
 namespace Notadd\Administration;
 
@@ -46,59 +46,114 @@ class SystemInformation
             $distribution = $this->parser->getOS();
         }
         $pdo = $this->db->getPdo();
+
         return [
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    'Notadd 版本：' . $this->container->version(),
+                    [
+                        'content' => [
+                            'Notadd 版本：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    $this->container->version(),
                 ],
             ],
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    'PHP 版本：' . $this->parser->getPhpVersion(),
+                    [
+                        'content' => [
+                            'PHP 版本：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    $this->parser->getPhpVersion(),
                 ],
             ],
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    '系统版本：' . $distribution,
+                    [
+                        'content' => [
+                            '系统版本：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    $distribution,
                 ],
             ],
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    'CPU：' . $this->parser->getCPUArchitecture(),
+                    [
+                        'content' => [
+                            'CPU：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    $this->parser->getCPUArchitecture(),
                 ],
             ],
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    '服务器架构：' . $this->parser->getWebService(),
+                    [
+                        'content' => [
+                            '服务器架构：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    $this->parser->getWebService(),
                 ],
             ],
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    '内存大小：' . $this->parser->getRam()['total'] . ' Bytes',
+                    [
+                        'content' => [
+                            '内存大小：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    $this->parser->getRam()['total'] . ' Bytes',
                 ],
             ],
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    '数据库版本：' . $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ' . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
+                    [
+                        'content' => [
+                            '数据库版本：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ' . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
                 ],
             ],
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    'Redis 版本：' . $this->container->make('redis')->connection()->getProfile()->getVersion(),
+                    [
+                        'content' => [
+                            'Redis 版本：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    $this->container->make('redis')->connection()->getProfile()->getVersion(),
                 ],
             ],
             [
-                'tag'=> 'p',
+                'tag'     => 'p',
                 'content' => [
-                    '当前时区：' . date_default_timezone_get(),
+                    [
+                        'content' => [
+                            '当前时区：',
+                        ],
+                        'tag'     => 'strong',
+                    ],
+                    date_default_timezone_get(),
                 ],
             ],
         ];
