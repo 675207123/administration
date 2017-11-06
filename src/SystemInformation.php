@@ -55,6 +55,12 @@ class SystemInformation
                         'content' => [
                             'Notadd 版本：',
                         ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
+                        ],
                         'tag'     => 'strong',
                     ],
                     $this->container->version(),
@@ -66,6 +72,12 @@ class SystemInformation
                     [
                         'content' => [
                             'PHP 版本：',
+                        ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
                         ],
                         'tag'     => 'strong',
                     ],
@@ -79,6 +91,12 @@ class SystemInformation
                         'content' => [
                             '系统版本：',
                         ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
+                        ],
                         'tag'     => 'strong',
                     ],
                     $distribution,
@@ -90,6 +108,12 @@ class SystemInformation
                     [
                         'content' => [
                             'CPU：',
+                        ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
                         ],
                         'tag'     => 'strong',
                     ],
@@ -103,6 +127,12 @@ class SystemInformation
                         'content' => [
                             '服务器架构：',
                         ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
+                        ],
                         'tag'     => 'strong',
                     ],
                     $this->parser->getWebService(),
@@ -114,6 +144,12 @@ class SystemInformation
                     [
                         'content' => [
                             '内存大小：',
+                        ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
                         ],
                         'tag'     => 'strong',
                     ],
@@ -127,6 +163,12 @@ class SystemInformation
                         'content' => [
                             '数据库版本：',
                         ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
+                        ],
                         'tag'     => 'strong',
                     ],
                     $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ' . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
@@ -139,6 +181,12 @@ class SystemInformation
                         'content' => [
                             'Redis 版本：',
                         ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
+                        ],
                         'tag'     => 'strong',
                     ],
                     $this->container->make('redis')->connection()->getProfile()->getVersion(),
@@ -150,6 +198,12 @@ class SystemInformation
                     [
                         'content' => [
                             '当前时区：',
+                        ],
+                        'style'   => [
+                            'display'   => 'block',
+                            'float'     => 'left',
+                            'width'     => '200px',
+                            'textAlign' => 'right',
                         ],
                         'tag'     => 'strong',
                     ],
