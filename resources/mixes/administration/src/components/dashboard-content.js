@@ -13,6 +13,7 @@ export default {
                     }
                     injection.push(render(item.tag, {
                         attrs: item.attrs,
+                        style: item.style,
                     }, injections));
                 }
             });
