@@ -8,8 +8,8 @@
  */
 namespace Notadd\Administration;
 
-use Illuminate\Container\Container;
-use Illuminate\Database\DatabaseManager;
+use Linfo\Linfo;
+use Notadd\Foundation\Routing\Traits\Helpers;
 use PDO;
 
 /**
@@ -17,26 +17,21 @@ use PDO;
  */
 class SystemInformation
 {
-    /**
-     * @var \Illuminate\Container\Container|\Notadd\Foundation\Application
-     */
-    private $container;
+    use Helpers;
 
     /**
-     * @var \Illuminate\Database\DatabaseManager
+     * @var \Linfo\OS\OS
      */
-    private $database;
+    protected $parser;
 
     /**
      * SystemInformation constructor.
      *
-     * @param \Illuminate\Container\Container      $container
-     * @param \Illuminate\Database\DatabaseManager $database
+     * @param \Linfo\Linfo $linfo
      */
-    public function __construct(Container $container, DatabaseManager $database)
+    public function __construct(Linfo $linfo)
     {
-        $this->container = $container;
-        $this->database = $database;
+        $this->parser = $linfo->getParser();
     }
 
     /**
@@ -44,7 +39,13 @@ class SystemInformation
      */
     public function handler()
     {
-        $pdo = $this->database->connection()->getPdo();
+        $distribution = $this->parser->getDistro();
+        if (is_array($distribution) && isset($distribution['name']) && isset($distribution['version'])) {
+            $distribution = $distribution['name'] . ' ' . $distribution['version'];
+        } else {
+            $distribution = $this->parser->getOS();
+        }
+        $pdo = $this->db->getPdo();
         return [
             [
                 'tag'=> 'p',
@@ -55,7 +56,31 @@ class SystemInformation
             [
                 'tag'=> 'p',
                 'content' => [
-                    '系统版本：' . php_uname('s') . ' ' . php_uname('r'),
+                    'PHP 版本：' . $this->parser->getPhpVersion(),
+                ],
+            ],
+            [
+                'tag'=> 'p',
+                'content' => [
+                    '系统版本：' . $distribution,
+                ],
+            ],
+            [
+                'tag'=> 'p',
+                'content' => [
+                    'CPU：' . $this->parser->getCPUArchitecture(),
+                ],
+            ],
+            [
+                'tag'=> 'p',
+                'content' => [
+                    '服务器架构：' . $this->parser->getWebService(),
+                ],
+            ],
+            [
+                'tag'=> 'p',
+                'content' => [
+                    '内存大小：' . $this->parser->getRam()['total'] . ' Bytes',
                 ],
             ],
             [
@@ -68,6 +93,12 @@ class SystemInformation
                 'tag'=> 'p',
                 'content' => [
                     'Redis 版本：' . $this->container->make('redis')->connection()->getProfile()->getVersion(),
+                ],
+            ],
+            [
+                'tag'=> 'p',
+                'content' => [
+                    '当前时区：' . date_default_timezone_get(),
                 ],
             ],
         ];
