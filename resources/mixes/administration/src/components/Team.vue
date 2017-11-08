@@ -104,6 +104,7 @@
             height: 100%;
             position: relative;
             padding: 16px 0 27px 0;
+            text-align: center;
             img {
                 border-radius: 50%;
                 width: 48px;
@@ -234,7 +235,7 @@
             </div>
         </div>
         <p class="thanks">
-            感谢:  <span v-for="item in auxiliaryList"><a :href="item.url">{{ item.url }}</a>、</span>
+            感谢:  <span v-for="item in auxiliaryList"><a :href="item.url">{{ item.name }}</a>、</span>
         </p>
     </div>
 </template>
