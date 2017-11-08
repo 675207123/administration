@@ -38,7 +38,6 @@
         props: {
             auxiliaryList: {
                 type: Array,
-                required: true,
             },
             list: {
                 type: Array,
@@ -210,7 +209,9 @@
             }
             span:last-child:after {
                 content: '';
-                color: #657180;
+            }
+            span:nth-last-child(2):after {
+                content: '/';
             }
         }
     }
