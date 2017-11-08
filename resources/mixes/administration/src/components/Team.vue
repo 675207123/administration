@@ -33,8 +33,8 @@
             },
         },
         mounted() {
-            const [somethinge] = this.list;
-            this.active = somethinge;
+            const [something] = this.list;
+            this.active = something;
         },
         props: {
             auxiliaryList: {
