@@ -138,6 +138,46 @@
             border-left: 12px solid #ccc;
         }
     }
+    .active-swiper {
+        padding: 0 42px;
+        margin-bottom: 56px;
+        img {
+            float: left;
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+        }
+        &:after,
+        &:before {
+            display: table;
+            line-height: 0;
+            content: "";
+        }
+        &::after {
+            clear: both;
+        }
+        .active-info {
+            float: left;
+            margin-left: 20px;
+            width: inherit;
+            > div {
+                margin: 17px 0 17px 0;
+                span {
+                    font-size: 24px;
+                    text-align: left;
+                }
+                a {
+                    color: #3399ff;
+                    margin-left: 14px;
+                }
+            }
+            a {
+                color: #657180;
+                text-decoration: none;
+                text-align: left;
+            }
+        }
+    }
 </style>
 <template>
     <div class="team-wraper">
