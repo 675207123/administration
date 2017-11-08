@@ -7,128 +7,42 @@
     title: 开发团队
     template:
         -
-            tag: p
-            content:
-                -
-                    tag: strong
-                    content:
-                        - 开发团队：
-                -
-                    attrs:
-                        href: https://github.com/twilroad
-                        target: _blank
-                    tag: a
-                    content:
-                        - 寻风
-                - ，
-                -
-                    attrs:
-                        href: https://www.zuohuadong.cn
-                        target: _blank
-                    tag: a
-                    content:
-                        - 依剑听雨
-                - ，
-                -
-                    attrs:
-                        href: https://github.com/medz
-                        target: _blank
-                    tag: a
-                    content:
-                        - Seven Du
-                - ，
-                -
-                    attrs:
-                        href: https://github.com/QiyueShiyi
-                        target: _blank
-                    tag: a
-                    content:
-                        - Luff
-                - ，
-                -
-                    attrs:
-                        href: https://weibo.com/u/2181906365
-                        target: _blank
-                    tag: a
-                    content:
-                        - 小莫
-                - ，
-                -
-                    attrs:
-                        href: https://weibo.com/u/3189357545
-                        target: _blank
-                    tag: a
-                    content:
-                        - 睡不醒的酸柠檬
-                - ，
-                -
-                    attrs:
-                        href: http://weibo.com/u/3854583077
-                        target: _blank
-                    tag: a
-                    content:
-                        - 浅殤
-                - ，
-                -
-                    attrs:
-                        href: https://weibo.cn/u/3258236872
-                        target: _blank
-                    tag: a
-                    content:
-                        - 马镝清同学
-                - ，
-                -
-                    attrs:
-                        href: http://weibo.com/u/5592753739
-                        target: _blank
-                    tag: a
-                    content:
-                        - 未央花事结
-                - 。
-        -
-            tag: p
-            content:
-                -
-                    tag: strong
-                    content:
-                        - 鸣　　谢：
-                -
-                    attrs:
-                        href: https://github.com/LitoMore
-                        target: _blank
-                    tag: a
-                    content:
-                        - LitoMore
-                - ，
-                -
-                    attrs:
-                        href: https://github.com/ganlanshu0211
-                        target: _blank
-                    tag: a
-                    content:
-                        - 半缕阳光
-                - ，
-                -
-                    attrs:
-                        href: https://github.com/ToxinSting
-                        target: _blank
-                    tag: a
-                    content:
-                        - Rayle
-                - ，
-                -
-                    attrs:
-                        href: https://github.com/cloudsher
-                        target: _blank
-                    tag: a
-                    content:
-                        - cloudSher
-                - ，
-                -
-                    attrs:
-                        href: http://www.lovetd.cn
-                        target: _blank
-                    tag: a
-                    content:
-                        - 怒杀一只鸡
-                - 。
+            tag: team
+            props:
+                list:
+                    -
+                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1flas99pmtjj30cs0cs3zo.jpg
+                        name: 寻风
+                        url: https://github.com/twilroad
+                    -
+                        image: https://ww3.sinaimg.cn/large/0060lm7Tly1fl9dj5cl4nj30960aujrp.jpg
+                        name: 依剑听雨
+                        url: https://www.zuohuadong.cn/
+                    -
+                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1fl9comintwj308w08wwfj.jpg
+                        name: LitoMore
+                        url: https://github.com/LitoMore
+                    -
+                        image: https://ww2.sinaimg.cn/large/0060lm7Tly1fl9cu74rtpj303q03qmxv.jpg
+                        name: Seven Du
+                        url: https://github.com/medz
+                    -
+                        image: https://ww2.sinaimg.cn/large/0060lm7Tly1fl9d8pxqosj30u01hcb29.jpg
+                        name: 小莫
+                        url: http://momod.zcool.com.cn/
+                    -
+                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1fl9dmr75qfj30jr0est9x.jpg
+                        name: 凡溪
+                        url: https://github.com/tianjignxihe
+                    -
+                        image: https://ww1.sinaimg.cn/large/0060lm7Tly1fl9dgvlq7ej30dr0dsjru.jpg
+                        name: 浅殇
+                        url: https://github.com/zhanghuan1203
+                    -
+                        image: http://ww3.sinaimg.cn/large/0060lm7Tly1fl9f4hp557j30u01hcti8.jpg
+                        name: Ywcap
+                        url: https://gitee.com/ywcap
+                    -
+                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1fl9d4sc41ij30sg0ik0u8.jpg
+                        name: Holly
+                        url: https://github.com/Hollydan

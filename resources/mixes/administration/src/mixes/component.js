@@ -52,6 +52,7 @@ import Dashboard from '../components/dashboard';
 import DashboardContent from '../components/dashboard-content';
 import Editor from '../components/Editor.vue';
 import Input from '../components/input';
+import Team from '../components/Team.vue';
 import Upload from '../components/upload';
 
 const components = {
@@ -113,6 +114,7 @@ const components = {
     Tabs,
     TabPane: Tabs.Pane,
     Tag,
+    Team,
     Timeline,
     TimelineItem: Timeline.Item,
     TimePicker,
