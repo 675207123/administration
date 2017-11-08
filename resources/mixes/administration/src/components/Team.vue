@@ -96,6 +96,12 @@
             border-radius: 50%;
             width: 100%;
         }
+        p {
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            margin-top: 10px;
+        }
         &.active-slide {
             background: rgba(0, 0, 0, 0.05);
         }
