@@ -47,7 +47,7 @@
             },
             spaceBetween: {
                 type: Number,
-                default: 42,
+                default: 20,
             },
         },
     };
