@@ -97,6 +97,12 @@
             border-radius: 50%;
             width: 100%;
         }
+        p {
+            text-align: center;
+            width: 100%;
+            margin: 0;
+            margin-top: 10px;
+        }
         &.active-slide {
             background: rgba(0, 0, 0, 0.05);
         }
@@ -182,11 +188,19 @@
 </style>
 <template>
     <div class="team-wraper">
+        <div class="active-swiper">
+            <img :src="active.image" alt="">
+            <div class="active-info">
+                <div><span>{{ active.name }}</span><a :href="active.url">个人主页</a></div>
+                <a :href="active.url">{{ active.url }}</a>
+            </div>
+        </div>
         <div class="swiper-box">
             <swiper :options="swiperOption">
                 <swiper-slide v-for="(slide, index) in list"
                               :key="index"
                               :class="{'active-slide': activeIndex === index}"
+                              @mouseover.native="switchActive(index)"
                               @click.native="switchActive(index)">
                     <img :src="slide.image" alt="">
                     <p>{{ slide.name }}</p>
