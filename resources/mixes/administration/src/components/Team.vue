@@ -52,7 +52,92 @@
     };
 </script>
 <style lang="less">
-
+    .team-wraper {
+        color: #657180;
+        width: 100%;
+    }
+    .swiper-box {
+        padding: 0 42px;
+        position: relative;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        overflow-x: hidden;
+    }
+    .swiper-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-transition-property: -webkit-transform;
+        -moz-transition-property: -moz-transform;
+        -o-transition-property: -o-transform;
+        -ms-transition-property: -ms-transform;
+        transition-property: transform;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+    .swiper-slide {
+        -webkit-flex-shrink: 0;
+        -ms-flex: 0 0 auto;
+        flex-shrink: 0;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        img {
+            border-radius: 50%;
+            width: 100%;
+        }
+        &.active-slide {
+            background: rgba(0, 0, 0, 0.05);
+        }
+    }
+    .swiper-button-next, .swiper-button-prev {
+        position: absolute;
+        top: 50%;
+        width: 12px;
+        height: 16px;
+        margin-top: -22px;
+        z-index: 10;
+        cursor: pointer;
+        -moz-background-size: 27px 44px;
+        -webkit-background-size: 27px 44px;
+        background-size: 27px 44px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+        left: 0;
+        right: auto;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 12px solid #3399ff;
+        &.swiper-button-disabled {
+            border-right: 12px solid #ccc;
+        }
+    }
+    .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+        right: 0;
+        left: auto;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 12px solid #3399ff;
+        &.swiper-button-disabled {
+            border-left: 12px solid #ccc;
+        }
+    }
 </style>
 <template>
     <div class="team-wraper">
