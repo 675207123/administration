@@ -181,6 +181,13 @@
 </style>
 <template>
     <div class="team-wraper">
+        <div class="active-swiper">
+            <img :src="active.image" alt="">
+            <div class="active-info">
+                <div><span>{{ active.name }}</span><a :href="active.url">个人主页</a></div>
+                <a :href="active.url">{{ active.url }}</a>
+            </div>
+        </div>
         <div class="swiper-box">
             <swiper :options="swiperOption">
                 <swiper-slide v-for="(slide, index) in list"
