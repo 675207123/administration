@@ -12,8 +12,9 @@ export default {
                         self.injection(render, item.content, injections);
                     }
                     injection.push(render(item.tag, {
-                        attrs: item.attrs,
-                        style: item.style,
+                        attrs: item.attrs ? item.attrs : {},
+                        props: item.props ? item.props : {},
+                        style: item.style ? item.style : {},
                     }, injections));
                 }
             });

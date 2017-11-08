@@ -33,7 +33,8 @@
             },
         },
         mounted() {
-            this.active = this.list[0];
+            const [something] = this.list;
+            this.active = something;
         },
         props: {
             list: {
@@ -42,7 +43,7 @@
             },
             slidesPerView: {
                 type: Number,
-                default: 5,
+                default: 6,
             },
             spaceBetween: {
                 type: Number,
