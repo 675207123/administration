@@ -33,13 +33,11 @@
             },
         },
         mounted() {
-            const [something] = this.list;
-            this.active = something;
+            this.active = this.list[0];
         },
         props: {
             auxiliaryList: {
                 type: Array,
-                required: true,
             },
             list: {
                 type: Array,
@@ -104,6 +102,7 @@
             height: 100%;
             position: relative;
             padding: 16px 0 27px 0;
+            text-align: center;
             img {
                 border-radius: 50%;
                 width: 48px;
@@ -205,6 +204,13 @@
             a {
                 color: #3399ff;
             }
+            span:after {
+                content: '、';
+            }
+            span:last-child:after {
+                content: '';
+                color: #657180;
+            }
         }
     }
 </style>
@@ -234,7 +240,7 @@
             </div>
         </div>
         <p class="thanks">
-            感谢:  <span v-for="item in auxiliaryList"><a :href="item.url">{{ item.url }}</a>、</span>
+            感谢:  <span v-for="item in auxiliaryList"><a :href="item.url"> {{ item.name }} </a></span>
         </p>
     </div>
 </template>
