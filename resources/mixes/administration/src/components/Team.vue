@@ -20,6 +20,21 @@
                 };
             },
         },
+        data() {
+            return {
+                active: {},
+                activeIndex: 0,
+            };
+        },
+        methods: {
+            switchActive(index) {
+                this.activeIndex = index;
+                this.active = this.list[index];
+            },
+        },
+        mounted() {
+            this.active = this.list[0];
+        },
         props: {
             list: {
                 type: Array,
