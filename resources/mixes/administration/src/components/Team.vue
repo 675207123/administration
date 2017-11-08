@@ -186,6 +186,7 @@
                 <swiper-slide v-for="(slide, index) in list"
                               :key="index"
                               :class="{'active-slide': activeIndex === index}"
+                              @mouseover.native="switchActive(index)"
                               @click.native="switchActive(index)">
                     <img :src="slide.image" alt="">
                     <p>{{ slide.name }}</p>
