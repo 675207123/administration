@@ -9,7 +9,15 @@
         props: {
             list: {
                 type: Array,
-                required: requireed,
+                required: true,
+            },
+            slidesPerView: {
+                type: Number,
+                default: 5,
+            },
+            spaceBetween: {
+                type: Number,
+                default: 42,
             },
         },
     };
