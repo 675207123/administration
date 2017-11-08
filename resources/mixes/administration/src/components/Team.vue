@@ -38,6 +38,7 @@
         props: {
             auxiliaryList: {
                 type: Array,
+                required: true,
             },
             list: {
                 type: Array,

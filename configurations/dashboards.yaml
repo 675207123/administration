@@ -9,40 +9,53 @@
         -
             tag: team
             props:
+                auxiliaryList:
+                    -
+                        name: 半缕阳光
+                        url: https://github.com/ganlanshu0211
+                    -
+                        name: 加菲猫
+                        url: https://github.com/mustangzhong
+                    -
+                        name: Intern
+                        url: https://github.com/Seevil
+                    -
+                        name: 捐赠名单
+                        url: https://blog.notadd.com/categories/月报/
                 list:
                     -
-                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1flas99pmtjj30cs0cs3zo.jpg
+                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1flat9vypmpj302o02odg7.jpg
                         name: 寻风
                         url: https://github.com/twilroad
                     -
-                        image: https://ww3.sinaimg.cn/large/0060lm7Tly1fl9dj5cl4nj30960aujrp.jpg
+                        image: https://ww3.sinaimg.cn/large/0060lm7Tly1flata92g2gj302o02ojrd.jpg
                         name: 依剑听雨
                         url: https://www.zuohuadong.cn/
                     -
-                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1fl9comintwj308w08wwfj.jpg
+                        image: https://ww1.sinaimg.cn/large/0060lm7Tly1flatb5rn6qj302o02ot8r.jpg
                         name: LitoMore
                         url: https://github.com/LitoMore
                     -
-                        image: https://ww2.sinaimg.cn/large/0060lm7Tly1fl9cu74rtpj303q03qmxv.jpg
+                        image: https://ww2.sinaimg.cn/large/0060lm7Tly1flatblzh3bj302o02oglz.jpg
                         name: Seven Du
                         url: https://github.com/medz
                     -
-                        image: https://ww2.sinaimg.cn/large/0060lm7Tly1fl9d8pxqosj30u01hcb29.jpg
+                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1flatbzk288j302o02oq34.jpg
                         name: 小莫
                         url: http://momod.zcool.com.cn/
                     -
-                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1fl9dmr75qfj30jr0est9x.jpg
+                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1flatc5auurj302o02oq34.jpg
                         name: 凡溪
                         url: https://github.com/tianjignxihe
                     -
-                        image: https://ww1.sinaimg.cn/large/0060lm7Tly1fl9dgvlq7ej30dr0dsjru.jpg
+                        image: https://ww1.sinaimg.cn/large/0060lm7Tly1flatcehb6qj302o02oq34.jpg
                         name: 浅殇
                         url: https://github.com/zhanghuan1203
                     -
-                        image: http://ww3.sinaimg.cn/large/0060lm7Tly1fl9f4hp557j30u01hcti8.jpg
+                        image: https://ww3.sinaimg.cn/large/0060lm7Tly1flatchc1l3j302o02o0t1.jpg
                         name: Ywcap
                         url: https://gitee.com/ywcap
                     -
-                        image: https://ww4.sinaimg.cn/large/0060lm7Tly1fl9d4sc41ij30sg0ik0u8.jpg
+                        image: https://ww2.sinaimg.cn/large/0060lm7Tly1flatca3g8oj302o02o3yj.jpg
                         name: Holly
                         url: https://github.com/Hollydan
