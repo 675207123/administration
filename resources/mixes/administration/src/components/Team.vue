@@ -6,6 +6,20 @@
             swiper,
             swiperSlide,
         },
+        computed: {
+            swiperOption() {
+                const slides = this.slidesPerView;
+                const space = this.spaceBetween;
+                return {
+                    paginationClickable: true,
+                    slidesPerView: slides,
+                    spaceBetween: space,
+                    observeParents: true,
+                    prevButton: '.swiper-button-prev',
+                    nextButton: '.swiper-button-next',
+                };
+            },
+        },
         props: {
             list: {
                 type: Array,
