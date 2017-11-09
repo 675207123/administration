@@ -124,7 +124,7 @@
             top: 50%;
             width: 12px;
             height: 16px;
-            margin-top: -22px;
+            margin-top: -8px;
             z-index: 10;
             cursor: pointer;
             -moz-background-size: 27px 44px;
