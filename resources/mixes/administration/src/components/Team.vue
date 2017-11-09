@@ -59,7 +59,7 @@
 <style lang="less">
     .team-wraper {
         color: #657180;
-        padding: 40px;
+        padding: 40px 40px 10px 40px;
         width: 100% -80px;
         .team-inner {
             border-bottom: 1px solid #e3e8ee;
