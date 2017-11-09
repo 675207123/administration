@@ -39,6 +39,7 @@
         props: {
             auxiliaryList: {
                 type: Array,
+                required: true,
             },
             list: {
                 type: Array,
@@ -102,7 +103,7 @@
             width: 100%;
             height: 100%;
             position: relative;
-            padding: 16px 0 27px 0;
+            padding: 16px 0 15px 0;
             text-align: center;
             img {
                 border-radius: 50%;
@@ -223,8 +224,8 @@
             <div class="active-swiper">
                 <img :src="active.image" alt="">
                 <div class="active-info">
-                    <div><span>{{ active.name }}</span><a :href="active.url">个人主页</a></div>
-                    <a :href="active.url">{{ active.url }}</a>
+                    <div><span>{{ active.name }}</span><a :href="active.url" target="_blank">个人主页</a></div>
+                    <a :href="active.url" target="_blank">{{ active.url }}</a>
                 </div>
             </div>
             <div class="swiper-box">
@@ -243,7 +244,7 @@
             </div>
         </div>
         <p class="thanks">
-            感谢:  <span v-for="item in auxiliaryList"><a :href="item.url"> {{ item.name }} </a></span>
+            感谢:  <span v-for="item in auxiliaryList"><a :href="item.url" target="_blank"> {{ item.name }} </a></span>
         </p>
     </div>
 </template>
