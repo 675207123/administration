@@ -59,7 +59,7 @@
 <style lang="less">
     .team-wraper {
         color: #657180;
-        padding: 40px 40px 10px 40px;
+        padding: 24px 24px 0 24px;
         width: 100% -80px;
         .team-inner {
             border-bottom: 1px solid #e3e8ee;
@@ -161,7 +161,7 @@
             }
         }
         .active-swiper {
-            margin-bottom: 56px;
+            margin-bottom: 40px;
             img {
                 float: left;
                 width: 96px;
