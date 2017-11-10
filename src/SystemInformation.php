@@ -49,7 +49,6 @@ class SystemInformation
 
         return [
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -65,9 +64,12 @@ class SystemInformation
                     ],
                     $this->container->version(),
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -83,9 +85,12 @@ class SystemInformation
                     ],
                     $this->parser->getPhpVersion(),
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -101,9 +106,12 @@ class SystemInformation
                     ],
                     $distribution,
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -119,9 +127,12 @@ class SystemInformation
                     ],
                     $this->parser->getCPUArchitecture(),
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -137,9 +148,12 @@ class SystemInformation
                     ],
                     $this->parser->getWebService(),
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -155,9 +169,12 @@ class SystemInformation
                     ],
                     $this->parser->getRam()['total'] . ' Bytes',
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -173,9 +190,12 @@ class SystemInformation
                     ],
                     $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ' . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -191,9 +211,12 @@ class SystemInformation
                     ],
                     $this->container->make('redis')->connection()->getProfile()->getVersion(),
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
             [
-                'tag'     => 'p',
                 'content' => [
                     [
                         'content' => [
@@ -209,6 +232,10 @@ class SystemInformation
                     ],
                     date_default_timezone_get(),
                 ],
+                'style'   => [
+                    'lineHeight'   => '30px',
+                ],
+                'tag'     => 'p',
             ],
         ];
     }
