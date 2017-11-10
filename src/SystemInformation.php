@@ -39,9 +39,13 @@ class SystemInformation
      */
     public function handler()
     {
-        $distribution = $this->parser->getDistro();
-        if (is_array($distribution) && isset($distribution['name']) && isset($distribution['version'])) {
-            $distribution = $distribution['name'] . ' ' . $distribution['version'];
+        if (method_exists($this->parser, 'getDistro')) {
+            $distribution = $this->parser->getDistro();
+            if (is_array($distribution) && isset($distribution['name']) && isset($distribution['version'])) {
+                $distribution = $distribution['name'] . ' ' . $distribution['version'];
+            } else {
+                $distribution = $this->parser->getOS();
+            }
         } else {
             $distribution = $this->parser->getOS();
         }
