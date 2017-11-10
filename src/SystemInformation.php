@@ -52,190 +52,198 @@ class SystemInformation
                 'content' => [
                     [
                         'content' => [
-                            'Notadd 版本：',
+                            [
+                                'content' => [
+                                    'Notadd 版本：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            $this->container->version(),
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    $this->container->version(),
-                ],
-                'style'   => [
-                    'lineHeight'   => '30px',
-                ],
-                'tag'     => 'p',
-            ],
-            [
-                'content' => [
                     [
                         'content' => [
-                            'PHP 版本：',
+                            [
+                                'content' => [
+                                    'PHP 版本：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            $this->parser->getPhpVersion(),
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    $this->parser->getPhpVersion(),
-                ],
-                'style'   => [
-                    'lineHeight'   => '30px',
-                ],
-                'tag'     => 'p',
-            ],
-            [
-                'content' => [
                     [
                         'content' => [
-                            '系统版本：',
+                            [
+                                'content' => [
+                                    '系统版本：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            $distribution,
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    $distribution,
-                ],
-                'style'   => [
-                    'lineHeight'   => '30px',
-                ],
-                'tag'     => 'p',
-            ],
-            [
-                'content' => [
                     [
                         'content' => [
-                            'CPU：',
+                            [
+                                'content' => [
+                                    'CPU：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            $this->parser->getCPUArchitecture(),
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    $this->parser->getCPUArchitecture(),
-                ],
-                'style'   => [
-                    'lineHeight'   => '30px',
-                ],
-                'tag'     => 'p',
-            ],
-            [
-                'content' => [
                     [
                         'content' => [
-                            '服务器架构：',
+                            [
+                                'content' => [
+                                    '服务器架构：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            $this->parser->getWebService(),
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    $this->parser->getWebService(),
-                ],
-                'style'   => [
-                    'lineHeight'   => '30px',
-                ],
-                'tag'     => 'p',
-            ],
-            [
-                'content' => [
                     [
                         'content' => [
-                            '内存大小：',
+                            [
+                                'content' => [
+                                    '内存大小：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            $this->parser->getRam()['total'] . ' Bytes',
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    $this->parser->getRam()['total'] . ' Bytes',
-                ],
-                'style'   => [
-                    'lineHeight'   => '30px',
-                ],
-                'tag'     => 'p',
-            ],
-            [
-                'content' => [
                     [
                         'content' => [
-                            '数据库版本：',
+                            [
+                                'content' => [
+                                    '数据库版本：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ' . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ' . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION),
-                ],
-                'style'   => [
-                    'lineHeight'   => '30px',
-                ],
-                'tag'     => 'p',
-            ],
-            [
-                'content' => [
                     [
                         'content' => [
-                            'Redis 版本：',
+                            [
+                                'content' => [
+                                    'Redis 版本：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            $this->container->make('redis')->connection()->getProfile()->getVersion(),
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    $this->container->make('redis')->connection()->getProfile()->getVersion(),
-                ],
-                'style'   => [
-                    'lineHeight'   => '30px',
-                ],
-                'tag'     => 'p',
-            ],
-            [
-                'content' => [
                     [
                         'content' => [
-                            '当前时区：',
+                            [
+                                'content' => [
+                                    '当前时区：',
+                                ],
+                                'style'   => [
+                                    'display'   => 'block',
+                                    'float'     => 'left',
+                                    'width'     => '200px',
+                                    'textAlign' => 'right',
+                                ],
+                                'tag'     => 'strong',
+                            ],
+                            date_default_timezone_get(),
                         ],
                         'style'   => [
-                            'display'   => 'block',
-                            'float'     => 'left',
-                            'width'     => '200px',
-                            'textAlign' => 'right',
+                            'lineHeight' => '30px',
                         ],
-                        'tag'     => 'strong',
+                        'tag'     => 'p',
                     ],
-                    date_default_timezone_get(),
                 ],
                 'style'   => [
-                    'lineHeight'   => '30px',
+                    'padding' => '24px 0',
                 ],
-                'tag'     => 'p',
+                'tag'     => 'div',
             ],
         ];
     }
