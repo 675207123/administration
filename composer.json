@@ -28,7 +28,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "linfo/linfo": "^3.0"
+        "twilroad/linfo": "^3.0"
     },
     "require-dev": {
         "notadd/installers": "0.14.*",
