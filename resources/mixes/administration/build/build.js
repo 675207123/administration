@@ -27,7 +27,7 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
                 chunks: false,
                 chunkModules: false
             }) + '\n\n');
-        let assetsPath = path.join(__dirname, '../../../../../../statics/assets/admin');
+        let assetsPath = path.join(__dirname, '../../../../../../public/assets/admin');
 
         console.log(chalk.cyan('  Moving Dist files to path ' + assetsPath + '\n'));
 
