@@ -177,12 +177,14 @@ function buildDraggable(Sortable) {
                     element,
                 };
             },
+            /* eslint-disable */
             getUnderlyingPotencialDraggableComponent({ __vue__ }) {
                 if (!__vue__ || !__vue__.$options || __vue__.$options._componentTag !== 'transition-group') {
                     return __vue__;
                 }
                 return __vue__.$parent;
             },
+            /* eslint-enable */
             emitChanges(evt) {
                 this.$nextTick(() => {
                     this.$emit('change', evt);
