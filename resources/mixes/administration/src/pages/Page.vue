@@ -66,11 +66,22 @@
                 self.$refs[identification][0].validate(valid => {
                     if (valid) {
                         if (tab.submit) {
-                            self.$http.post(tab.submit, tab.fields).then(response => {
+                            let query = '';
+                            Object.keys(tab.fields).forEach(key => {
+                                query = `${query} ${key}:setting(
+                                    key:"${tab.fields[key].key}",
+                                    value:"${tab.fields[key].value}"
+                                ),`;
+                            });
+
+                            self.$http.post(`${window.api}/administration`, {
+                                query: `mutation {
+                                    ${query}
+                                }`,
+                            }).then(response => {
                                 self.$notice.open({
-                                    title: response.data.message,
+                                    title: '提交成功！',
                                 });
-                                self.refresh();
                             }).catch(() => {
                                 self.$notice.error({
                                     title: '提交失败！',
