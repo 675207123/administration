@@ -78,7 +78,7 @@
                                 query: `mutation {
                                     ${query}
                                 }`,
-                            }).then(response => {
+                            }).then(() => {
                                 self.$notice.open({
                                     title: '提交成功！',
                                 });
