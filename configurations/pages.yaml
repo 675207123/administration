@@ -33,13 +33,13 @@ configurations:
                     key: site.enabled
                     required: false
                     type: switch
-                domain:
-                    default: ''
-                    description: '不带 http:// 或 https://'
-                    label: 网站域名
-                    key: site.domain
-                    required: false
-                    type: input
+#                domain:
+#                    default: ''
+#                    description: '不带 http:// 或 https://'
+#                    label: 网站域名
+#                    key: site.domain
+#                    required: false
+#                    type: input
                 multidomain:
                     default: false
                     description: '由于前后端分离机制，官方不对多域名做特殊支持，可能导致其他未知问题'
