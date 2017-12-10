@@ -78,11 +78,16 @@
         padding-top: 10px;
     }
     .design-wrap {
+        background: #f5f7f9;
         bottom: 0;
         left: 300px;
         padding: 40px 20px;
         position: fixed;
         width: calc(100% - 300px);
+        z-index: 100;
+    }
+    .design-wrap + .design {
+        padding-bottom: 160px;
     }
     .design-wrap > h3 {
         border-top: 4px solid #e3e8ee;
