@@ -167,22 +167,24 @@
             <i-menu :accordion="true" theme="dark" width="auto">
                 <div class="layout-logo-left"></div>
                 <template v-for="(item, key) in sidebar">
-                    <submenu :name="'sidebar-' + key" v-if="item.children">
-                        <template slot="title">
-                            <icon :type="item.icon"></icon>
-                            {{ item.text }}
-                        </template>
-                        <menu-item :name="'sidebar-' + key + '-' + index" v-for="(sub, index) in item.children"
-                                   :key="index">
-                            <router-link :to="sub.path">{{ sub.text }}</router-link>
+                    <template v-if="item.enabled === true">
+                        <submenu :name="'sidebar-' + key" v-if="item.children">
+                            <template slot="title">
+                                <icon :type="item.icon"></icon>
+                                {{ item.text }}
+                            </template>
+                            <menu-item :name="'sidebar-' + key + '-' + index" v-for="(sub, index) in item.children"
+                                       :key="index">
+                                <router-link :to="sub.path" v-if="sub.enabled === true">{{ sub.text }}</router-link>
+                            </menu-item>
+                        </submenu>
+                        <menu-item :name="'sidebar-' + key" v-else>
+                            <router-link :to="item.path">
+                                <icon :type="item.icon"></icon>
+                                {{ item.text }}
+                            </router-link>
                         </menu-item>
-                    </submenu>
-                    <menu-item :name="'sidebar-' + key" v-else>
-                        <router-link :to="item.path">
-                            <icon :type="item.icon"></icon>
-                            {{ item.text }}
-                        </router-link>
-                    </menu-item>
+                    </template>
                 </template>
             </i-menu>
         </div>
