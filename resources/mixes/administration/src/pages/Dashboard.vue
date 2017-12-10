@@ -136,6 +136,12 @@
 </style>
 <template>
     <div class="bashboard-wrap">
+        <div class="design-wrap" v-if="design">
+            <h3>已隐藏模块<em>向上拖动可恢复相应模块</em></h3>
+            <dashboard class="design-content" :options="{ group: 'dashboards' }" v-model="dashboards.hidden">
+                <div class="hidden-drag" :key="index" v-for="(dashboard, index) in dashboards.hidden"><span></span>{{ dashboard.title }}</div>
+            </dashboard>
+        </div>
         <row :gutter="20" :class="{
             design: design
         }">
@@ -174,11 +180,5 @@
                 </template>
             </i-col>
         </row>
-        <div class="design-wrap" v-if="design">
-            <h3>已隐藏模块<em>向上拖动可恢复相应模块</em></h3>
-            <dashboard class="design-content" :options="{ group: 'dashboards' }" v-model="dashboards.hidden">
-                <div class="hidden-drag" :key="index" v-for="(dashboard, index) in dashboards.hidden"><span></span>{{ dashboard.title }}</div>
-            </dashboard>
-        </div>
     </div>
 </template>
