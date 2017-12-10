@@ -414,121 +414,121 @@
                     <i-table :columns="columns.installed" :data="list.installed"></i-table>
                 </card>
             </tab-pane>
-            <tab-pane label="域名配置" name="domain">
-                <card :bordered="false">
-                    <div style="margin-bottom: 16px" v-if="changed">
-                        <p style="color: #aa0000; display: inline-block; height: 32px; line-height: 32px; margin-right: 10px;">
-                            数据已修改！修改后请批量更新数据！</p>
-                        <div style="float: right;">
-                            <i-button :loading="loading.domains" type="primary" @click.native="updateDomain">
-                                <span v-if="loading.domains">批量更新中...</span>
-                                <span v-else>批量更新</span>
-                            </i-button>
-                        </div>
-                    </div>
-                    <i-form ref="form">
-                        <div class="ivu-table-wrapper">
-                            <div class="ivu-table">
-                                <div class="ivu-table-header">
-                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                                        <colgroup>
-                                            <col width="200">
-                                            <col width="300">
-                                            <col width="60">
-                                            <col width="300">
-                                            <col>
-                                            <col width="160">
-                                        </colgroup>
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                <div class="ivu-table-cell"><span>模块名称</span></div>
-                                            </th>
-                                            <th>
-                                                <div class="ivu-table-cell"><span>域名</span></div>
-                                            </th>
-                                            <th>
-                                                <div class="ivu-table-cell"><span>默认</span></div>
-                                            </th>
-                                            <th>
-                                                <div class="ivu-table-cell"><span>别名</span></div>
-                                            </th>
-                                            <th></th>
-                                            <th>
-                                                <div class="ivu-table-cell"><span>使用域名</span></div>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div class="ivu-table-body" v-if="list.domains.length">
-                                    <table cellpadding="0" border="0" width="100%">
-                                        <colgroup>
-                                            <col width="200">
-                                            <col width="300">
-                                            <col width="60">
-                                            <col width="300">
-                                            <col>
-                                            <col width="160">
-                                        </colgroup>
-                                        <tbody class="ivu-table-tbody">
-                                        <tr class="ivu-table-row" v-for="(domain, index) in list.domains">
-                                            <td>
-                                                <div class="ivu-table-cell">{{ domain.name }}</div>
-                                            </td>
-                                            <td>
-                                                <div class="ivu-table-cell">
-                                                    <template v-if="multidomain">
-                                                        <i-input placeholder="请填写不带 http:// 或 https:// 的域名"
-                                                                 v-model="list.domains[index].host"></i-input>
-                                                    </template>
-                                                    <template v-else>
-                                                        <tooltip content="多域名功能未开启" placement="right-end">
-                                                            <i-input :disabled="true"
-                                                                     placeholder="请填写不带 http:// 或 https:// 的域名"
-                                                                     v-model="list.domains[index].host"></i-input>
-                                                        </tooltip>
-                                                    </template>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="ivu-table-cell">
-                                                    <template v-if="domain.identification !== 'notadd/api'">
-                                                        <checkbox v-model="list.domains[index].default"
-                                                                  @on-change="domainDefaultChanged(index)"></checkbox>
-                                                    </template>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="ivu-table-cell">
-                                                    <template v-if="domain.identification === 'notadd/notadd'">/
-                                                    </template>
-                                                    <template v-else>
-                                                        <i-input v-model="list.domains[index].alias"></i-input>
-                                                    </template>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="ivu-table-cell"></div>
-                                            </td>
-                                            <td>
-                                                <div class="ivu-table-cell">
-                                                    <i-switch :disabled="!multidomain" size="large"
-                                                              v-model="list.domains[index].enabled">
-                                                        <span slot="close">关闭</span>
-                                                        <span slot="open">开启</span>
-                                                    </i-switch>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </i-form>
-                </card>
-            </tab-pane>
+            <!--<tab-pane label="域名配置" name="domain">-->
+                <!--<card :bordered="false">-->
+                    <!--<div style="margin-bottom: 16px" v-if="changed">-->
+                        <!--<p style="color: #aa0000; display: inline-block; height: 32px; line-height: 32px; margin-right: 10px;">-->
+                            <!--数据已修改！修改后请批量更新数据！</p>-->
+                        <!--<div style="float: right;">-->
+                            <!--<i-button :loading="loading.domains" type="primary" @click.native="updateDomain">-->
+                                <!--<span v-if="loading.domains">批量更新中...</span>-->
+                                <!--<span v-else>批量更新</span>-->
+                            <!--</i-button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<i-form ref="form">-->
+                        <!--<div class="ivu-table-wrapper">-->
+                            <!--<div class="ivu-table">-->
+                                <!--<div class="ivu-table-header">-->
+                                    <!--<table cellspacing="0" cellpadding="0" border="0" width="100%">-->
+                                        <!--<colgroup>-->
+                                            <!--<col width="200">-->
+                                            <!--<col width="300">-->
+                                            <!--<col width="60">-->
+                                            <!--<col width="300">-->
+                                            <!--<col>-->
+                                            <!--<col width="160">-->
+                                        <!--</colgroup>-->
+                                        <!--<thead>-->
+                                        <!--<tr>-->
+                                            <!--<th>-->
+                                                <!--<div class="ivu-table-cell"><span>模块名称</span></div>-->
+                                            <!--</th>-->
+                                            <!--<th>-->
+                                                <!--<div class="ivu-table-cell"><span>域名</span></div>-->
+                                            <!--</th>-->
+                                            <!--<th>-->
+                                                <!--<div class="ivu-table-cell"><span>默认</span></div>-->
+                                            <!--</th>-->
+                                            <!--<th>-->
+                                                <!--<div class="ivu-table-cell"><span>别名</span></div>-->
+                                            <!--</th>-->
+                                            <!--<th></th>-->
+                                            <!--<th>-->
+                                                <!--<div class="ivu-table-cell"><span>使用域名</span></div>-->
+                                            <!--</th>-->
+                                        <!--</tr>-->
+                                        <!--</thead>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+                                <!--<div class="ivu-table-body" v-if="list.domains.length">-->
+                                    <!--<table cellpadding="0" border="0" width="100%">-->
+                                        <!--<colgroup>-->
+                                            <!--<col width="200">-->
+                                            <!--<col width="300">-->
+                                            <!--<col width="60">-->
+                                            <!--<col width="300">-->
+                                            <!--<col>-->
+                                            <!--<col width="160">-->
+                                        <!--</colgroup>-->
+                                        <!--<tbody class="ivu-table-tbody">-->
+                                        <!--<tr class="ivu-table-row" v-for="(domain, index) in list.domains">-->
+                                            <!--<td>-->
+                                                <!--<div class="ivu-table-cell">{{ domain.name }}</div>-->
+                                            <!--</td>-->
+                                            <!--<td>-->
+                                                <!--<div class="ivu-table-cell">-->
+                                                    <!--<template v-if="multidomain">-->
+                                                        <!--<i-input placeholder="请填写不带 http:// 或 https:// 的域名"-->
+                                                                 <!--v-model="list.domains[index].host"></i-input>-->
+                                                    <!--</template>-->
+                                                    <!--<template v-else>-->
+                                                        <!--<tooltip content="多域名功能未开启" placement="right-end">-->
+                                                            <!--<i-input :disabled="true"-->
+                                                                     <!--placeholder="请填写不带 http:// 或 https:// 的域名"-->
+                                                                     <!--v-model="list.domains[index].host"></i-input>-->
+                                                        <!--</tooltip>-->
+                                                    <!--</template>-->
+                                                <!--</div>-->
+                                            <!--</td>-->
+                                            <!--<td>-->
+                                                <!--<div class="ivu-table-cell">-->
+                                                    <!--<template v-if="domain.identification !== 'notadd/api'">-->
+                                                        <!--<checkbox v-model="list.domains[index].default"-->
+                                                                  <!--@on-change="domainDefaultChanged(index)"></checkbox>-->
+                                                    <!--</template>-->
+                                                <!--</div>-->
+                                            <!--</td>-->
+                                            <!--<td>-->
+                                                <!--<div class="ivu-table-cell">-->
+                                                    <!--<template v-if="domain.identification === 'notadd/notadd'">/-->
+                                                    <!--</template>-->
+                                                    <!--<template v-else>-->
+                                                        <!--<i-input v-model="list.domains[index].alias"></i-input>-->
+                                                    <!--</template>-->
+                                                <!--</div>-->
+                                            <!--</td>-->
+                                            <!--<td>-->
+                                                <!--<div class="ivu-table-cell"></div>-->
+                                            <!--</td>-->
+                                            <!--<td>-->
+                                                <!--<div class="ivu-table-cell">-->
+                                                    <!--<i-switch :disabled="!multidomain" size="large"-->
+                                                              <!--v-model="list.domains[index].enabled">-->
+                                                        <!--<span slot="close">关闭</span>-->
+                                                        <!--<span slot="open">开启</span>-->
+                                                    <!--</i-switch>-->
+                                                <!--</div>-->
+                                            <!--</td>-->
+                                        <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</i-form>-->
+                <!--</card>-->
+            <!--</tab-pane>-->
             <tab-pane label="导入/导出" name="exchange">
                 <card :bordered="false">
                     <div style="margin-bottom: 20px">
